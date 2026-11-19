@@ -278,10 +278,25 @@ enum OrderStatus {
   PENDING
   CONFIRMED
   PROCESSING
+  PARTIALLY_SHIPPED
   SHIPPED
   DELIVERED
   CANCELLED
   REFUNDED
+}
+
+enum ShipmentStatus {
+  PENDING
+  READY_FOR_PICKUP
+  DISPATCHED
+  DELIVERED
+  CANCELLED
+}
+
+enum PayoutStatus {
+  PENDING
+  ELIGIBLE
+  SETTLED
 }
 
 enum PaymentStatus {
@@ -323,7 +338,8 @@ model Order {
   createdAt      DateTime    @default(now())
   updatedAt      DateTime    @updatedAt
   items          OrderItem[]
-  payments       Payment[]  
+  payments       Payment[]
+  shipments      VendorShipment[]
   @@index([userId])
 }
 
@@ -472,6 +488,9 @@ model Product {
   categoryId          String
   category            Category   @relation(fields: [categoryId], references: [id], onDelete: Cascade)
 
+  vendorId            String?
+  vendor              Vendor?    @relation(fields: [vendorId], references: [id], onDelete: SetNull)
+
   attributes          Json?
   aboutSections       Json?
   shippingInformation String?
@@ -483,9 +502,69 @@ model Product {
   updatedAt           DateTime   @updatedAt
 
   @@index([categoryId])
+  @@index([vendorId])
   @@index([taxCode])
   @@index([hsnCode])
   @@index([price])
+}
+
+//// MULTI-VENDOR PLATFORM ENTITIES ------------------------
+
+model Vendor {
+  id              String           @id @default(uuid())
+  businessName    String
+  contactPerson   String
+  email           String           @unique
+  phone           String
+  whatsappNumber  String?
+  address         String
+  city            String
+  state           String
+  postalCode      String
+  country         String           @default("India")
+  gstin           String?
+  commissionRate  Decimal          @default(10.00) @db.Decimal(5, 2)
+  bankAccountNo   String?
+  bankIfsc        String?
+  bankName        String?
+  upiId           String?
+  isActive        Boolean          @default(true)
+  notes           String?
+  products        Product[]
+  shipments       VendorShipment[]
+  createdAt       DateTime         @default(now())
+  updatedAt       DateTime         @updatedAt
+
+  @@index([email])
+  @@index([isActive])
+}
+
+model VendorShipment {
+  id              String          @id @default(uuid())
+  orderId         String
+  order           Order           @relation(fields: [orderId], references: [id], onDelete: Cascade)
+  vendorId        String
+  vendor          Vendor          @relation(fields: [vendorId], references: [id], onDelete: Restrict)
+  dispatchToken   String          @unique @default(uuid())
+  status          ShipmentStatus  @default(PENDING)
+  courierName     String?
+  trackingNumber  String?
+  courierWebsite  String?
+  items           Json
+  subtotal        Decimal         @db.Decimal(10, 2)
+  payoutStatus    PayoutStatus    @default(PENDING)
+  settlementRef   String?
+  settlementDate  DateTime?
+  dispatchedAt    DateTime?
+  deliveredAt     DateTime?
+  createdAt       DateTime        @default(now())
+  updatedAt       DateTime        @updatedAt
+
+  @@index([orderId])
+  @@index([vendorId])
+  @@index([dispatchToken])
+  @@index([status])
+  @@index([payoutStatus])
 }
 
 model Cart {

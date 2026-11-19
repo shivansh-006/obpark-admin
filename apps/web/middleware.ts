@@ -35,7 +35,12 @@ export function middleware(request: NextRequest) {
     return NextResponse.next()
   }
 
-  // 3. Protected admin routes
+  // 3. Public vendor dispatch portal (magic link, zero auth required)
+  if (path.startsWith('/dispatch')) {
+    return NextResponse.next()
+  }
+
+  // 4. Protected admin routes
   if (path.startsWith('/admin')) {
     if (!hasSession) {
       const loginUrl = new URL('/login', request.url)
@@ -46,7 +51,7 @@ export function middleware(request: NextRequest) {
     return NextResponse.next()
   }
 
-  // 4. Any other non-static route
+  // 5. Any other non-static route
   if (!hasSession) {
     return NextResponse.redirect(new URL('/login', request.url))
   }

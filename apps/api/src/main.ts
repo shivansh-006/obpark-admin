@@ -4,6 +4,7 @@ import { ValidationPipe } from '@nestjs/common'
 import { NestExpressApplication } from '@nestjs/platform-express'
 import { AppModule } from './app.module'
 import { StorageService } from './storage/storage.service'
+import { PrismaExceptionFilter } from './prisma/prisma-exception.filter'
 import cookieParser from 'cookie-parser'
 import * as path from 'path'
 import * as fs from 'fs'
@@ -36,6 +37,7 @@ async function bootstrap() {
   app.enableShutdownHooks()
   app.use(cookieParser())
   app.useGlobalPipes(new ValidationPipe({ whitelist: true, transform: true }))
+  app.useGlobalFilters(new PrismaExceptionFilter())
 
   // Configure reverse proxy trust for accurate client IP resolution
   const expressInstance = app.getHttpAdapter().getInstance()

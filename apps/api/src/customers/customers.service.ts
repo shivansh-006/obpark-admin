@@ -5,7 +5,7 @@ import { PrismaService } from '../prisma/prisma.service'
 export class CustomersService {
   constructor(private prisma: PrismaService) {}
 
-  async listCustomers(search?: string) {
+  async listCustomers(search?: string, page?: number, limit?: number) {
     const where: any = search
       ? {
           OR: [
@@ -17,24 +17,35 @@ export class CustomersService {
         }
       : {}
 
-    const users = await this.prisma.users.findMany({
-      where,
-      include: {
-        orders: {
-          select: {
-            totalAmount: true,
+    const isPaginated = page !== undefined || limit !== undefined
+    const safeLimit = Math.min(Math.max(Number(limit) || 50, 1), 100)
+    const safePage = Math.max(Number(page) || 1, 1)
+    const skip = isPaginated ? (safePage - 1) * safeLimit : 0
+    const take = isPaginated ? safeLimit : 100 // Cap unpaginated queries to 100 to prevent OOM
+
+    const [users, total] = await Promise.all([
+      this.prisma.users.findMany({
+        where,
+        take,
+        skip,
+        include: {
+          orders: {
+            select: {
+              totalAmount: true,
+            },
+          },
+          addresses: {
+            orderBy: [{ isDefault: 'desc' }, { createdAt: 'desc' }],
           },
         },
-        addresses: {
-          orderBy: [{ isDefault: 'desc' }, { createdAt: 'desc' }],
+        orderBy: {
+          createdAt: 'desc',
         },
-      },
-      orderBy: {
-        createdAt: 'asc',
-      },
-    })
+      }),
+      this.prisma.users.count({ where }),
+    ])
 
-    return users.map((u, index) => {
+    const mapped = users.map((u, index) => {
       const orderCount = u.orders.length
       const totalSpend = u.orders.reduce(
         (sum, order) => sum + Number(order.totalAmount),
@@ -78,6 +89,10 @@ export class CustomersService {
         })),
       }
     })
+
+    return isPaginated
+      ? { customers: mapped, total, page: safePage, limit: safeLimit }
+      : mapped
   }
 
   async getCustomerCount() {

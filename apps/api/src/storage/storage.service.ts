@@ -44,13 +44,7 @@ export class StorageService {
       curr = parent
     }
 
-    // 3. Known absolute path for this project workspace
-    const knownAbsolute = path.resolve('C:/practicals/next_js_projects/obrive/obpark-backend/uploads')
-    if (fs.existsSync(knownAbsolute)) {
-      return knownAbsolute
-    }
-
-    // 4. Fallback to process.cwd() / uploads
+    // 3. Fallback to process.cwd() / uploads
     return path.resolve(process.cwd(), 'uploads')
   }
 

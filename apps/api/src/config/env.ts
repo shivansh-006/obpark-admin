@@ -27,6 +27,15 @@ const envSchema = z.object({
 
   // Surepass (optional — falls back to mock)
   SUREPASS_API_TOKEN: z.string().optional(),
+
+  // Hostinger SMTP (Optional in dev, required in prod for vendor dispatch)
+  SMTP_HOST: z.string().default('smtp.hostinger.com'),
+  SMTP_PORT: z.coerce.number().default(465),
+  SMTP_SECURE: z.coerce.boolean().default(true),
+  SMTP_USER: z.string().default('orders@obpark.in'),
+  SMTP_PASS: z.string().optional(),
+  SMTP_FROM: z.string().default('OBPark Orders <orders@obpark.in>'),
+  SMTP_ADMIN_CC: z.string().optional(),
 })
 
 export const env = envSchema.parse(process.env)

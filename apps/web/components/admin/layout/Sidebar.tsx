@@ -6,7 +6,7 @@ import {
   LayoutDashboard, ShoppingCart, Users, Ticket, FolderTree,
   CreditCard, PlusCircle, ImageIcon, PackageSearch,
   MessageSquareText, ShieldCheck, Settings, LogOut, TrendingUp,
-  Sparkles, ChevronRight
+  Sparkles, ChevronRight, Store, Truck, Wallet,
 } from 'lucide-react'
 import { useLogout } from '@/hooks/useAuth'
 import { useAuthStore } from '@/store/auth.store'
@@ -24,6 +24,14 @@ const NAV_GROUPS = [
       { href: '/admin/categories', label: 'Categories', icon: FolderTree },
       { href: '/admin/transactions', label: 'Transactions', icon: CreditCard },
       { href: '/admin/analytics', label: 'Analytics', icon: TrendingUp },
+    ],
+  },
+  {
+    label: 'Marketplace & Vendors',
+    items: [
+      { href: '/admin/vendors', label: 'Vendors', icon: Store },
+      { href: '/admin/shipments', label: 'Shipments', icon: Truck },
+      { href: '/admin/payouts', label: 'Vendor Payouts', icon: Wallet },
     ],
   },
   {

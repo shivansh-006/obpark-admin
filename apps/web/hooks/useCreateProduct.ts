@@ -26,6 +26,7 @@ export interface CreateProductPayload {
   galleryImages?: string[]
   discountText?: string
   categoryId: string
+  vendorId?: string
   shippingInformation?: string
   attributes?: any
 }

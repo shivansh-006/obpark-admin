@@ -40,6 +40,7 @@ export interface CreateProductDto {
   shippingInformation?: string
   shippingBadges?: string[]
   reviewsBreakdown?: any
+  vendorId?: string
 }
 
 export interface UpdateProductDto extends Partial<CreateProductDto> {}
@@ -206,6 +207,7 @@ export class AdminService {
         include: {
           category: { select: { id: true, categoryName: true, slug: true } },
           tax: true,
+          vendor: { select: { id: true, businessName: true, email: true, commissionRate: true } },
         },
       }),
       this.prisma.product.count({ where }),
@@ -241,6 +243,7 @@ export class AdminService {
       include: {
         category: true,
         tax: true,
+        vendor: true,
       },
     })
 
@@ -281,6 +284,16 @@ export class AdminService {
     })
     if (!categoryExists) {
       throw new BadRequestException(`Category with id ${dto.categoryId} not found`)
+    }
+
+    // Verify vendor if assigned
+    if (dto.vendorId) {
+      const vendorExists = await this.prisma.vendor.findUnique({
+        where: { id: dto.vendorId },
+      })
+      if (!vendorExists) {
+        throw new BadRequestException(`Vendor with id ${dto.vendorId} not found`)
+      }
     }
 
     // Tax calculation
@@ -359,10 +372,12 @@ export class AdminService {
         attributes: dto.attributes || null,
         aboutSections: dto.aboutSections || null,
         reviewsBreakdown: dto.reviewsBreakdown || null,
+        vendorId: dto.vendorId || null,
       },
       include: {
         category: { select: { id: true, categoryName: true, slug: true } },
         tax: true,
+        vendor: { select: { id: true, businessName: true, email: true, commissionRate: true } },
       },
     })
 
@@ -474,6 +489,18 @@ export class AdminService {
     if (dto.shippingInformation !== undefined) data.shippingInformation = dto.shippingInformation
     if (dto.attributes !== undefined) data.attributes = dto.attributes
 
+    if (dto.vendorId !== undefined) {
+      if (dto.vendorId) {
+        const vendorExists = await this.prisma.vendor.findUnique({
+          where: { id: dto.vendorId },
+        })
+        if (!vendorExists) {
+          throw new BadRequestException(`Vendor with id ${dto.vendorId} not found`)
+        }
+      }
+      data.vendorId = dto.vendorId || null
+    }
+
     if (dto.images && Array.isArray(dto.images) && existing.images) {
       this.storageService.diffAndDeleteImages(existing.images, dto.images)
     }
@@ -484,6 +511,7 @@ export class AdminService {
       include: {
         category: { select: { id: true, categoryName: true, slug: true } },
         tax: true,
+        vendor: { select: { id: true, businessName: true, email: true, commissionRate: true } },
       },
     })
 

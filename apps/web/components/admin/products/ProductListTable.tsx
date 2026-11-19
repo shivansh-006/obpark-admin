@@ -273,6 +273,32 @@ export function ProductListTable() {
         filter: 'agTextColumnFilter',
       },
       {
+        headerName: 'Fulfillment',
+        field: 'vendor',
+        flex: 1.2,
+        minWidth: 140,
+        cellClass: 'flex items-center',
+        valueGetter: (params) =>
+          params.data?.vendor?.businessName || params.data?.vendor?.contactPerson || 'OBPARK Direct',
+        cellRenderer: (props: CustomCellRendererProps<AdminProduct>) => {
+          const v = props.data?.vendor
+          return (
+            <div className="flex items-center gap-1.5 truncate">
+              {v ? (
+                <span className="px-2 py-0.5 rounded-md text-[0.6875rem] font-semibold bg-emerald-50 text-emerald-800 border border-emerald-200 truncate">
+                  {v.businessName || v.contactPerson}
+                </span>
+              ) : (
+                <span className="px-2 py-0.5 rounded-md text-[0.6875rem] font-medium bg-gray-100 text-gray-600 truncate">
+                  OBPARK Direct
+                </span>
+              )}
+            </div>
+          )
+        },
+        filter: 'agTextColumnFilter',
+      },
+      {
         headerName: 'Base Cost',
         field: 'productCost',
         flex: 1,

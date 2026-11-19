@@ -37,6 +37,15 @@ export interface AdminProduct {
     name: string // alias
     slug?: string
   }
+  vendorId?: string
+  vendor?: {
+    id: string
+    businessName: string
+    contactPerson: string
+    email: string
+    phone: string
+    commissionRate: number
+  }
   shippingInformation?: string
   attributes?: any
   createdAt: string

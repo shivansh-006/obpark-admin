@@ -2,7 +2,7 @@ import * as path from 'path'
 import * as dotenv from 'dotenv'
 dotenv.config({ path: path.resolve(__dirname, '../.env') })
 
-process.env.NODE_TLS_REJECT_UNAUTHORIZED = '0'
+// Removed global TLS rejection disablement for security
 
 import { PrismaClient, Role } from '@prisma/client'
 import * as bcrypt from 'bcrypt'
@@ -14,17 +14,19 @@ const prisma = new PrismaClient({
 async function main() {
   console.log('Using DB host:', process.env.DATABASE_URL ? new URL(process.env.DATABASE_URL).host : 'UNDEFINED')
 
+  const seedAdminEmail = process.env.SEED_ADMIN_EMAIL || 'admin@obpark.in'
+  const seedAdminPassword = process.env.SEED_ADMIN_PASSWORD || process.env.ADMIN_INITIAL_PASSWORD
+
+  if (!seedAdminPassword) {
+    console.warn('⚠️ No SEED_ADMIN_PASSWORD provided in environment. Skipping default admin password seed.')
+    return
+  }
+
   const usersToSeed = [
     {
-      email: 'shiva@obrive.com',
-      name: 'Shiva Admin',
-      plainPassword: 'obpark-admin-00',
-      role: Role.ADMIN_OBPARK,
-    },
-    {
-      email: 'admin@obrive.com',
-      name: 'Admin Obpark',
-      plainPassword: 'obpark-admin-01',
+      email: seedAdminEmail,
+      name: 'System Admin',
+      plainPassword: seedAdminPassword,
       role: Role.ADMIN_OBPARK,
     },
   ]

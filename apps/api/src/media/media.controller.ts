@@ -25,7 +25,23 @@ export class MediaController {
   constructor(private readonly storageService: StorageService) {}
 
   @Post('upload')
-  @UseInterceptors(FileInterceptor('file'))
+  @UseInterceptors(
+    FileInterceptor('file', {
+      limits: { fileSize: 10 * 1024 * 1024 }, // 10MB limit to prevent OOM
+      fileFilter: (_req, file, cb) => {
+        const allowed = ['image/jpeg', 'image/png', 'image/webp', 'image/gif', 'image/svg+xml']
+        if (!allowed.includes(file.mimetype)) {
+          return cb(
+            new BadRequestException(
+              'Invalid file type. Only JPEG, PNG, WebP, GIF, and SVG images are permitted.',
+            ),
+            false,
+          )
+        }
+        cb(null, true)
+      },
+    }),
+  )
   async upload(
     @UploadedFile() file: UploadedFileDto,
     @Body('folder') bodyFolder?: string,

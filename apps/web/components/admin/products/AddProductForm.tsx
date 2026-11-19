@@ -4,6 +4,7 @@ import { useRef, useState, useMemo, useCallback } from 'react'
 import { Search, Save, Upload, Plus, Wand2, Pencil, RefreshCw, ChevronDown, X, Loader2, CheckCircle2 } from 'lucide-react'
 import { useCreateProduct } from '@/hooks/useCreateProduct'
 import { useCategories } from '@/hooks/useCategories'
+import { useVendors } from '@/hooks/useVendors'
 import { TaxMasterItem } from '@/hooks/useAdminProducts'
 import { HsnTaxSelect } from './HsnTaxSelect'
 import { useAuthStore } from '@/store/auth.store'
@@ -26,6 +27,7 @@ export function AddProductForm() {
     discountText: '',
     shippingInformation: 'Standard shipping (3-5 business days)',
     categoryId: '',
+    vendorId: '',
   })
 
   const [images, setImages] = useState<string[]>([])
@@ -35,6 +37,7 @@ export function AddProductForm() {
 
   const createProduct = useCreateProduct()
   const { data: categories = [] } = useCategories()
+  const { data: vendors = [] } = useVendors({ isActive: true })
   const [selectedGstRate, setSelectedGstRate] = useState<number>(18)
 
   const handleHsnChange = useCallback((code: string, item?: TaxMasterItem | null) => {
@@ -130,6 +133,7 @@ export function AddProductForm() {
         gst: calculations.gstAmount,
         currencySymbol: '₹',
         categoryId: form.categoryId,
+        vendorId: form.vendorId || undefined,
         imagePath: images[0] || undefined,
         images,
         shippingInformation: form.shippingInformation.trim() || undefined,
@@ -151,6 +155,7 @@ export function AddProductForm() {
             discountText: '',
             shippingInformation: 'Standard shipping (3-5 business days)',
             categoryId: '',
+            vendorId: '',
           })
           setImages([])
         },
@@ -470,6 +475,27 @@ export function AddProductForm() {
                   No categories found. Add a category from the Categories page first.
                 </p>
               )}
+            </div>
+
+            <div>
+              <label className="text-sm font-semibold text-gray-900 mb-1.5 block">
+                Fulfillment Partner / Vendor (Optional)
+              </label>
+              <select
+                value={form.vendorId}
+                onChange={(e) => setForm({ ...form, vendorId: e.target.value })}
+                className="w-full px-3 py-2 rounded-lg border text-sm outline-none focus:border-[#074139]"
+              >
+                <option value="">OBPARK Direct Fulfillment (Internal Stock)</option>
+                {vendors.map((v) => (
+                  <option key={v.id} value={v.id}>
+                    {v.businessName || v.contactPerson} ({v.commissionRate}% Commission — {v.city || 'India'})
+                  </option>
+                ))}
+              </select>
+              <p className="text-[0.6875rem] text-gray-500 mt-1">
+                Orders with this product will automatically split and send digital packing slips to this vendor.
+              </p>
             </div>
 
             <div>

@@ -16,7 +16,15 @@ export class CustomersController {
   }
 
   @Get()
-  list(@Query('search') search?: string) {
-    return this.customersService.listCustomers(search)
+  list(
+    @Query('search') search?: string,
+    @Query('page') page?: string,
+    @Query('limit') limit?: string,
+  ) {
+    return this.customersService.listCustomers(
+      search,
+      page ? Number(page) : undefined,
+      limit ? Number(limit) : undefined,
+    )
   }
 }

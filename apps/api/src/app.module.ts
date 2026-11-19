@@ -14,11 +14,20 @@ import { MediaModule } from './media/media.module'
 import { ProfileModule } from './profile/profile.module'
 import { AuthModule } from './auth/auth.module'
 import { StorageModule } from './storage/storage.module'
+import { VendorModule } from './vendor/vendor.module'
+import { MailModule } from './mail/mail.module'
+import { DispatchModule } from './dispatch/dispatch.module'
+import { ShipmentsModule } from './shipments/shipments.module'
+import { PayoutsModule } from './payouts/payouts.module'
 
 @Module({
   imports: [
     ConfigModule.forRoot({ isGlobal: true }),
     PrismaModule,
+    MailModule,
+    DispatchModule,
+    ShipmentsModule,
+    PayoutsModule,
     StorageModule,
     AuthModule,
     ProfileModule,
@@ -31,6 +40,7 @@ import { StorageModule } from './storage/storage.module'
     CustomersModule,
     AnalyticsModule,
     TransactionModule,
+    VendorModule,
   ],
   controllers: [AppController],
   providers: [],

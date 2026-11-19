@@ -2,11 +2,15 @@ import {
   LayoutDashboard, ShoppingCart, Users, Ticket, FolderTree,
   CreditCard, PlusCircle, ImageIcon, PackageSearch,
   MessageSquareText, ShieldCheck, Settings, TrendingUp,
+  Store, Truck, Wallet,
 } from 'lucide-react'
 
 export const ADMIN_NAV_ITEMS = [
   { href: '/admin', label: 'Dashboard', icon: LayoutDashboard, exact: true },
   { href: '/admin/orders', label: 'Order Management', icon: ShoppingCart },
+  { href: '/admin/vendors', label: 'Vendors', icon: Store },
+  { href: '/admin/shipments', label: 'Shipments', icon: Truck },
+  { href: '/admin/payouts', label: 'Vendor Payouts', icon: Wallet },
   { href: '/admin/customers', label: 'Customers', icon: Users },
   { href: '/admin/coupons', label: 'Coupon Code', icon: Ticket },
   { href: '/admin/categories', label: 'Categories', icon: FolderTree },

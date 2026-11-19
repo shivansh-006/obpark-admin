@@ -4,6 +4,7 @@ import { useState, useMemo, useRef, useEffect, useCallback } from 'react'
 import { X, Loader2, Plus, Trash2, Upload, AlertCircle, CheckCircle2 } from 'lucide-react'
 import { AdminProduct, useUpdateProduct, TaxMasterItem } from '@/hooks/useAdminProducts'
 import { useCategories } from '@/hooks/useCategories'
+import { useVendors } from '@/hooks/useVendors'
 import { useAuthStore } from '@/store/auth.store'
 import { microgrammaBold } from '@/lib/fonts'
 import { dialog } from '@/lib/dialog'
@@ -17,6 +18,7 @@ interface EditProductModalProps {
 export function EditProductModal({ product, onClose }: EditProductModalProps) {
   const updateProduct = useUpdateProduct()
   const { data: categories = [] } = useCategories()
+  const { data: vendors = [] } = useVendors({ isActive: true })
 
   const [form, setForm] = useState({
     productId: product.productId || '',
@@ -36,6 +38,7 @@ export function EditProductModal({ product, onClose }: EditProductModalProps) {
     discountText: product.discountText || '',
     shippingInformation: product.shippingInformation || 'Standard shipping (3-5 business days)',
     categoryId: product.categoryId || product.category?.id || '',
+    vendorId: product.vendorId || '',
   })
 
   const [images, setImages] = useState<string[]>(
@@ -185,6 +188,7 @@ export function EditProductModal({ product, onClose }: EditProductModalProps) {
           gst: calculations.gstAmount,
           currencySymbol: '₹',
           categoryId: form.categoryId,
+          vendorId: form.vendorId || undefined,
           imagePath: images[0] || undefined,
           images,
           galleryImages: images,
@@ -305,6 +309,24 @@ export function EditProductModal({ product, onClose }: EditProductModalProps) {
                 {categories.map((c) => (
                   <option key={c.id} value={c.id}>
                     {c.categoryName || c.name}
+                  </option>
+                ))}
+              </select>
+            </div>
+
+            <div>
+              <label className="text-sm font-semibold text-gray-900 mb-1.5 block">
+                Fulfillment Partner / Vendor (Optional)
+              </label>
+              <select
+                value={form.vendorId}
+                onChange={(e) => setForm({ ...form, vendorId: e.target.value })}
+                className="w-full px-3 py-2 rounded-lg border text-sm outline-none focus:border-[#074139] bg-white"
+              >
+                <option value="">OBPARK Direct Fulfillment (Internal Stock)</option>
+                {vendors.map((v) => (
+                  <option key={v.id} value={v.id}>
+                    {v.businessName || v.contactPerson} ({v.commissionRate}% Commission — {v.city || 'India'})
                   </option>
                 ))}
               </select>
