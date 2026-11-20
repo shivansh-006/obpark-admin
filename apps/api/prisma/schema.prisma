@@ -144,6 +144,9 @@ model Users {
   customerBookings Booking[] @relation("CustomerBookings")
   savedCards     CustomerSavedCard[]
   savedVehicles  CustomerVehicle[]
+  returns        ReturnRequest[]
+  warrantyClaims WarrantyClaim[]
+  tickets        SupportTicket[]
 
   @@index([role])
 }
@@ -345,6 +348,8 @@ model Order {
   items          OrderItem[]
   payments       Payment[]
   shipments      VendorShipment[]
+  returns        ReturnRequest[]
+  tickets        SupportTicket[]
   @@index([userId])
 }
 
@@ -537,6 +542,8 @@ model Vendor {
   notes           String?
   products        Product[]
   shipments       VendorShipment[]
+  returns         ReturnRequest[]
+  tickets         SupportTicket[]
   createdAt       DateTime         @default(now())
   updatedAt       DateTime         @updatedAt
 
@@ -729,3 +736,204 @@ model Review {
   @@index([productId])
   @@index([status])
 }
+
+// =========================================================================
+// SECTION 9.1: TRANSACTIONAL OUTBOX & BACKGROUND QUEUE PROCESSING
+// =========================================================================
+
+enum OutboxStatus {
+  PENDING
+  PROCESSING
+  COMPLETED
+  FAILED
+}
+
+model OutboxEvent {
+  id            String       @id @default(uuid())
+  eventType     String
+  entityId      String
+  correlationId String       @default(uuid())
+  payload       Json
+  status        OutboxStatus @default(PENDING)
+  attempts      Int          @default(0)
+  maxAttempts   Int          @default(5)
+  lastError     String?
+  scheduledFor  DateTime     @default(now())
+  processedAt   DateTime?
+  createdAt     DateTime     @default(now())
+  updatedAt     DateTime     @updatedAt
+
+  @@index([status])
+  @@index([eventType])
+  @@index([scheduledFor])
+  @@index([createdAt])
+}
+
+// =========================================================================
+// SECTION 4.7: RETURNS, REFUNDS & WARRANTY MANAGEMENT
+// =========================================================================
+
+enum ReturnReason {
+  DEFECTIVE
+  WRONG_ITEM
+  NOT_AS_DESCRIBED
+  DAMAGED_IN_TRANSIT
+  FITMENT_ISSUE
+  OTHER
+}
+
+enum ReturnStatus {
+  REQUESTED
+  APPROVED
+  REJECTED
+  PICKUP_SCHEDULED
+  ITEM_RECEIVED
+  INSPECTED_RESTOCKED
+  REFUNDED
+  REPLACEMENT_ISSUED
+  CANCELLED
+}
+
+enum WarrantyStatus {
+  PENDING
+  IN_REVIEW
+  APPROVED
+  REPAIRED
+  REPLACED
+  REJECTED
+}
+
+model ReturnRequest {
+  id                  String        @id @default(uuid())
+  returnNumber        String        @unique
+  orderId             String
+  order               Order         @relation(fields: [orderId], references: [id], onDelete: Cascade)
+  orderItemId         String
+  vendorId            String?
+  vendor              Vendor?       @relation(fields: [vendorId], references: [id], onDelete: SetNull)
+  customerId          String
+  customer            Users         @relation(fields: [customerId], references: [id], onDelete: Cascade)
+  reason              ReturnReason
+  description         String
+  evidenceImages      String[]
+  status              ReturnStatus  @default(REQUESTED)
+  pickupAwb           String?
+  pickupCourier       String?
+  inspectionNotes     String?
+  isRestocked         Boolean       @default(false)
+  refundAmount        Decimal?      @db.Decimal(10, 2)
+  refundRef           String?
+  refundDate          DateTime?
+  vendorDeduction     Decimal?      @db.Decimal(10, 2)
+  createdAt           DateTime      @default(now())
+  updatedAt           DateTime      @updatedAt
+
+  @@index([orderId])
+  @@index([vendorId])
+  @@index([customerId])
+  @@index([status])
+  @@index([returnNumber])
+}
+
+model WarrantyClaim {
+  id                  String         @id @default(uuid())
+  claimNumber         String         @unique
+  productId           String
+  orderId             String?
+  customerId          String
+  customer            Users          @relation(fields: [customerId], references: [id], onDelete: Cascade)
+  serialNumber        String?
+  issueDescription    String
+  evidenceFiles       String[]
+  status              WarrantyStatus @default(PENDING)
+  resolutionNotes     String?
+  resolvedAt          DateTime?
+  createdAt           DateTime       @default(now())
+  updatedAt           DateTime       @updatedAt
+
+  @@index([productId])
+  @@index([customerId])
+  @@index([status])
+  @@index([claimNumber])
+}
+
+// =========================================================================
+// SECTION 4.8: CUSTOMER MANAGEMENT & SUPPORT DESK TICKETING
+// =========================================================================
+
+enum TicketCategory {
+  ORDER_ISSUE
+  DELIVERY_DELAY
+  PAYMENT_REFUND
+  PRODUCT_INQUIRY
+  RETURN_WARRANTY
+  ACCOUNT_GENERAL
+}
+
+enum TicketPriority {
+  LOW
+  MEDIUM
+  HIGH
+  URGENT
+}
+
+enum TicketStatus {
+  OPEN
+  IN_PROGRESS
+  WAITING_ON_CUSTOMER
+  RESOLVED
+  CLOSED
+}
+
+enum SenderType {
+  CUSTOMER
+  ADMIN
+  VENDOR
+  SYSTEM
+}
+
+model SupportTicket {
+  id             String          @id @default(uuid())
+  ticketNumber   String          @unique
+  customerId     String
+  customer       Users           @relation(fields: [customerId], references: [id], onDelete: Cascade)
+  orderId        String?
+  order          Order?          @relation(fields: [orderId], references: [id], onDelete: SetNull)
+  vendorId       String?
+  vendor         Vendor?         @relation(fields: [vendorId], references: [id], onDelete: SetNull)
+  subject        String
+  category       TicketCategory  @default(ORDER_ISSUE)
+  priority       TicketPriority  @default(MEDIUM)
+  status         TicketStatus    @default(OPEN)
+  assignedTo     String?
+  assignedToName String?
+  messages       TicketMessage[]
+  resolvedAt     DateTime?
+  closedAt       DateTime?
+  createdAt      DateTime        @default(now())
+  updatedAt      DateTime        @updatedAt
+
+  @@index([customerId])
+  @@index([orderId])
+  @@index([vendorId])
+  @@index([status])
+  @@index([priority])
+  @@index([ticketNumber])
+}
+
+model TicketMessage {
+  id             String        @id @default(uuid())
+  ticketId       String
+  ticket         SupportTicket @relation(fields: [ticketId], references: [id], onDelete: Cascade)
+  senderType     SenderType
+  senderId       String?
+  senderName     String
+  message        String
+  attachments    String[]
+  isInternalNote Boolean       @default(false)
+  createdAt      DateTime      @default(now())
+
+  @@index([ticketId])
+  @@index([createdAt])
+}
+

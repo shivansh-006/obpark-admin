@@ -6,7 +6,7 @@ import {
   LayoutDashboard, ShoppingCart, Users, Ticket, FolderTree,
   CreditCard, PlusCircle, ImageIcon, PackageSearch,
   MessageSquareText, ShieldCheck, Settings, LogOut, TrendingUp,
-  Sparkles, ChevronRight, Store, Truck, Wallet,
+  Sparkles, ChevronRight, Store, Truck, Wallet, RotateCcw, LifeBuoy, Layers,
 } from 'lucide-react'
 import { useLogout } from '@/hooks/useAuth'
 import { useAuthStore } from '@/store/auth.store'
@@ -32,6 +32,14 @@ const NAV_GROUPS = [
       { href: '/admin/vendors', label: 'Vendors', icon: Store },
       { href: '/admin/shipments', label: 'Shipments', icon: Truck },
       { href: '/admin/payouts', label: 'Vendor Payouts', icon: Wallet },
+    ],
+  },
+  {
+    label: 'Operations & Support',
+    items: [
+      { href: '/admin/returns', label: 'Returns & Claims', icon: RotateCcw },
+      { href: '/admin/support', label: 'Support Desk', icon: LifeBuoy },
+      { href: '/admin/queues', label: 'Event Queues', icon: Layers },
     ],
   },
   {

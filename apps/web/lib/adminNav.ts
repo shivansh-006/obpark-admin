@@ -2,7 +2,7 @@ import {
   LayoutDashboard, ShoppingCart, Users, Ticket, FolderTree,
   CreditCard, PlusCircle, ImageIcon, PackageSearch,
   MessageSquareText, ShieldCheck, Settings, TrendingUp,
-  Store, Truck, Wallet,
+  Store, Truck, Wallet, RotateCcw, LifeBuoy, Layers,
 } from 'lucide-react'
 
 export const ADMIN_NAV_ITEMS = [
@@ -11,6 +11,9 @@ export const ADMIN_NAV_ITEMS = [
   { href: '/admin/vendors', label: 'Vendors', icon: Store },
   { href: '/admin/shipments', label: 'Shipments', icon: Truck },
   { href: '/admin/payouts', label: 'Vendor Payouts', icon: Wallet },
+  { href: '/admin/returns', label: 'Returns & Claims', icon: RotateCcw },
+  { href: '/admin/support', label: 'Support Desk', icon: LifeBuoy },
+  { href: '/admin/queues', label: 'Event Queues', icon: Layers },
   { href: '/admin/customers', label: 'Customers', icon: Users },
   { href: '/admin/coupons', label: 'Coupon Code', icon: Ticket },
   { href: '/admin/categories', label: 'Categories', icon: FolderTree },
