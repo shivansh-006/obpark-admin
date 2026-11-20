@@ -90,13 +90,6 @@ export function Sidebar({ onNavigate }: { onNavigate?: () => void }) {
             />
           </div>
         </Link>
-        <span className="inline-flex items-center gap-1.5 px-2 py-0.5 rounded-full text-[0.625rem] font-bold bg-[#E6F5F2] text-[#074139] border border-[#CAEDE6]">
-          <span className="relative flex h-1.5 w-1.5">
-            <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-[#59D0B5] opacity-75" />
-            <span className="relative inline-flex rounded-full h-1.5 w-1.5 bg-[#074139]" />
-          </span>
-          CENTRAL
-        </span>
       </div>
 
       {/* Navigation Groups - scrollable with slim custom scrollbar */}
