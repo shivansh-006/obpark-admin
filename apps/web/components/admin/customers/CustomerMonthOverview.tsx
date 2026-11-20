@@ -264,34 +264,34 @@ export function CustomerMonthOverview({ customers, isLoading }: CustomerMonthOve
       {/* Monthly KPI Stats Grid */}
       <div className="grid grid-cols-2 lg:grid-cols-4 gap-4">
         {/* Metric 1: Monthly Signups */}
-        <div className="bg-white border rounded-xl p-5 shadow-xs">
+        <div className="bg-white border border-[#CAEDE6]/60 rounded-2xl p-5 shadow-xs hover:border-[#074139]/20 transition-all">
           <div className="flex items-start justify-between">
             <div>
-              <p className="text-xs text-gray-400 font-medium">New Customers</p>
-              <p className="text-2xl font-bold text-gray-800 mt-1">
+              <p className="text-[11px] font-bold text-[#074139]/70 uppercase tracking-wider font-michroma">New Customers</p>
+              <p className={`${microgrammaBold.className} text-2xl font-bold text-[#074139] mt-1`}>
                 {isLoading ? '—' : totalNewCustomers}
               </p>
             </div>
-            <div className="p-2.5 rounded-xl bg-emerald-50 text-[#074139]">
+            <div className="p-2.5 rounded-xl bg-[#E6F5F2] text-[#074139] border border-[#CAEDE6]/40">
               <Users className="h-5 w-5" />
             </div>
           </div>
-          <p className="text-[0.6875rem] text-emerald-700 font-medium mt-3 flex items-center gap-1">
+          <p className="text-[0.6875rem] text-emerald-800 font-medium mt-3 flex items-center gap-1">
             <TrendingUp className="h-3 w-3" />
             <span>Registered in {MONTH_NAMES[selectedMonth].slice(0, 3)} {selectedYear}</span>
           </p>
         </div>
 
         {/* Metric 2: Active / Verified Rate */}
-        <div className="bg-white border rounded-xl p-5 shadow-xs">
+        <div className="bg-white border border-[#CAEDE6]/60 rounded-2xl p-5 shadow-xs hover:border-[#074139]/20 transition-all">
           <div className="flex items-start justify-between">
             <div>
-              <p className="text-xs text-gray-400 font-medium">Active Accounts</p>
-              <p className="text-2xl font-bold text-gray-800 mt-1">
+              <p className="text-[11px] font-bold text-[#074139]/70 uppercase tracking-wider font-michroma">Active Accounts</p>
+              <p className={`${microgrammaBold.className} text-2xl font-bold text-[#074139] mt-1`}>
                 {isLoading ? '—' : activeCount}
               </p>
             </div>
-            <div className="p-2.5 rounded-xl bg-blue-50 text-blue-600">
+            <div className="p-2.5 rounded-xl bg-[#E6F5F2] text-[#074139] border border-[#CAEDE6]/40">
               <UserCheck className="h-5 w-5" />
             </div>
           </div>
@@ -303,15 +303,15 @@ export function CustomerMonthOverview({ customers, isLoading }: CustomerMonthOve
         </div>
 
         {/* Metric 3: Total Monthly Spend */}
-        <div className="bg-white border rounded-xl p-5 shadow-xs">
+        <div className="bg-white border border-[#CAEDE6]/60 rounded-2xl p-5 shadow-xs hover:border-[#074139]/20 transition-all">
           <div className="flex items-start justify-between">
             <div>
-              <p className="text-xs text-gray-400 font-medium">Customer Spend</p>
-              <p className="text-2xl font-bold text-gray-800 mt-1">
+              <p className="text-[11px] font-bold text-[#074139]/70 uppercase tracking-wider font-michroma">Customer Spend</p>
+              <p className={`${microgrammaBold.className} text-2xl font-bold text-[#074139] mt-1`}>
                 ₹{isLoading ? '—' : totalMonthlySpend.toLocaleString('en-IN')}
               </p>
             </div>
-            <div className="p-2.5 rounded-xl bg-amber-50 text-amber-600">
+            <div className="p-2.5 rounded-xl bg-amber-50 text-amber-700 border border-amber-200/50">
               <CreditCard className="h-5 w-5" />
             </div>
           </div>
@@ -321,15 +321,15 @@ export function CustomerMonthOverview({ customers, isLoading }: CustomerMonthOve
         </div>
 
         {/* Metric 4: Total Orders in Cohort */}
-        <div className="bg-white border rounded-xl p-5 shadow-xs">
+        <div className="bg-white border border-[#CAEDE6]/60 rounded-2xl p-5 shadow-xs hover:border-[#074139]/20 transition-all">
           <div className="flex items-start justify-between">
             <div>
-              <p className="text-xs text-gray-400 font-medium">Total Orders</p>
-              <p className="text-2xl font-bold text-gray-800 mt-1">
+              <p className="text-[11px] font-bold text-[#074139]/70 uppercase tracking-wider font-michroma">Total Orders</p>
+              <p className={`${microgrammaBold.className} text-2xl font-bold text-[#074139] mt-1`}>
                 {isLoading ? '—' : totalOrders}
               </p>
             </div>
-            <div className="p-2.5 rounded-xl bg-purple-50 text-purple-600">
+            <div className="p-2.5 rounded-xl bg-[#E6F5F2] text-[#074139] border border-[#CAEDE6]/40">
               <ShoppingBag className="h-5 w-5" />
             </div>
           </div>

@@ -73,25 +73,25 @@ export function ChangePasswordCard() {
   }
 
   return (
-    <form onSubmit={handleSave} className="bg-white border rounded-xl p-6 space-y-4 shadow-sm hover:shadow-md transition-shadow">
+    <form onSubmit={handleSave} className="bg-white border border-[#CAEDE6]/60 rounded-2xl p-6 space-y-4 shadow-xs hover:border-[#074139]/20 transition-all">
       <div className="flex items-center justify-between">
-        <h3 className={`font-semibold text-gray-800 ${microgrammaBold.className}`}>
+        <h3 className={`font-bold text-[#074139] ${microgrammaBold.className}`}>
           Change Password
         </h3>
-        <span className="text-[11px] text-gray-400 flex items-center gap-1">
+        <span className="text-[11px] text-gray-400 flex items-center gap-1 font-michroma">
           <Lock className="h-3 w-3" /> Security
         </span>
       </div>
 
       <div>
-        <label className="text-sm font-semibold text-gray-900 mb-1.5 block">Current Password</label>
+        <label className="text-xs font-bold text-[#074139]/80 mb-1.5 block font-michroma">Current Password</label>
         <div className="relative">
           <input
             type={showCurrent ? 'text' : 'password'}
             value={form.current}
             onChange={(e) => setForm({ ...form, current: e.target.value })}
             placeholder="Enter current password"
-            className="w-full px-3 py-2 pr-9 rounded-lg border text-sm outline-none focus:border-[#074139] focus:ring-1 focus:ring-[#074139] transition-colors"
+            className="w-full px-3 py-2 pr-9 rounded-xl border border-[#CAEDE6] text-xs outline-none focus:border-[#074139] focus:ring-2 focus:ring-[#074139]/10 transition-colors"
           />
           <button
             type="button"
@@ -105,14 +105,14 @@ export function ChangePasswordCard() {
       </div>
 
       <div>
-        <label className="text-sm font-semibold text-gray-900 mb-1.5 block">New Password</label>
+        <label className="text-xs font-bold text-[#074139]/80 mb-1.5 block font-michroma">New Password</label>
         <div className="relative">
           <input
             type={showNew ? 'text' : 'password'}
             value={form.next}
             onChange={(e) => setForm({ ...form, next: e.target.value })}
             placeholder="At least 6 characters"
-            className="w-full px-3 py-2 pr-9 rounded-lg border text-sm outline-none focus:border-[#074139] focus:ring-1 focus:ring-[#074139] transition-colors"
+            className="w-full px-3 py-2 pr-9 rounded-xl border border-[#CAEDE6] text-xs outline-none focus:border-[#074139] focus:ring-2 focus:ring-[#074139]/10 transition-colors"
           />
           <button
             type="button"
@@ -131,14 +131,14 @@ export function ChangePasswordCard() {
       </div>
 
       <div>
-        <label className="text-sm font-semibold text-gray-900 mb-1.5 block">Confirm New Password</label>
+        <label className="text-xs font-bold text-[#074139]/80 mb-1.5 block font-michroma">Confirm New Password</label>
         <div className="relative">
           <input
             type={showConfirm ? 'text' : 'password'}
             value={form.confirm}
             onChange={(e) => setForm({ ...form, confirm: e.target.value })}
             placeholder="Re-enter new password"
-            className="w-full px-3 py-2 pr-9 rounded-lg border text-sm outline-none focus:border-[#074139] focus:ring-1 focus:ring-[#074139] transition-colors"
+            className="w-full px-3 py-2 pr-9 rounded-xl border border-[#CAEDE6] text-xs outline-none focus:border-[#074139] focus:ring-2 focus:ring-[#074139]/10 transition-colors"
           />
           <button
             type="button"
@@ -167,8 +167,7 @@ export function ChangePasswordCard() {
       <button
         type="submit"
         disabled={changePassword.isPending || !isFormValid}
-        className="w-full py-2.5 rounded-lg text-sm text-white font-medium disabled:opacity-50 transition-opacity flex items-center justify-center gap-2 hover:opacity-95 shadow-xs"
-        style={{ backgroundColor: '#074139' }}
+        className="w-full py-2.5 rounded-xl text-xs font-semibold font-michroma text-white bg-[#074139] hover:bg-[#06332d] disabled:opacity-50 transition-all flex items-center justify-center gap-2 shadow-xs"
       >
         {changePassword.isPending ? (
           <>

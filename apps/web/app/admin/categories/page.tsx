@@ -44,18 +44,18 @@ ModuleRegistry.registerModules([AllCommunityModule])
 // Custom AG Grid theme matching OBPARK branding
 const obparkGridTheme = themeQuartz.withParams({
   accentColor: '#074139',
-  headerBackgroundColor: '#F0FDF4',
-  headerTextColor: '#374151',
-  headerFontWeight: 600,
-  headerFontSize: 11.5,
-  fontSize: 11.5,
-  borderColor: '#E5E7EB',
-  borderRadius: 8,
+  headerBackgroundColor: '#E6F5F2',
+  headerTextColor: '#074139',
+  headerFontWeight: 700,
+  headerFontSize: 12,
+  fontSize: 12,
+  borderColor: '#CAEDE6',
+  borderRadius: 12,
   browserColorScheme: 'light',
-  rowHoverColor: '#F9FAFB',
-  selectedRowBackgroundColor: '#ECFDF5',
+  rowHoverColor: '#F0FAF5',
+  selectedRowBackgroundColor: '#E6F5F2',
   rowHeight: 56,
-  headerHeight: 38,
+  headerHeight: 40,
 })
 
 const TABS = ['All Product', 'Featured Products', 'On Sale', 'Out of Stock']
@@ -731,14 +731,14 @@ export default function CategoriesPage() {
 
       <div className="p-4 sm:p-6 lg:p-8 space-y-4">
         {/* Top Header Card */}
-        <div className="rounded-2xl border border-gray-200/80 bg-white p-5 shadow-xs">
+        <div className="rounded-2xl border border-[#CAEDE6]/60 bg-white p-5 shadow-xs">
           <div className="flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
             <div className="flex items-center gap-3">
-              <div className="flex h-11 w-11 items-center justify-center rounded-xl bg-emerald-50 text-emerald-800 border border-emerald-100 shrink-0">
+              <div className="flex h-11 w-11 items-center justify-center rounded-xl bg-[#E6F5F2] text-[#074139] border border-[#CAEDE6] shrink-0">
                 <ImageIcon className="h-5 w-5" />
               </div>
               <div>
-                <h1 className={`${microgrammaBold.className} text-lg font-bold text-gray-900 tracking-wide`}>
+                <h1 className={`${microgrammaBold.className} text-lg font-bold text-[#074139] tracking-wide`}>
                   Category Management
                 </h1>
                 <p className="text-xs text-gray-500 mt-0.5">
@@ -750,8 +750,7 @@ export default function CategoriesPage() {
             <div className="flex items-center gap-2">
               <button
                 onClick={() => setModalOpen(true)}
-                className="inline-flex items-center gap-2 px-4 py-2.5 rounded-xl text-xs font-semibold text-white shadow-xs hover:opacity-95 transition-all"
-                style={{ backgroundColor: '#074139' }}
+                className="inline-flex items-center gap-2 px-4 py-2.5 rounded-xl text-xs font-semibold font-michroma text-white bg-[#074139] hover:bg-[#06332d] shadow-xs transition-all"
               >
                 <Plus className="h-4 w-4" />
                 <span>Add Category</span>
@@ -761,9 +760,9 @@ export default function CategoriesPage() {
         </div>
 
         {/* Main Content Card with AG Grid */}
-        <div className="rounded-2xl border border-gray-200/80 bg-white shadow-xs overflow-hidden">
+        <div className="rounded-2xl border border-[#CAEDE6]/60 bg-white shadow-xs overflow-hidden">
           {/* Controls Bar */}
-          <div className="p-4 border-b border-gray-100 flex flex-col sm:flex-row sm:items-center justify-between gap-3">
+          <div className="p-4 border-b border-[#CAEDE6]/40 flex flex-col sm:flex-row sm:items-center justify-between gap-3">
             <div className="relative flex-1 max-w-sm">
               <Search className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-gray-400" />
               <input
@@ -771,7 +770,7 @@ export default function CategoriesPage() {
                 placeholder="Search categories..."
                 value={search}
                 onChange={(e) => setSearch(e.target.value)}
-                className="w-full pl-9 pr-4 py-2 rounded-xl border border-gray-200 bg-gray-50/50 text-xs text-gray-900 placeholder-gray-400 focus:outline-none focus:border-[#074139] focus:bg-white transition-all"
+                className="w-full pl-9 pr-4 py-2 rounded-xl border border-[#CAEDE6] bg-white text-xs text-gray-900 placeholder-gray-400 focus:outline-none focus:border-[#074139] focus:ring-2 focus:ring-[#074139]/10 transition-all"
               />
               {search && (
                 <button

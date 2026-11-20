@@ -3,6 +3,7 @@
 import { useState } from 'react'
 import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query'
 import { api } from '@/lib/api'
+import { microgrammaBold } from '@/lib/fonts'
 import {
   LifeBuoy,
   Search,
@@ -233,10 +234,10 @@ export default function SupportDeskPage() {
   return (
     <div className="space-y-6 p-6 max-w-[1600px] mx-auto min-h-screen">
       {/* Header */}
-      <div className="flex flex-col md:flex-row justify-between items-start md:items-center gap-4 bg-white p-6 rounded-xl border border-gray-100 shadow-sm">
+      <div className="flex flex-col md:flex-row justify-between items-start md:items-center gap-4 bg-white p-6 rounded-2xl border border-gray-200/80 shadow-sm">
         <div>
-          <h1 className="text-2xl font-bold text-gray-900 tracking-tight flex items-center gap-3">
-            <LifeBuoy className="w-7 h-7 text-indigo-600" />
+          <h1 className={`${microgrammaBold.className} text-2xl font-bold text-[#074139] tracking-tight flex items-center gap-3`}>
+            <LifeBuoy className="w-7 h-7 text-[#074139]" />
             Support Desk & Customer Ticketing
           </h1>
           <p className="text-sm text-gray-500 mt-1">
@@ -259,53 +260,53 @@ export default function SupportDeskPage() {
 
       {/* KPI Cards */}
       <div className="grid grid-cols-2 md:grid-cols-5 gap-4">
-        <div className="bg-white p-5 rounded-xl border border-gray-100 shadow-sm flex items-center gap-4">
-          <div className="p-3 bg-red-50 text-red-600 rounded-lg">
+        <div className="bg-white p-5 rounded-2xl border border-gray-200/80 shadow-sm flex items-center gap-4">
+          <div className="p-3 bg-red-50 text-red-600 rounded-xl">
             <Inbox className="w-5 h-5" />
           </div>
           <div>
-            <div className="text-2xl font-bold text-gray-900">{stats?.open ?? 0}</div>
-            <div className="text-xs text-gray-500 font-medium uppercase tracking-wider">Open Tickets</div>
+            <div className="text-2xl font-bold text-gray-900 font-mono">{stats?.open ?? 0}</div>
+            <div className={`${microgrammaBold.className} text-[11px] text-gray-400 font-bold uppercase tracking-wider`}>Open Tickets</div>
           </div>
         </div>
 
-        <div className="bg-white p-5 rounded-xl border border-gray-100 shadow-sm flex items-center gap-4">
-          <div className="p-3 bg-red-100 text-red-700 rounded-lg">
+        <div className="bg-white p-5 rounded-2xl border border-gray-200/80 shadow-sm flex items-center gap-4">
+          <div className="p-3 bg-red-100 text-red-700 rounded-xl">
             <AlertTriangle className="w-5 h-5" />
           </div>
           <div>
-            <div className="text-2xl font-bold text-red-700">{stats?.urgent ?? 0}</div>
-            <div className="text-xs text-gray-500 font-medium uppercase tracking-wider">Urgent Priority</div>
+            <div className="text-2xl font-bold text-red-700 font-mono">{stats?.urgent ?? 0}</div>
+            <div className={`${microgrammaBold.className} text-[11px] text-red-700 font-bold uppercase tracking-wider`}>Urgent Priority</div>
           </div>
         </div>
 
-        <div className="bg-white p-5 rounded-xl border border-gray-100 shadow-sm flex items-center gap-4">
-          <div className="p-3 bg-blue-50 text-blue-600 rounded-lg">
+        <div className="bg-white p-5 rounded-2xl border border-gray-200/80 shadow-sm flex items-center gap-4">
+          <div className="p-3 bg-[#E6F5F2] text-[#074139] rounded-xl">
             <Clock className="w-5 h-5" />
           </div>
           <div>
-            <div className="text-2xl font-bold text-gray-900">{stats?.inProgress ?? 0}</div>
-            <div className="text-xs text-gray-500 font-medium uppercase tracking-wider">In Progress</div>
+            <div className="text-2xl font-bold text-gray-900 font-mono">{stats?.inProgress ?? 0}</div>
+            <div className={`${microgrammaBold.className} text-[11px] text-gray-400 font-bold uppercase tracking-wider`}>In Progress</div>
           </div>
         </div>
 
-        <div className="bg-white p-5 rounded-xl border border-gray-100 shadow-sm flex items-center gap-4">
-          <div className="p-3 bg-purple-50 text-purple-600 rounded-lg">
+        <div className="bg-white p-5 rounded-2xl border border-gray-200/80 shadow-sm flex items-center gap-4">
+          <div className="p-3 bg-amber-50 text-amber-700 rounded-xl">
             <HelpCircle className="w-5 h-5" />
           </div>
           <div>
-            <div className="text-2xl font-bold text-gray-900">{stats?.waitingOnCustomer ?? 0}</div>
-            <div className="text-xs text-gray-500 font-medium uppercase tracking-wider">Waiting Customer</div>
+            <div className="text-2xl font-bold text-gray-900 font-mono">{stats?.waitingOnCustomer ?? 0}</div>
+            <div className={`${microgrammaBold.className} text-[11px] text-gray-400 font-bold uppercase tracking-wider`}>Waiting Customer</div>
           </div>
         </div>
 
-        <div className="bg-white p-5 rounded-xl border border-gray-100 shadow-sm flex items-center gap-4">
-          <div className="p-3 bg-emerald-50 text-emerald-600 rounded-lg">
+        <div className="bg-white p-5 rounded-2xl border border-gray-200/80 shadow-sm flex items-center gap-4">
+          <div className="p-3 bg-emerald-50 text-emerald-700 rounded-xl">
             <CheckCircle2 className="w-5 h-5" />
           </div>
           <div>
-            <div className="text-2xl font-bold text-gray-900">{stats?.resolved ?? 0}</div>
-            <div className="text-xs text-gray-500 font-medium uppercase tracking-wider">Resolved</div>
+            <div className="text-2xl font-bold text-gray-900 font-mono">{stats?.resolved ?? 0}</div>
+            <div className={`${microgrammaBold.className} text-[11px] text-gray-400 font-bold uppercase tracking-wider`}>Resolved</div>
           </div>
         </div>
       </div>
@@ -313,9 +314,9 @@ export default function SupportDeskPage() {
       {/* Main Split Layout */}
       <div className="grid grid-cols-1 lg:grid-cols-12 gap-6 items-start">
         {/* Left Column: Tickets Queue */}
-        <div className="lg:col-span-5 bg-white rounded-xl border border-gray-200 shadow-sm overflow-hidden flex flex-col h-[750px]">
+        <div className="lg:col-span-5 bg-white rounded-2xl border border-gray-200/80 shadow-sm overflow-hidden flex flex-col h-[750px]">
           {/* Filters & Search */}
-          <div className="p-4 border-b border-gray-200 space-y-3 bg-gray-50/50">
+          <div className="p-4 border-b border-gray-200 space-y-3 bg-[#F0FAF5]/50">
             <div className="relative">
               <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-gray-400" />
               <input
@@ -323,18 +324,18 @@ export default function SupportDeskPage() {
                 placeholder="Search ticket #, subject, customer..."
                 value={search}
                 onChange={(e) => setSearch(e.target.value)}
-                className="w-full pl-9 pr-3 py-2 text-sm bg-white border border-gray-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-500/20 focus:border-indigo-500"
+                className="w-full pl-9 pr-3 py-2 text-xs bg-white border border-gray-200 rounded-xl focus:outline-none focus:border-[#074139] focus:ring-1 focus:ring-[#074139]/20"
               />
             </div>
-            <div className="flex gap-2 overflow-x-auto pb-1 text-xs">
+            <div className="flex gap-2 overflow-x-auto pb-1 text-xs custom-scrollbar">
               {['ALL', 'OPEN', 'IN_PROGRESS', 'WAITING_ON_CUSTOMER', 'RESOLVED'].map((status) => (
                 <button
                   key={status}
                   onClick={() => setStatusFilter(status)}
-                  className={`px-3 py-1.5 rounded-lg font-medium whitespace-nowrap transition-colors ${
+                  className={`px-3 py-1.5 rounded-lg font-semibold whitespace-nowrap transition-colors ${
                     statusFilter === status
-                      ? 'bg-indigo-600 text-white'
-                      : 'bg-white border border-gray-200 text-gray-600 hover:bg-gray-100'
+                      ? 'bg-[#074139] text-white shadow-2xs'
+                      : 'bg-white border border-gray-200 text-gray-700 hover:bg-gray-100'
                   }`}
                 >
                   {status === 'ALL' ? 'All' : status.replace(/_/g, ' ')}
@@ -360,7 +361,7 @@ export default function SupportDeskPage() {
                     key={ticket.id}
                     onClick={() => setSelectedTicketId(ticket.id)}
                     className={`p-4 cursor-pointer transition-all hover:bg-gray-50/80 ${
-                      isSelected ? 'bg-indigo-50/50 border-l-4 border-l-indigo-600' : ''
+                      isSelected ? 'bg-[#E6F5F2]/60 border-l-4 border-l-[#074139]' : ''
                     }`}
                   >
                     <div className="flex items-center justify-between mb-1.5">
@@ -422,14 +423,14 @@ export default function SupportDeskPage() {
               <div className="p-5 border-b border-gray-200 bg-gray-50/50 flex flex-col md:flex-row justify-between items-start md:items-center gap-4">
                 <div>
                   <div className="flex items-center gap-2 mb-1">
-                    <span className="font-mono text-xs font-bold text-indigo-700 bg-indigo-50 border border-indigo-200 px-2 py-0.5 rounded">
+                    <span className="font-mono text-xs font-bold text-[#074139] bg-[#E6F5F2] border border-[#CAEDE6] px-2 py-0.5 rounded">
                       {activeTicket.ticketNumber}
                     </span>
                     <span className="text-xs font-semibold text-gray-500 uppercase tracking-wider">
                       {activeTicket.category.replace(/_/g, ' ')}
                     </span>
                   </div>
-                  <h2 className="text-base font-bold text-gray-900">{activeTicket.subject}</h2>
+                  <h2 className={`${microgrammaBold.className} text-base font-bold text-[#074139]`}>{activeTicket.subject}</h2>
                   <div className="flex items-center gap-4 text-xs text-gray-500 mt-1">
                     <span className="flex items-center gap-1">
                       <User className="w-3.5 h-3.5" />
@@ -437,7 +438,7 @@ export default function SupportDeskPage() {
                       {activeTicket.customer?.email})
                     </span>
                     {activeTicket.order && (
-                      <span className="flex items-center gap-1 font-mono text-indigo-600">
+                      <span className="flex items-center gap-1 font-mono text-[#074139] font-bold">
                         <ShoppingBag className="w-3.5 h-3.5" />
                         Order #{activeTicket.order.orderNumber}
                       </span>
@@ -455,7 +456,7 @@ export default function SupportDeskPage() {
                         data: { priority: e.target.value },
                       })
                     }
-                    className="text-xs font-medium border border-gray-300 rounded-lg px-2.5 py-1.5 bg-white focus:outline-none focus:ring-1 focus:ring-indigo-500"
+                    className="text-xs font-semibold border border-gray-300 rounded-lg px-2.5 py-1.5 bg-white focus:outline-none focus:border-[#074139] focus:ring-1 focus:ring-[#074139]/20"
                   >
                     <option value="LOW">Low Priority</option>
                     <option value="MEDIUM">Medium Priority</option>
@@ -471,7 +472,7 @@ export default function SupportDeskPage() {
                         data: { status: e.target.value },
                       })
                     }
-                    className="text-xs font-semibold border border-gray-300 rounded-lg px-2.5 py-1.5 bg-white focus:outline-none focus:ring-1 focus:ring-indigo-500"
+                    className="text-xs font-semibold border border-gray-300 rounded-lg px-2.5 py-1.5 bg-white focus:outline-none focus:border-[#074139] focus:ring-1 focus:ring-[#074139]/20"
                   >
                     <option value="OPEN">Open</option>
                     <option value="IN_PROGRESS">In Progress</option>
@@ -522,13 +523,13 @@ export default function SupportDeskPage() {
                         <div
                           className={`max-w-[85%] rounded-2xl p-4 shadow-sm ${
                             isOutbound
-                              ? 'bg-indigo-600 text-white rounded-br-xs'
+                              ? 'bg-[#074139] text-white rounded-br-xs'
                               : 'bg-white border border-gray-200 text-gray-900 rounded-bl-xs'
                           }`}
                         >
                           <div
                             className={`flex items-center justify-between gap-4 mb-1 text-[11px] ${
-                              isOutbound ? 'text-indigo-200' : 'text-gray-500'
+                              isOutbound ? 'text-[#A2F1DF]' : 'text-gray-500'
                             }`}
                           >
                             <span className="font-semibold">{msg.senderName || msg.senderType}</span>
@@ -557,7 +558,7 @@ export default function SupportDeskPage() {
                       onClick={() => setIsInternalNote(false)}
                       className={`text-xs font-semibold px-3 py-1 rounded-md transition-colors ${
                         !isInternalNote
-                          ? 'bg-indigo-100 text-indigo-700'
+                          ? 'bg-[#E6F5F2] text-[#074139]'
                           : 'text-gray-500 hover:text-gray-700'
                       }`}
                     >
@@ -586,9 +587,9 @@ export default function SupportDeskPage() {
                           data: { status: 'RESOLVED', resolutionNote: 'Resolved by support team.' },
                         })
                       }
-                      className="text-xs text-emerald-700 hover:text-emerald-800 font-medium flex items-center gap-1"
+                      className="text-xs text-[#074139] hover:text-[#0a4a42] font-semibold flex items-center gap-1"
                     >
-                      <Check className="w-3.5 h-3.5" />
+                      <Check className="w-3.5 h-3.5 text-emerald-600" />
                       Mark as Resolved
                     </button>
                   )}
@@ -607,17 +608,17 @@ export default function SupportDeskPage() {
                     className={`w-full p-3 text-xs border rounded-xl focus:outline-none transition-colors resize-none ${
                       isInternalNote
                         ? 'bg-amber-50/40 border-amber-300 focus:ring-1 focus:ring-amber-500'
-                        : 'bg-white border-gray-200 focus:ring-1 focus:ring-indigo-500'
+                        : 'bg-white border-gray-200 focus:border-[#074139] focus:ring-1 focus:ring-[#074139]/20'
                     }`}
                   />
                   <div className="flex justify-end mt-2">
                     <button
                       type="submit"
                       disabled={!replyMessage.trim() || sendMessageMutation.isPending}
-                      className={`flex items-center gap-2 px-4 py-2 text-xs font-semibold rounded-lg text-white transition-all shadow-sm disabled:opacity-50 ${
+                      className={`flex items-center gap-2 px-4 py-2 text-xs font-semibold rounded-xl text-white transition-all shadow-sm disabled:opacity-50 ${
                         isInternalNote
                           ? 'bg-amber-600 hover:bg-amber-700'
-                          : 'bg-indigo-600 hover:bg-indigo-700'
+                          : 'bg-[#074139] hover:bg-[#0a4a42]'
                       }`}
                     >
                       <Send className="w-3.5 h-3.5" />

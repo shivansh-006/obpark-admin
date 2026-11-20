@@ -74,10 +74,13 @@ export default function Header({ categoryName }: HeaderProps) {
           >
             
                         <Image
-                            src="/ObriveLogo.png"
+                            src="/obrive-main-logo.svg"
                             alt="Obrive Logo"
                             width={130}
-                            height={60}
+                            height={40}
+                            className="h-8 w-auto object-contain"
+                            priority
+                            unoptimized
                         />
             
             <span className="text-[0.5rem] font-medium font-sans align-top relative -top-[0.4375rem]  text-[#022c22]">©</span>

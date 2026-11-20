@@ -28,18 +28,18 @@ ModuleRegistry.registerModules([AllCommunityModule])
 // Custom AG Grid theme matching OBPARK branding
 const obparkGridTheme = themeQuartz.withParams({
   accentColor: '#074139',
-  headerBackgroundColor: '#F0FDF4',
-  headerTextColor: '#374151',
-  headerFontWeight: 600,
-  headerFontSize: 11.5,
-  fontSize: 11.5,
-  borderColor: '#E5E7EB',
+  headerBackgroundColor: '#E6F5F2',
+  headerTextColor: '#074139',
+  headerFontWeight: 700,
+  headerFontSize: 12,
+  fontSize: 12,
+  borderColor: '#CAEDE6',
   borderRadius: 12,
   browserColorScheme: 'light',
-  rowHoverColor: '#F9FAFB',
-  selectedRowBackgroundColor: '#ECFDF5',
+  rowHoverColor: '#F0FAF5',
+  selectedRowBackgroundColor: '#E6F5F2',
   rowHeight: 48,
-  headerHeight: 36,
+  headerHeight: 40,
 })
 
 const TABS = ['All order', 'Complete', 'Pending', 'Failed']
@@ -265,7 +265,7 @@ export default function TransactionsPage() {
   ]
 
   return (
-    <div className="min-h-screen bg-gray-50">
+    <div className="min-h-screen bg-[#F0FAF5]">
       <Header title="Transactions" onMenuClick={() => setDrawerOpen(true)} />
 
       <div className="p-6 space-y-6">
@@ -273,38 +273,38 @@ export default function TransactionsPage() {
         <div className="grid grid-cols-1 lg:grid-cols-3 gap-4">
           <div className="lg:col-span-2 grid grid-cols-2 gap-4">
             {kpis.map((k) => (
-              <div key={k.label} className="bg-white border rounded-xl p-5 shadow-md">
+              <div key={k.label} className="bg-white border border-[#CAEDE6]/60 rounded-2xl p-5 shadow-xs hover:border-[#074139]/20 transition-all">
                 <div className="flex items-start justify-between">
-                  <p className={`${microgrammaBold.className} text-[1rem] font-semibold text-gray-700`}>{k.label}</p>
+                  <p className="text-[11px] font-bold text-[#074139]/70 uppercase tracking-wider font-michroma">{k.label}</p>
                   <MoreVertical className="h-4 w-4 text-gray-300" />
                 </div>
-                <p className="text-2xl font-bold text-gray-800 mt-1">{k.value}</p>
+                <p className={`${microgrammaBold.className} text-2xl font-bold text-[#074139] mt-2`}>{k.value}</p>
               </div>
             ))}
           </div>
 
           {/* Payment Method card */}
-          <div className="bg-white border rounded-xl p-5 shadow-md">
+          <div className="bg-white border border-[#CAEDE6]/60 rounded-2xl p-5 shadow-xs hover:border-[#074139]/20 transition-all">
             <div className="flex items-center justify-between mb-3">
-              <p className={`${microgrammaBold.className} font-semibold text-gray-800 text-[1rem]`}>Payment Method</p>
+              <p className={`${microgrammaBold.className} font-bold text-[#074139] text-[1rem]`}>Payment Method</p>
               <MoreVertical className="h-4 w-4 text-gray-300" />
             </div>
             <div className="rounded-xl p-4 text-white mb-3" style={{ background: 'linear-gradient(135deg, #074139, #0f6b5c)' }}>
               <p className="text-xs opacity-80 mb-4">Razorpay / UPI Gateway</p>
-              <p className="text-lg tracking-widest mb-3">•••• •••• •••• 2345</p>
+              <p className="text-lg tracking-widest mb-3 font-mono">•••• •••• •••• 2345</p>
               <div className="flex justify-between text-xs">
-                <span>Obrive Merchant</span>
-                <span>Active</span>
+                <span className="font-michroma">Obrive Merchant</span>
+                <span className="bg-[#E6F5F2] text-[#074139] px-2 py-0.5 rounded text-[10px] font-bold">Active</span>
               </div>
             </div>
-            <button className="w-full py-2 rounded-lg border text-xs font-medium text-gray-700 hover:bg-gray-50 transition-colors flex items-center justify-center gap-1.5">
+            <button className="w-full py-2.5 rounded-xl border border-[#CAEDE6] bg-[#E6F5F2] hover:bg-[#d6f0ea] text-xs font-semibold text-[#074139] font-michroma transition-colors flex items-center justify-center gap-1.5 shadow-2xs">
               <Plus className="h-4 w-4" /> Add Payment Method
             </button>
           </div>
         </div>
 
         {/* Filter tabs + table */}
-        <div className="bg-white border rounded-xl p-4 shadow-md space-y-4">
+        <div className="bg-white border border-[#CAEDE6]/60 rounded-2xl p-5 shadow-xs space-y-4">
           {/* Scoped CSS enforcing vertical Y-axis centering */}
           <style>{`
             .ag-grid-transactions .ag-cell {
@@ -337,15 +337,14 @@ export default function TransactionsPage() {
           `}</style>
 
           <div className="flex items-center justify-between flex-wrap gap-3">
-            <div className="flex bg-gray-50 rounded-lg p-1 text-sm overflow-x-auto">
+            <div className="flex bg-[#E6F5F2]/80 border border-[#CAEDE6] rounded-2xl p-1.5 text-xs font-semibold overflow-x-auto gap-1">
               {TABS.map((tab) => (
                 <button
                   key={tab}
                   onClick={() => setActiveTab(tab)}
-                  className={`px-4 py-1.5 rounded-md font-medium whitespace-nowrap transition-colors ${
-                    activeTab === tab ? 'bg-white shadow-sm' : 'text-gray-500'
+                  className={`px-3.5 py-1.5 rounded-xl font-michroma text-xs font-semibold whitespace-nowrap transition-all ${
+                    activeTab === tab ? 'bg-[#074139] text-white shadow-xs' : 'text-[#074139]/70 hover:text-[#074139] hover:bg-white/60'
                   }`}
-                  style={activeTab === tab ? { color: '#074139' } : {}}
                 >
                   {tab}
                 </button>
@@ -353,19 +352,19 @@ export default function TransactionsPage() {
             </div>
             <div className="flex items-center gap-2">
               <div className="relative">
-                <Search className="absolute left-2.5 top-1/2 -translate-y-1/2 h-3.5 w-3.5 text-gray-400" />
+                <Search className="absolute left-3 top-1/2 -translate-y-1/2 h-3.5 w-3.5 text-gray-400" />
                 <input
                   value={search}
                   onChange={(e) => setSearch(e.target.value)}
                   placeholder="Search payment history..."
-                  className="pl-8 pr-2 py-1.5 rounded-lg bg-gray-50 border text-xs outline-none w-48 focus:border-[#074139]"
+                  className="pl-9 pr-3 py-2 rounded-xl bg-white border border-[#CAEDE6] text-xs outline-none w-48 focus:border-[#074139] focus:ring-2 focus:ring-[#074139]/10"
                 />
               </div>
 
               <button
                 onClick={() => setShowFloatingFilters((prev) => !prev)}
-                className={`p-2 rounded-lg border text-gray-500 hover:bg-gray-50 transition-colors ${
-                  showFloatingFilters ? 'bg-emerald-50 border-emerald-300 text-emerald-800' : ''
+                className={`p-2 rounded-xl border border-[#CAEDE6] text-[#074139] hover:bg-[#E6F5F2] transition-colors ${
+                  showFloatingFilters ? 'bg-[#E6F5F2] border-[#074139] text-[#074139]' : 'bg-white'
                 }`}
                 title="Toggle column filters"
                 type="button"

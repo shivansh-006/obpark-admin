@@ -186,10 +186,10 @@ export function ProfileUpdateForm({ profile, isEditing, setIsEditing }: ProfileU
   }
 
   return (
-    <div className="bg-white border rounded-xl p-6 space-y-6 shadow-sm hover:shadow-md transition-shadow">
-      <div className="flex items-center justify-between border-b pb-4">
+    <div className="bg-white border border-[#CAEDE6]/60 rounded-2xl p-6 space-y-6 shadow-xs hover:border-[#074139]/20 transition-all">
+      <div className="flex items-center justify-between border-b border-[#CAEDE6]/40 pb-4">
         <div>
-          <h3 className={`font-semibold text-gray-800 ${microgrammaBold.className}`}>
+          <h3 className={`font-bold text-[#074139] ${microgrammaBold.className}`}>
             Personal Information
           </h3>
           <p className="text-xs text-gray-500 mt-0.5">
@@ -198,7 +198,7 @@ export function ProfileUpdateForm({ profile, isEditing, setIsEditing }: ProfileU
         </div>
         <button
           onClick={() => (editing ? handleCancel() : setEditing(true))}
-          className="flex items-center gap-1.5 px-3 py-1.5 rounded-lg border text-xs text-gray-700 hover:bg-gray-50 transition-colors"
+          className="flex items-center gap-1.5 px-3.5 py-2 rounded-xl border border-[#CAEDE6] bg-[#E6F5F2] hover:bg-[#d6f0ea] text-xs font-semibold text-[#074139] font-michroma transition-colors shadow-2xs"
         >
           {editing ? (
             <>
@@ -213,8 +213,8 @@ export function ProfileUpdateForm({ profile, isEditing, setIsEditing }: ProfileU
       </div>
 
       {/* Avatar Section */}
-      <div className="flex flex-col sm:flex-row sm:items-center gap-4 p-4 rounded-xl bg-gray-50/70 border border-gray-100">
-        <div className="relative w-16 h-16 rounded-full bg-gray-200 shrink-0 overflow-hidden border border-gray-200">
+      <div className="flex flex-col sm:flex-row sm:items-center gap-4 p-4 rounded-2xl bg-[#F0FAF5] border border-[#CAEDE6]">
+        <div className="relative w-16 h-16 rounded-full bg-gray-200 shrink-0 overflow-hidden border border-[#CAEDE6]">
           {uploading ? (
             <div className="w-full h-full flex items-center justify-center bg-gray-100">
               <Loader2 className="h-6 w-6 animate-spin text-[#074139]" />
@@ -226,7 +226,7 @@ export function ProfileUpdateForm({ profile, isEditing, setIsEditing }: ProfileU
               className="w-full h-full object-cover"
             />
           ) : (
-            <div className="w-full h-full bg-gradient-to-br from-[#074139] to-[#1A817F] text-white flex items-center justify-center font-bold text-lg">
+            <div className="w-full h-full bg-[#074139] text-white flex items-center justify-center font-bold text-lg font-michroma">
               {getInitials()}
             </div>
           )}
@@ -355,8 +355,7 @@ export function ProfileUpdateForm({ profile, isEditing, setIsEditing }: ProfileU
           <button
             onClick={handleSave}
             disabled={updateProfile.isPending || uploading}
-            className="flex items-center gap-2 px-5 py-2.5 rounded-lg text-sm text-white font-medium disabled:opacity-50 transition-opacity"
-            style={{ backgroundColor: '#074139' }}
+            className="flex items-center gap-2 px-5 py-2.5 rounded-xl text-xs font-semibold font-michroma text-white bg-[#074139] hover:bg-[#06332d] disabled:opacity-50 transition-all shadow-xs"
           >
             {updateProfile.isPending ? (
               <>
@@ -372,7 +371,7 @@ export function ProfileUpdateForm({ profile, isEditing, setIsEditing }: ProfileU
             type="button"
             onClick={handleCancel}
             disabled={updateProfile.isPending}
-            className="px-4 py-2.5 rounded-lg text-sm text-gray-600 border hover:bg-gray-50 transition-colors"
+            className="px-4 py-2.5 rounded-xl text-xs font-semibold font-michroma text-[#074139] border border-[#CAEDE6] bg-[#E6F5F2] hover:bg-[#d6f0ea] transition-colors"
           >
             Cancel
           </button>

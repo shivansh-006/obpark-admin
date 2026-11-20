@@ -15,7 +15,7 @@ export default function AdminRolePage() {
   const { data: profile, isLoading } = useProfile()
 
   return (
-    <div className="min-h-screen bg-gray-50">
+    <div className="min-h-screen bg-[#F0FAF5]">
       <Header
         title="Admin Profile"
         onMenuClick={() => setDrawerOpen(true)}
@@ -23,7 +23,7 @@ export default function AdminRolePage() {
 
       <div className="p-6 space-y-6 max-w-7xl mx-auto">
         <div>
-          <h2 className={`font-semibold text-xl text-gray-800 ${microgrammaBold.className}`}>
+          <h2 className={`font-bold text-xl text-[#074139] tracking-tight ${microgrammaBold.className}`}>
             Account Profile & Settings
           </h2>
           <p className="text-sm text-gray-500 mt-1">

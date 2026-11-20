@@ -3,6 +3,7 @@
 import { useState } from 'react'
 import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query'
 import { api } from '@/lib/api'
+import { microgrammaBold } from '@/lib/fonts'
 import {
   DollarSign,
   TrendingUp,
@@ -220,15 +221,15 @@ export default function PayoutsPage() {
   }
 
   return (
-    <div className="p-6 max-w-7xl mx-auto space-y-6">
+    <div className="p-6 max-w-7xl mx-auto space-y-6 bg-[#F0FAF5] min-h-screen">
       {/* Header */}
-      <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4">
+      <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4 bg-white p-6 rounded-2xl border border-[#CAEDE6]/60 shadow-xs">
         <div>
-          <h1 className="text-2xl font-bold text-gray-900 flex items-center gap-2">
+          <h1 className={`${microgrammaBold.className} text-2xl font-bold text-[#074139] tracking-tight flex items-center gap-2`}>
             <DollarSign className="w-7 h-7 text-[#074139]" />
             Vendor Payout Ledger & Settlement
           </h1>
-          <p className="text-sm text-gray-500 mt-1">
+          <p className="text-xs text-gray-500 mt-1">
             Financial reconciliation, commission retention, and net vendor settlement tracking.
           </p>
         </div>
@@ -236,65 +237,65 @@ export default function PayoutsPage() {
         <button
           onClick={handleExportCsv}
           disabled={ledger.length === 0}
-          className="border border-gray-300 hover:bg-gray-50 text-gray-700 px-4 py-2 rounded-lg text-xs font-semibold flex items-center gap-2 transition-colors disabled:opacity-50"
+          className="border border-[#CAEDE6] bg-[#E6F5F2] hover:bg-[#d6f0ea] text-[#074139] px-4 py-2 rounded-xl text-xs font-semibold flex items-center gap-2 transition-colors disabled:opacity-50 shadow-2xs font-michroma"
         >
-          <Download className="w-4 h-4 text-emerald-700" />
+          <Download className="w-4 h-4 text-[#074139]" />
           Export Ledger (CSV)
         </button>
       </div>
 
       {/* KPI Cards */}
       <div className="grid grid-cols-2 lg:grid-cols-6 gap-3">
-        <div className="bg-white p-4 rounded-xl border border-gray-200 shadow-xs">
-          <span className="text-[0.6875rem] font-semibold text-gray-500 uppercase tracking-wider block">
+        <div className="bg-white p-4 rounded-2xl border border-[#CAEDE6]/60 shadow-xs hover:border-[#074139]/20 transition-all">
+          <span className="text-[11px] font-bold text-[#074139]/70 uppercase tracking-wider block font-michroma">
             Total Gross Sales
           </span>
-          <span className="text-xl font-bold text-gray-900 mt-1 block">
+          <span className={`${microgrammaBold.className} text-xl font-bold text-[#074139] mt-1 block`}>
             ₹{kpis.totalGrossSales.toLocaleString('en-IN', { minimumFractionDigits: 2 })}
           </span>
         </div>
 
-        <div className="bg-white p-4 rounded-xl border border-emerald-200 bg-emerald-50/20 shadow-xs">
-          <span className="text-[0.6875rem] font-semibold text-emerald-700 uppercase tracking-wider block">
+        <div className="bg-white p-4 rounded-2xl border border-emerald-200 bg-emerald-50/20 shadow-xs hover:border-emerald-300 transition-all">
+          <span className="text-[11px] font-bold text-emerald-700 uppercase tracking-wider block font-michroma">
             OBPark Commission
           </span>
-          <span className="text-xl font-bold text-emerald-800 mt-1 block">
+          <span className={`${microgrammaBold.className} text-xl font-bold text-emerald-800 mt-1 block`}>
             ₹{kpis.totalPlatformFee.toLocaleString('en-IN', { minimumFractionDigits: 2 })}
           </span>
         </div>
 
-        <div className="bg-white p-4 rounded-xl border border-gray-200 shadow-xs">
-          <span className="text-[0.6875rem] font-semibold text-gray-500 uppercase tracking-wider block">
+        <div className="bg-white p-4 rounded-2xl border border-[#CAEDE6]/60 shadow-xs hover:border-[#074139]/20 transition-all">
+          <span className="text-[11px] font-bold text-[#074139]/70 uppercase tracking-wider block font-michroma">
             Net Vendor Payable
           </span>
-          <span className="text-xl font-bold text-gray-900 mt-1 block">
+          <span className={`${microgrammaBold.className} text-xl font-bold text-[#074139] mt-1 block`}>
             ₹{kpis.totalNetPayable.toLocaleString('en-IN', { minimumFractionDigits: 2 })}
           </span>
         </div>
 
-        <div className="bg-white p-4 rounded-xl border border-emerald-300 bg-emerald-50/40 shadow-xs">
-          <span className="text-[0.6875rem] font-semibold text-emerald-800 uppercase tracking-wider block flex items-center gap-1">
-            <CheckCircle2 className="w-3 h-3 text-emerald-600" /> Total Settled
+        <div className="bg-white p-4 rounded-2xl border border-emerald-300 bg-emerald-50/40 shadow-xs hover:border-emerald-400 transition-all">
+          <span className="text-[11px] font-bold text-emerald-800 uppercase tracking-wider block flex items-center gap-1 font-michroma">
+            <CheckCircle2 className="w-3 h-3 text-emerald-600" /> Settled
           </span>
-          <span className="text-xl font-bold text-emerald-900 mt-1 block">
+          <span className={`${microgrammaBold.className} text-xl font-bold text-emerald-900 mt-1 block`}>
             ₹{kpis.totalSettledAmount.toLocaleString('en-IN', { minimumFractionDigits: 2 })}
           </span>
         </div>
 
-        <div className="bg-white p-4 rounded-xl border border-blue-200 bg-blue-50/20 shadow-xs">
-          <span className="text-[0.6875rem] font-semibold text-blue-700 uppercase tracking-wider block flex items-center gap-1">
-            <CreditCard className="w-3 h-3 text-blue-600" /> Eligible to Pay
+        <div className="bg-white p-4 rounded-2xl border border-[#CAEDE6] bg-[#E6F5F2]/40 shadow-xs hover:border-[#074139]/30 transition-all">
+          <span className="text-[11px] font-bold text-[#074139] uppercase tracking-wider block flex items-center gap-1 font-michroma">
+            <CreditCard className="w-3 h-3 text-[#074139]" /> Eligible
           </span>
-          <span className="text-xl font-bold text-blue-900 mt-1 block">
+          <span className={`${microgrammaBold.className} text-xl font-bold text-[#074139] mt-1 block`}>
             ₹{kpis.totalEligibleAmount.toLocaleString('en-IN', { minimumFractionDigits: 2 })}
           </span>
         </div>
 
-        <div className="bg-white p-4 rounded-xl border border-amber-200 bg-amber-50/20 shadow-xs">
-          <span className="text-[0.6875rem] font-semibold text-amber-700 uppercase tracking-wider block flex items-center gap-1">
-            <Clock className="w-3 h-3 text-amber-600" /> In-Transit / Pending
+        <div className="bg-white p-4 rounded-2xl border border-amber-200 bg-amber-50/20 shadow-xs hover:border-amber-300 transition-all">
+          <span className="text-[11px] font-bold text-amber-700 uppercase tracking-wider block flex items-center gap-1 font-michroma">
+            <Clock className="w-3 h-3 text-amber-600" /> In-Transit
           </span>
-          <span className="text-xl font-bold text-amber-900 mt-1 block">
+          <span className={`${microgrammaBold.className} text-xl font-bold text-amber-900 mt-1 block`}>
             ₹{kpis.totalPendingAmount.toLocaleString('en-IN', { minimumFractionDigits: 2 })}
           </span>
         </div>

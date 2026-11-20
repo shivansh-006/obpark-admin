@@ -21,3 +21,12 @@ export const geistSans = localFont({
   variable: '--font-geist-sans',
   display: 'swap',
 })
+
+export const FONTS = {
+  microgrammaBold,
+  michroma,
+  geistSans,
+}
+
+export default FONTS
+

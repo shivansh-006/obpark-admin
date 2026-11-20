@@ -311,78 +311,78 @@ export function OrderOverview({ orders, isLoading, onSwitchToTable }: OrderOverv
       {/* KPI Cards for the Month */}
       <div className="grid grid-cols-2 lg:grid-cols-5 gap-4">
         {/* Total Orders */}
-        <div className="bg-white border rounded-xl p-4 shadow-xs">
+        <div className="bg-white border border-[#CAEDE6]/60 rounded-2xl p-5 shadow-xs hover:border-[#074139]/20 transition-all">
           <div className="flex items-start justify-between">
-            <p className="text-xs text-gray-400 font-medium">Orders Placed</p>
-            <div className="p-2 rounded-lg bg-emerald-50 text-[#074139]">
+            <p className="text-[11px] font-bold text-[#074139]/70 uppercase tracking-wider font-michroma">Orders Placed</p>
+            <div className="p-2 rounded-xl bg-[#E6F5F2] text-[#074139] border border-[#CAEDE6]/40">
               <ShoppingBag className="h-4 w-4" />
             </div>
           </div>
-          <p className="text-2xl font-bold text-gray-800 mt-2">
+          <p className={`${microgrammaBold.className} text-2xl font-bold text-[#074139] mt-2`}>
             {isLoading ? '—' : totalOrdersCount}
           </p>
           <p className="text-[0.6875rem] text-gray-400 mt-1">In {MONTH_NAMES[selectedMonth].slice(0, 3)}</p>
         </div>
 
         {/* Total Revenue */}
-        <div className="bg-white border rounded-xl p-4 shadow-xs">
+        <div className="bg-white border border-[#CAEDE6]/60 rounded-2xl p-5 shadow-xs hover:border-[#074139]/20 transition-all">
           <div className="flex items-start justify-between">
-            <p className="text-xs text-gray-400 font-medium">Net Revenue</p>
-            <div className="p-2 rounded-lg bg-teal-50 text-teal-700">
+            <p className="text-[11px] font-bold text-[#074139]/70 uppercase tracking-wider font-michroma">Net Revenue</p>
+            <div className="p-2 rounded-xl bg-[#E6F5F2] text-[#074139] border border-[#CAEDE6]/40">
               <IndianRupee className="h-4 w-4" />
             </div>
           </div>
-          <p className="text-2xl font-bold text-gray-800 mt-2">
+          <p className={`${microgrammaBold.className} text-2xl font-bold text-[#074139] mt-2`}>
             {isLoading ? '—' : `₹${totalRevenue.toLocaleString()}`}
           </p>
-          <p className="text-[0.6875rem] text-teal-700 font-medium mt-1">Excludes cancelled</p>
+          <p className="text-[0.6875rem] text-emerald-800 font-medium mt-1">Excludes cancelled</p>
         </div>
 
         {/* Fulfillment Rate */}
-        <div className="bg-white border rounded-xl p-4 shadow-xs">
+        <div className="bg-white border border-[#CAEDE6]/60 rounded-2xl p-5 shadow-xs hover:border-[#074139]/20 transition-all">
           <div className="flex items-start justify-between">
-            <p className="text-xs text-gray-400 font-medium">Fulfillment Rate</p>
-            <div className="p-2 rounded-lg bg-blue-50 text-blue-600">
+            <p className="text-[11px] font-bold text-[#074139]/70 uppercase tracking-wider font-michroma">Fulfillment Rate</p>
+            <div className="p-2 rounded-xl bg-[#E6F5F2] text-[#074139] border border-[#CAEDE6]/40">
               <CheckCircle2 className="h-4 w-4" />
             </div>
           </div>
-          <p className="text-2xl font-bold text-gray-800 mt-2">
+          <p className={`${microgrammaBold.className} text-2xl font-bold text-[#074139] mt-2`}>
             {isLoading ? '—' : `${fulfillmentRate}%`}
           </p>
-          <p className="text-[0.6875rem] text-blue-600 font-medium mt-1">{deliveredCount} delivered</p>
+          <p className="text-[0.6875rem] text-[#074139] font-medium mt-1">{deliveredCount} delivered</p>
         </div>
 
         {/* Average Order Value */}
-        <div className="bg-white border rounded-xl p-4 shadow-xs">
+        <div className="bg-white border border-[#CAEDE6]/60 rounded-2xl p-5 shadow-xs hover:border-[#074139]/20 transition-all">
           <div className="flex items-start justify-between">
-            <p className="text-xs text-gray-400 font-medium">Avg Order Value</p>
-            <div className="p-2 rounded-lg bg-indigo-50 text-indigo-600">
+            <p className="text-[11px] font-bold text-[#074139]/70 uppercase tracking-wider font-michroma">Avg Order Value</p>
+            <div className="p-2 rounded-xl bg-[#E6F5F2] text-[#074139] border border-[#CAEDE6]/40">
               <TrendingUp className="h-4 w-4" />
             </div>
           </div>
-          <p className="text-2xl font-bold text-gray-800 mt-2">
+          <p className={`${microgrammaBold.className} text-2xl font-bold text-[#074139] mt-2`}>
             {isLoading ? '—' : `₹${averageOrderValue.toLocaleString()}`}
           </p>
           <p className="text-[0.6875rem] text-gray-400 mt-1">Per active order</p>
         </div>
 
         {/* Action Needed (Pending/Processing) */}
-        <div className="bg-white border rounded-xl p-4 shadow-xs col-span-2 lg:col-span-1">
+        <div className="bg-white border border-[#CAEDE6]/60 rounded-2xl p-5 shadow-xs hover:border-[#074139]/20 transition-all col-span-2 lg:col-span-1">
           <div className="flex items-start justify-between">
-            <p className="text-xs text-gray-400 font-medium">Pending Action</p>
-            <div className="p-2 rounded-lg bg-amber-50 text-amber-600">
+            <p className="text-[11px] font-bold text-amber-700 uppercase tracking-wider font-michroma">Pending Action</p>
+            <div className="p-2 rounded-xl bg-amber-50 text-amber-700 border border-amber-200/50">
               <Clock className="h-4 w-4" />
             </div>
           </div>
-          <p className="text-2xl font-bold text-amber-600 mt-2">
+          <p className={`${microgrammaBold.className} text-2xl font-bold text-amber-700 mt-2`}>
             {isLoading ? '—' : pendingActionCount}
           </p>
           <div className="mt-1 flex items-center justify-between">
-            <span className="text-[0.6875rem] text-gray-400">Processing or pending</span>
+            <span className="text-[0.6875rem] text-gray-400">Processing / pending</span>
             {onSwitchToTable && pendingActionCount > 0 && (
               <button
                 onClick={() => onSwitchToTable('Pending')}
-                className="text-[0.6875rem] text-blue-600 hover:underline flex items-center gap-0.5"
+                className="text-[0.6875rem] text-[#074139] hover:text-[#06332d] font-semibold hover:underline flex items-center gap-0.5"
               >
                 Inspect <ArrowRight className="h-3 w-3" />
               </button>
@@ -394,10 +394,10 @@ export function OrderOverview({ orders, isLoading, onSwitchToTable }: OrderOverv
       {/* Main Charts Row: Trend Graph + Status Pie Chart */}
       <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
         {/* Left (2 cols): Daily Order Trends Area Chart */}
-        <div className="lg:col-span-2 bg-white border rounded-xl p-5 shadow-xs space-y-4">
+        <div className="lg:col-span-2 bg-white border border-[#CAEDE6]/60 rounded-2xl p-5 shadow-xs space-y-4">
           <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3">
             <div>
-              <h4 className={`${microgrammaBold.className} text-[1rem] font-bold text-gray-800`}>
+              <h4 className={`${microgrammaBold.className} text-[1rem] font-bold text-[#074139]`}>
                 Order Volume & Revenue Velocity
               </h4>
               <p className="text-xs text-gray-400">
@@ -406,27 +406,27 @@ export function OrderOverview({ orders, isLoading, onSwitchToTable }: OrderOverv
             </div>
 
             {/* Metric toggles */}
-            <div className="flex items-center bg-gray-100 rounded-lg p-0.5 text-xs font-semibold">
+            <div className="flex items-center bg-[#E6F5F2]/80 border border-[#CAEDE6] rounded-xl p-1 text-xs font-semibold gap-1">
               <button
                 onClick={() => setTrendMetric('both')}
-                className={`px-3 py-1 rounded-md transition-all ${
-                  trendMetric === 'both' ? 'bg-white text-[#074139] shadow-xs' : 'text-gray-500 hover:text-gray-800'
+                className={`px-3 py-1 rounded-lg font-michroma transition-all ${
+                  trendMetric === 'both' ? 'bg-[#074139] text-white shadow-xs' : 'text-[#074139]/70 hover:text-[#074139]'
                 }`}
               >
                 Combined
               </button>
               <button
                 onClick={() => setTrendMetric('orders')}
-                className={`px-3 py-1 rounded-md transition-all ${
-                  trendMetric === 'orders' ? 'bg-white text-[#074139] shadow-xs' : 'text-gray-500 hover:text-gray-800'
+                className={`px-3 py-1 rounded-lg font-michroma transition-all ${
+                  trendMetric === 'orders' ? 'bg-[#074139] text-white shadow-xs' : 'text-[#074139]/70 hover:text-[#074139]'
                 }`}
               >
                 Orders
               </button>
               <button
                 onClick={() => setTrendMetric('revenue')}
-                className={`px-3 py-1 rounded-md transition-all ${
-                  trendMetric === 'revenue' ? 'bg-white text-[#074139] shadow-xs' : 'text-gray-500 hover:text-gray-800'
+                className={`px-3 py-1 rounded-lg font-michroma transition-all ${
+                  trendMetric === 'revenue' ? 'bg-[#074139] text-white shadow-xs' : 'text-[#074139]/70 hover:text-[#074139]'
                 }`}
               >
                 Revenue (₹)

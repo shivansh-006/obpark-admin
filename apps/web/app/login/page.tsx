@@ -3,6 +3,7 @@
 import { useState, Suspense } from 'react'
 import { Eye, EyeOff, ArrowRight } from 'lucide-react'
 import { useRouter, useSearchParams } from 'next/navigation'
+import Image from 'next/image'
 import { useLogin } from '@/hooks/useAuth'
 import { microgrammaBold } from '@/lib/fonts'
 
@@ -39,21 +40,25 @@ function LoginForm() {
     <div className="w-full max-w-sm">
       {/* Mobile-only brand mark */}
       <div className="lg:hidden mb-8 flex flex-col items-center">
-        <img
-          src="/icon.png"
-          alt="OBPARK"
-          className="h-16 w-16 object-contain mb-3"
+        <Image
+          src="/obrive-logo.svg"
+          alt="Obrive"
+          width={64}
+          height={44}
+          className="h-12 w-auto object-contain mb-3"
+          priority
+          unoptimized
         />
 
         <h1
           className={`${microgrammaBold.className} text-xl font-bold`}
           style={{ color: '#074139' }}
         >
-          OBPARK
+          OBRIVE CENTRAL
         </h1>
 
-        <p className="text-xs text-gray-400 mt-1">
-          Admin Panel
+        <p className="text-xs text-gray-500 mt-1">
+          Operations & Administration Portal
         </p>
       </div>
 
@@ -140,8 +145,8 @@ function LoginForm() {
         </button>
       </form>
 
-      <p className="text-[0.6875rem] text-gray-300 text-center mt-10">
-        OBPARK Admin · Restricted access
+      <p className="text-[0.6875rem] text-gray-400 text-center mt-10">
+        OBRIVE Central · Restricted Access
       </p>
     </div>
   )
@@ -182,20 +187,15 @@ export default function LoginPage() {
         style={{ background: '#95D0CC' }}
       >
         <div className="flex items-center gap-3">
-          <img
-            src="/icon.png"
-            alt="OBPARK"
-            className="h-12 w-12 object-contain"
+          <Image
+            src="/obrive-main-logo.svg"
+            alt="Obrive Logo"
+            width={180}
+            height={42}
+            className="h-10 w-auto object-contain"
+            priority
+            unoptimized
           />
-
-          <div>
-            <h1 className={`${microgrammaBold.className} text-2xl font-bold text-[#05302a] tracking-wide`}>
-              OBPARK
-            </h1>
-            <p className="text-xs text-[#05302a]/70 mt-1 tracking-wide">
-              Admin Panel
-            </p>
-          </div>
         </div>
 
         {/* Signature: perspective route with waypoints for the three product pillars */}

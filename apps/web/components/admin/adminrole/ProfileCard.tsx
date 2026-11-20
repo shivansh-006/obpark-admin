@@ -46,9 +46,9 @@ export function ProfileCard({ profile, isLoading, onEdit }: ProfileCardProps) {
   const fullName = [profile?.firstName, profile?.lastName].filter(Boolean).join(' ') || 'Admin User'
 
   return (
-    <div className="bg-white border rounded-xl p-6 shadow-sm hover:shadow-md transition-shadow">
+    <div className="bg-white border border-[#CAEDE6]/60 rounded-2xl p-6 shadow-xs hover:border-[#074139]/20 transition-all">
       <div className="flex items-center justify-between mb-5">
-        <h3 className={`text-base font-semibold text-gray-800 ${microgrammaBold.className}`}>
+        <h3 className={`text-base font-bold text-[#074139] ${microgrammaBold.className}`}>
           Profile Overview
         </h3>
         <div className="flex items-center gap-1.5 text-gray-400">
@@ -56,7 +56,7 @@ export function ProfileCard({ profile, isLoading, onEdit }: ProfileCardProps) {
             <button
               onClick={onEdit}
               title="Edit Profile"
-              className="p-1.5 rounded-lg hover:bg-gray-100 hover:text-gray-700 transition-colors"
+              className="p-1.5 rounded-xl hover:bg-[#E6F5F2] hover:text-[#074139] transition-colors"
               aria-label="Edit profile"
             >
               <Pencil className="h-4 w-4" />
@@ -65,10 +65,10 @@ export function ProfileCard({ profile, isLoading, onEdit }: ProfileCardProps) {
           <button
             onClick={handleCopyEmail}
             title="Copy Email"
-            className="p-1.5 rounded-lg hover:bg-gray-100 hover:text-gray-700 transition-colors"
+            className="p-1.5 rounded-xl hover:bg-[#E6F5F2] hover:text-[#074139] transition-colors"
             aria-label="Copy email"
           >
-            {copied ? <Check className="h-4 w-4 text-emerald-600" /> : <Copy className="h-4 w-4" />}
+            {copied ? <Check className="h-4 w-4 text-[#074139]" /> : <Copy className="h-4 w-4" />}
           </button>
         </div>
       </div>
@@ -87,31 +87,31 @@ export function ProfileCard({ profile, isLoading, onEdit }: ProfileCardProps) {
                 src={getFullImageUrl(profile.avatarUrl)}
                 alt={fullName}
                 referrerPolicy="no-referrer"
-                className="w-20 h-20 rounded-full object-cover border-2 border-emerald-500/20 shadow-sm"
+                className="w-20 h-20 rounded-full object-cover border-2 border-[#CAEDE6] shadow-xs"
               />
             ) : (
-              <div className="w-20 h-20 rounded-full bg-gradient-to-br from-[#074139] to-[#1A817F] text-white flex items-center justify-center text-2xl font-bold shadow-md">
+              <div className="w-20 h-20 rounded-full bg-[#074139] text-white flex items-center justify-center text-2xl font-bold font-michroma ring-4 ring-[#CAEDE6] shadow-xs">
                 {getInitials()}
               </div>
             )}
             <span
-              className="absolute bottom-0 right-0 w-4 h-4 bg-emerald-500 border-2 border-white rounded-full shadow-sm"
+              className="absolute bottom-0 right-0 w-4 h-4 bg-emerald-500 border-2 border-white rounded-full shadow-2xs"
               title="Active Account"
             />
           </div>
 
-          <h4 className="text-base font-semibold text-gray-800">{fullName}</h4>
+          <h4 className="text-base font-bold text-[#074139] font-michroma">{fullName}</h4>
           <p className="text-xs text-gray-500 mb-3 flex items-center gap-1">
             <Mail className="h-3 w-3" />
             {profile?.email || 'No email provided'}
           </p>
 
-          <div className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-medium bg-emerald-50 text-emerald-800 border border-emerald-200 mb-4">
-            <ShieldCheck className="h-3.5 w-3.5 text-emerald-600" />
+          <div className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-semibold bg-[#E6F5F2] text-[#074139] border border-[#CAEDE6] mb-4">
+            <ShieldCheck className="h-3.5 w-3.5 text-[#074139]" />
             <span>{formatRole(profile?.role)}</span>
           </div>
 
-          <div className="w-full border-t border-gray-100 pt-4 space-y-2 text-xs text-gray-600 text-left">
+          <div className="w-full border-t border-[#CAEDE6]/40 pt-4 space-y-2 text-xs text-gray-600 text-left">
             <div className="flex items-center justify-between">
               <span className="text-gray-400 flex items-center gap-1.5">
                 <Phone className="h-3.5 w-3.5" /> Phone

@@ -3,6 +3,7 @@
 import { useState } from 'react'
 import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query'
 import { api } from '@/lib/api'
+import { microgrammaBold } from '@/lib/fonts'
 import {
   RotateCcw,
   Search,
@@ -174,15 +175,15 @@ export default function ReturnsPage() {
   }
 
   return (
-    <div className="p-6 max-w-7xl mx-auto space-y-6">
+    <div className="p-6 max-w-7xl mx-auto space-y-6 bg-[#F0FAF5] min-h-screen">
       {/* Header */}
-      <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4">
+      <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4 bg-white p-6 rounded-2xl border border-[#CAEDE6]/60 shadow-xs">
         <div>
-          <h1 className="text-2xl font-bold text-gray-900 flex items-center gap-2">
+          <h1 className={`${microgrammaBold.className} text-2xl font-bold text-[#074139] tracking-tight flex items-center gap-2`}>
             <RotateCcw className="w-7 h-7 text-[#074139]" />
             Returns, Refunds & Inspections
           </h1>
-          <p className="text-sm text-gray-500 mt-1">
+          <p className="text-xs text-gray-500 mt-1">
             Section 4.7: Manage return authorizations, reverse courier pickups, warehouse inspections, and customer refunds.
           </p>
         </div>
@@ -190,60 +191,60 @@ export default function ReturnsPage() {
 
       {/* KPI Cards */}
       <div className="grid grid-cols-2 md:grid-cols-5 gap-3">
-        <div className="bg-white p-4 rounded-xl border border-gray-200 shadow-xs">
-          <span className="text-[0.6875rem] font-semibold text-gray-500 uppercase tracking-wider block">
+        <div className="bg-white p-4 rounded-2xl border border-[#CAEDE6]/60 shadow-xs hover:border-[#074139]/20 transition-all">
+          <span className="text-[11px] font-bold text-[#074139]/70 uppercase tracking-wider block font-michroma">
             Total Returns
           </span>
-          <span className="text-xl font-bold text-gray-900 mt-1 block">{stats?.total ?? 0}</span>
+          <span className={`${microgrammaBold.className} text-xl font-bold text-[#074139] mt-1 block`}>{stats?.total ?? 0}</span>
         </div>
-        <div className="bg-white p-4 rounded-xl border border-amber-200 bg-amber-50/20 shadow-xs">
-          <span className="text-[0.6875rem] font-semibold text-amber-700 uppercase tracking-wider block">
+        <div className="bg-white p-4 rounded-2xl border border-amber-200 bg-amber-50/20 shadow-xs hover:border-amber-300 transition-all">
+          <span className="text-[11px] font-bold text-amber-700 uppercase tracking-wider block font-michroma">
             Needs Review
           </span>
-          <span className="text-xl font-bold text-amber-800 mt-1 block">{stats?.requested ?? 0}</span>
+          <span className={`${microgrammaBold.className} text-xl font-bold text-amber-800 mt-1 block`}>{stats?.requested ?? 0}</span>
         </div>
-        <div className="bg-white p-4 rounded-xl border border-blue-200 bg-blue-50/20 shadow-xs">
-          <span className="text-[0.6875rem] font-semibold text-blue-700 uppercase tracking-wider block">
+        <div className="bg-white p-4 rounded-2xl border border-[#CAEDE6] bg-[#E6F5F2]/40 shadow-xs hover:border-[#074139]/30 transition-all">
+          <span className="text-[11px] font-bold text-[#074139] uppercase tracking-wider block font-michroma">
             Approved / Pickup
           </span>
-          <span className="text-xl font-bold text-blue-800 mt-1 block">{stats?.approved ?? 0}</span>
+          <span className={`${microgrammaBold.className} text-xl font-bold text-[#074139] mt-1 block`}>{stats?.approved ?? 0}</span>
         </div>
-        <div className="bg-white p-4 rounded-xl border border-purple-200 bg-purple-50/20 shadow-xs">
-          <span className="text-[0.6875rem] font-semibold text-purple-700 uppercase tracking-wider block">
+        <div className="bg-white p-4 rounded-2xl border border-[#CAEDE6] bg-[#E6F5F2]/60 shadow-xs hover:border-[#074139]/40 transition-all">
+          <span className="text-[11px] font-bold text-[#074139] uppercase tracking-wider block font-michroma">
             Item Received
           </span>
-          <span className="text-xl font-bold text-purple-800 mt-1 block">{stats?.received ?? 0}</span>
+          <span className={`${microgrammaBold.className} text-xl font-bold text-[#074139] mt-1 block`}>{stats?.received ?? 0}</span>
         </div>
-        <div className="bg-white p-4 rounded-xl border border-emerald-200 bg-emerald-50/20 shadow-xs">
-          <span className="text-[0.6875rem] font-semibold text-emerald-700 uppercase tracking-wider block">
+        <div className="bg-white p-4 rounded-2xl border border-emerald-200 bg-emerald-50/20 shadow-xs hover:border-emerald-300 transition-all">
+          <span className="text-[11px] font-bold text-emerald-700 uppercase tracking-wider block font-michroma">
             Refunded
           </span>
-          <span className="text-xl font-bold text-emerald-800 mt-1 block">{stats?.refunded ?? 0}</span>
+          <span className={`${microgrammaBold.className} text-xl font-bold text-emerald-800 mt-1 block`}>{stats?.refunded ?? 0}</span>
         </div>
       </div>
 
       {/* Search and Status Filters */}
-      <div className="bg-white p-4 rounded-xl border border-gray-200 shadow-xs flex flex-col md:flex-row gap-4 justify-between items-center">
+      <div className="bg-white p-4 rounded-2xl border border-[#CAEDE6]/60 shadow-xs flex flex-col md:flex-row gap-4 justify-between items-center">
         <div className="relative w-full md:w-80">
-          <Search className="w-4 h-4 text-gray-400 absolute left-3 top-1/2 -translate-y-1/2" />
+          <Search className="w-4 h-4 text-gray-400 absolute left-3.5 top-1/2 -translate-y-1/2" />
           <input
             type="text"
             placeholder="Search return #, order #, or customer..."
             value={search}
             onChange={(e) => setSearch(e.target.value)}
-            className="w-full pl-9 pr-4 py-2 text-xs border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-[#074139]"
+            className="w-full pl-10 pr-4 py-2 text-xs border border-[#CAEDE6] rounded-xl focus:outline-none focus:border-[#074139] focus:ring-2 focus:ring-[#074139]/10"
           />
         </div>
 
-        <div className="flex flex-wrap items-center gap-1.5 bg-gray-100 p-1 rounded-lg">
+        <div className="flex flex-wrap items-center gap-1.5 bg-[#E6F5F2]/80 border border-[#CAEDE6] p-1.5 rounded-2xl">
           {['ALL', 'REQUESTED', 'APPROVED', 'ITEM_RECEIVED', 'REFUNDED', 'REJECTED'].map((st) => (
             <button
               key={st}
               onClick={() => setStatusFilter(st)}
-              className={`px-3 py-1 text-xs font-semibold rounded-md transition-colors ${
+              className={`px-3.5 py-1.5 text-xs font-semibold rounded-xl font-michroma transition-all ${
                 statusFilter === st
-                  ? 'bg-white text-gray-900 shadow-xs'
-                  : 'text-gray-600 hover:text-gray-900'
+                  ? 'bg-[#074139] text-white shadow-xs'
+                  : 'text-[#074139]/70 hover:text-[#074139] hover:bg-white/70'
               }`}
             >
               {st === 'ALL' ? 'All' : st.replace('_', ' ').toLowerCase()}
@@ -253,13 +254,13 @@ export default function ReturnsPage() {
       </div>
 
       {/* Returns Table */}
-      <div className="bg-white rounded-xl border border-gray-200 shadow-xs overflow-hidden">
+      <div className="bg-white rounded-2xl border border-[#CAEDE6]/60 shadow-xs overflow-hidden">
         {isLoading ? (
           <div className="p-12 text-center text-sm text-gray-500">Loading return requests...</div>
         ) : returns.length === 0 ? (
           <div className="p-12 text-center">
             <Package className="w-12 h-12 text-gray-300 mx-auto mb-3" />
-            <h3 className="text-base font-semibold text-gray-800">No return requests found</h3>
+            <h3 className={`${microgrammaBold.className} text-base font-semibold text-[#074139]`}>No return requests found</h3>
             <p className="text-xs text-gray-500 mt-1">
               Customer return requests and inspection cases will appear here.
             </p>
@@ -268,23 +269,23 @@ export default function ReturnsPage() {
           <div className="overflow-x-auto">
             <table className="w-full text-left border-collapse text-xs">
               <thead>
-                <tr className="bg-gray-50 border-b border-gray-200 text-gray-600 font-semibold uppercase tracking-wider">
-                  <th className="py-3 px-4">Return ID & Date</th>
-                  <th className="py-3 px-4">Order Details</th>
-                  <th className="py-3 px-4">Customer</th>
-                  <th className="py-3 px-4">Vendor Partner</th>
-                  <th className="py-3 px-4">Reason & Issue</th>
-                  <th className="py-3 px-4">Status</th>
-                  <th className="py-3 px-4 text-right">Workflow Actions</th>
+                <tr className="bg-[#F0FAF5] border-b border-[#CAEDE6] text-[#074139] font-bold uppercase tracking-wider text-[11px]">
+                  <th className="py-3 px-4 font-michroma">Return ID & Date</th>
+                  <th className="py-3 px-4 font-michroma">Order Details</th>
+                  <th className="py-3 px-4 font-michroma">Customer</th>
+                  <th className="py-3 px-4 font-michroma">Vendor Partner</th>
+                  <th className="py-3 px-4 font-michroma">Reason & Issue</th>
+                  <th className="py-3 px-4 font-michroma">Status</th>
+                  <th className="py-3 px-4 text-right font-michroma">Workflow Actions</th>
                 </tr>
               </thead>
               <tbody className="divide-y divide-gray-200">
                 {returns.map((r) => {
                   return (
-                    <tr key={r.id} className="hover:bg-gray-50/80 transition-colors">
+                    <tr key={r.id} className="hover:bg-[#F0FAF5]/40 transition-colors">
                       {/* Return ID & Date */}
                       <td className="py-3.5 px-4 font-medium text-gray-900">
-                        <span className="font-mono text-purple-900 font-bold block">{r.returnNumber}</span>
+                        <span className="font-mono text-[#074139] font-bold block">{r.returnNumber}</span>
                         <span className="text-[0.6875rem] text-gray-400 flex items-center gap-1 mt-0.5">
                           <Calendar className="w-3 h-3" />
                           {new Date(r.createdAt).toLocaleDateString('en-IN')}
@@ -339,12 +340,12 @@ export default function ReturnsPage() {
                           </span>
                         )}
                         {r.status === 'ITEM_RECEIVED' && (
-                          <span className="inline-flex items-center gap-1 px-2.5 py-1 rounded-full text-[0.625rem] font-bold bg-purple-100 text-purple-800">
+                          <span className="inline-flex items-center gap-1 px-2.5 py-1 rounded-full text-[0.625rem] font-bold bg-[#E6F5F2] text-[#074139] border border-[#CAEDE6]">
                             Received
                           </span>
                         )}
                         {r.status === 'INSPECTED_RESTOCKED' && (
-                          <span className="inline-flex items-center gap-1 px-2.5 py-1 rounded-full text-[0.625rem] font-bold bg-indigo-100 text-indigo-800">
+                          <span className="inline-flex items-center gap-1 px-2.5 py-1 rounded-full text-[0.625rem] font-bold bg-[#E6F5F2] text-[#074139] border border-[#CAEDE6]">
                             Restocked
                           </span>
                         )}
@@ -371,14 +372,14 @@ export default function ReturnsPage() {
                           </button>
                           <button
                             onClick={() => openAction(r, 'inspect')}
-                            className="px-2.5 py-1 text-[0.6875rem] font-medium rounded-md bg-purple-50 text-purple-700 hover:bg-purple-100 transition-colors"
+                            className="px-2.5 py-1 text-[0.6875rem] font-medium rounded-md bg-[#E6F5F2] text-[#074139] border border-[#CAEDE6] hover:bg-[#d6f0ea] transition-colors"
                           >
                             Inspect
                           </button>
                           {r.status !== 'REFUNDED' && (
                             <button
                               onClick={() => openAction(r, 'refund')}
-                              className="px-2.5 py-1 text-[0.6875rem] font-semibold rounded-md bg-emerald-700 text-white hover:bg-emerald-800 transition-colors"
+                              className="px-2.5 py-1 text-[0.6875rem] font-semibold rounded-md bg-[#074139] text-white hover:bg-[#06332d] transition-colors"
                             >
                               Refund
                             </button>
@@ -530,7 +531,7 @@ export default function ReturnsPage() {
                 <button
                   type="submit"
                   disabled={inspectMutation.isPending}
-                  className="px-4 py-1.5 text-xs font-semibold bg-purple-700 text-white rounded-lg hover:bg-purple-800"
+                  className="px-4 py-1.5 text-xs font-semibold bg-[#074139] text-white rounded-lg hover:bg-[#06332d]"
                 >
                   {inspectMutation.isPending ? 'Recording...' : 'Confirm Inspection'}
                 </button>

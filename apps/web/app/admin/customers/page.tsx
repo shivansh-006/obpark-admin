@@ -39,22 +39,22 @@ export default function CustomersPage() {
         {/* Page Top Header & Tab Navigation */}
         <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
           <div>
-            <h2 className={`${microgrammaBold.className} text-[1.375rem] font-bold text-gray-800`}>
+            <h2 className={`${microgrammaBold.className} text-[1.375rem] font-bold text-[#074139] tracking-tight`}>
               Customer Hub
             </h2>
-            <p className="text-xs text-gray-600 font-medium mt-0.5">
+            <p className="text-xs text-gray-500 font-medium mt-0.5">
               Monitor monthly registration trends, visitor analytics, and manage client profiles
             </p>
           </div>
 
           {/* Two-Tab Switcher */}
-          <div className="flex items-center bg-gray-200/70 p-1 rounded-xl text-xs font-semibold shadow-inner self-start sm:self-auto">
+          <div className="flex items-center bg-[#E6F5F2]/80 border border-[#CAEDE6] p-1.5 rounded-2xl text-xs font-semibold self-start sm:self-auto gap-1">
             <button
               onClick={() => setActiveTab('overview')}
-              className={`flex items-center gap-2 px-4 py-2 rounded-lg transition-all ${
+              className={`flex items-center gap-2 px-4 py-2 rounded-xl font-michroma transition-all ${
                 activeTab === 'overview'
-                  ? 'bg-white text-[#074139] shadow-xs font-bold'
-                  : 'text-gray-600 hover:text-gray-900'
+                  ? 'bg-[#074139] text-white shadow-xs font-bold'
+                  : 'text-[#074139]/70 hover:text-[#074139] hover:bg-white/60'
               }`}
             >
               <BarChart3 className="h-4 w-4" />
@@ -63,19 +63,19 @@ export default function CustomersPage() {
 
             <button
               onClick={() => setActiveTab('directory')}
-              className={`flex items-center gap-2 px-4 py-2 rounded-lg transition-all ${
+              className={`flex items-center gap-2 px-4 py-2 rounded-xl font-michroma transition-all ${
                 activeTab === 'directory'
-                  ? 'bg-white text-[#074139] shadow-xs font-bold'
-                  : 'text-gray-600 hover:text-gray-900'
+                  ? 'bg-[#074139] text-white shadow-xs font-bold'
+                  : 'text-[#074139]/70 hover:text-[#074139] hover:bg-white/60'
               }`}
             >
               <Users className="h-4 w-4" />
               <span>Customers Directory</span>
               <span
-                className={`text-[0.625rem] px-2 py-0.5 rounded-full font-bold ${
+                className={`text-[0.625rem] px-2 py-0.5 rounded-full font-bold font-mono ${
                   activeTab === 'directory'
-                    ? 'bg-emerald-100 text-emerald-800'
-                    : 'bg-gray-300/80 text-gray-700'
+                    ? 'bg-[#CAEDE6] text-[#074139]'
+                    : 'bg-white/70 text-[#074139]'
                 }`}
               >
                 {isLoading ? '—' : totalCount}
@@ -89,35 +89,35 @@ export default function CustomersPage() {
           <div className="space-y-6 animate-in fade-in duration-200">
             {/* Global Quick KPI Cards */}
             <div className="grid grid-cols-2 lg:grid-cols-4 gap-4">
-              <div className="bg-white border rounded-xl p-4 sm:p-5 shadow-xs">
+              <div className="bg-white border border-[#CAEDE6]/60 rounded-2xl p-4 sm:p-5 shadow-xs hover:border-[#074139]/20 transition-all">
                 <div className="flex items-start justify-between">
-                  <p className="text-xs text-gray-600 font-semibold">Total Registered</p>
-                  <div className="p-2 rounded-lg bg-emerald-50 text-[#074139]">
+                  <p className="text-[11px] font-bold text-[#074139]/70 uppercase tracking-wider font-michroma">Total Registered</p>
+                  <div className="p-2 rounded-xl bg-[#E6F5F2] text-[#074139] border border-[#CAEDE6]/40">
                     <Users className="h-4 w-4" />
                   </div>
                 </div>
-                <p className="text-2xl font-bold text-gray-800 mt-2">
+                <p className={`${microgrammaBold.className} text-2xl font-bold text-[#074139] mt-2`}>
                   {isLoading ? '—' : totalCount}
                 </p>
                 <div className="mt-2 flex items-center justify-between">
-                  <span className="text-[0.6875rem] text-emerald-700 font-semibold">All accounts</span>
+                  <span className="text-[0.6875rem] text-emerald-800 font-semibold">All accounts</span>
                   <button
                     onClick={() => setActiveTab('directory')}
-                    className="text-[0.6875rem] text-blue-600 hover:underline flex items-center gap-0.5"
+                    className="text-[0.6875rem] text-[#074139] hover:text-[#06332d] hover:underline font-semibold flex items-center gap-0.5"
                   >
                     View <ArrowRight className="h-3 w-3" />
                   </button>
                 </div>
               </div>
 
-              <div className="bg-white border rounded-xl p-4 sm:p-5 shadow-xs">
+              <div className="bg-white border border-[#CAEDE6]/60 rounded-2xl p-4 sm:p-5 shadow-xs hover:border-[#074139]/20 transition-all">
                 <div className="flex items-start justify-between">
-                  <p className="text-xs text-gray-600 font-semibold">Active Users</p>
-                  <div className="p-2 rounded-lg bg-blue-50 text-blue-600">
+                  <p className="text-[11px] font-bold text-[#074139]/70 uppercase tracking-wider font-michroma">Active Users</p>
+                  <div className="p-2 rounded-xl bg-[#E6F5F2] text-[#074139] border border-[#CAEDE6]/40">
                     <UserCheck className="h-4 w-4" />
                   </div>
                 </div>
-                <p className="text-2xl font-bold text-gray-800 mt-2">
+                <p className={`${microgrammaBold.className} text-2xl font-bold text-[#074139] mt-2`}>
                   {isLoading ? '—' : activeCount}
                 </p>
                 <p className="text-[0.6875rem] text-gray-500 font-medium mt-2">
@@ -125,14 +125,14 @@ export default function CustomersPage() {
                 </p>
               </div>
 
-              <div className="bg-white border rounded-xl p-4 sm:p-5 shadow-xs">
+              <div className="bg-white border border-[#CAEDE6]/60 rounded-2xl p-4 sm:p-5 shadow-xs hover:border-[#074139]/20 transition-all">
                 <div className="flex items-start justify-between">
-                  <p className="text-xs text-gray-600 font-semibold">VIP Members</p>
-                  <div className="p-2 rounded-lg bg-amber-50 text-amber-600">
+                  <p className="text-[11px] font-bold text-amber-700 uppercase tracking-wider font-michroma">VIP Members</p>
+                  <div className="p-2 rounded-xl bg-amber-50 text-amber-700 border border-amber-200/50">
                     <Crown className="h-4 w-4" />
                   </div>
                 </div>
-                <p className="text-2xl font-bold text-gray-800 mt-2">
+                <p className={`${microgrammaBold.className} text-2xl font-bold text-amber-700 mt-2`}>
                   {isLoading ? '—' : vipCount}
                 </p>
                 <p className="text-[0.6875rem] text-amber-700 mt-2">
@@ -140,14 +140,14 @@ export default function CustomersPage() {
                 </p>
               </div>
 
-              <div className="bg-white border rounded-xl p-4 sm:p-5 shadow-xs">
+              <div className="bg-white border border-[#CAEDE6]/60 rounded-2xl p-4 sm:p-5 shadow-xs hover:border-[#074139]/20 transition-all">
                 <div className="flex items-start justify-between">
-                  <p className="text-xs text-gray-400 font-medium">Live Visitors</p>
-                  <div className="p-2 rounded-lg bg-purple-50 text-purple-600">
+                  <p className="text-[11px] font-bold text-gray-400 uppercase tracking-wider font-michroma">Live Visitors</p>
+                  <div className="p-2 rounded-xl bg-gray-50 text-gray-400 border border-gray-200">
                     <Radio className="h-4 w-4" />
                   </div>
                 </div>
-                <p className="text-2xl font-bold text-gray-300 mt-2">—</p>
+                <p className={`${microgrammaBold.className} text-2xl font-bold text-gray-300 mt-2`}>—</p>
                 <p className="text-[0.6875rem] text-gray-400 mt-2">Telemetry not connected</p>
               </div>
             </div>

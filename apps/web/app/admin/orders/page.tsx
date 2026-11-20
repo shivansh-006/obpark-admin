@@ -461,19 +461,19 @@ export default function OrdersPage() {
   ]
 
   return (
-    <div className="min-h-screen bg-gray-50">
+    <div className="min-h-screen bg-[#F0FAF5]">
       <Header title="Order Management" onMenuClick={() => setDrawerOpen(true)} />
 
       {/* Floating Status Notification Toast */}
       {toast && (
         <div
           className={`fixed bottom-5 right-5 z-50 flex items-center gap-2.5 px-4 py-3 rounded-xl shadow-xl text-sm font-medium border animate-in slide-in-from-bottom duration-200 ${toast.type === 'success'
-              ? 'bg-emerald-900 text-white border-emerald-700 shadow-emerald-950/20'
+              ? 'bg-[#074139] text-white border-[#CAEDE6] shadow-[#074139]/20'
               : 'bg-rose-900 text-white border-rose-700 shadow-rose-950/20'
             }`}
         >
           {toast.type === 'success' ? (
-            <CheckCircle2 className="w-4 h-4 text-emerald-300 shrink-0" />
+            <CheckCircle2 className="w-4 h-4 text-[#A2F1DF] shrink-0" />
           ) : (
             <AlertCircle className="w-4 h-4 text-rose-300 shrink-0" />
           )}
@@ -485,22 +485,22 @@ export default function OrdersPage() {
         {/* Page Top Header & Tab Navigation */}
         <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
           <div>
-            <h2 className={`${microgrammaBold.className} text-[1.375rem] font-bold text-gray-800`}>
+            <h2 className={`${microgrammaBold.className} text-[1.375rem] font-bold text-[#074139] tracking-tight`}>
               Orders Management
             </h2>
-            <p className="text-xs text-gray-600 font-medium mt-0.5">
+            <p className="text-xs text-gray-500 font-medium mt-0.5">
               Analyze monthly order volumes, fulfillment velocity, and manage live customer orders
             </p>
           </div>
 
           {/* Two-Tab Switcher */}
-          <div className="flex items-center bg-gray-200/70 p-1 rounded-xl text-xs font-semibold shadow-inner self-start sm:self-auto">
+          <div className="flex items-center bg-[#E6F5F2]/80 border border-[#CAEDE6] p-1.5 rounded-2xl text-xs font-semibold self-start sm:self-auto gap-1">
             <button
               onClick={() => setMainTab('overview')}
-              className={`flex items-center gap-2 px-4 py-2 rounded-lg transition-all ${
+              className={`flex items-center gap-2 px-4 py-2 rounded-xl font-michroma transition-all ${
                 mainTab === 'overview'
-                  ? 'bg-white text-[#074139] shadow-xs font-bold'
-                  : 'text-gray-600 hover:text-gray-900'
+                  ? 'bg-[#074139] text-white shadow-xs font-bold'
+                  : 'text-[#074139]/70 hover:text-[#074139] hover:bg-white/60'
               }`}
             >
               <BarChart3 className="h-4 w-4" />
@@ -509,19 +509,19 @@ export default function OrdersPage() {
 
             <button
               onClick={() => setMainTab('table')}
-              className={`flex items-center gap-2 px-4 py-2 rounded-lg transition-all ${
+              className={`flex items-center gap-2 px-4 py-2 rounded-xl font-michroma transition-all ${
                 mainTab === 'table'
-                  ? 'bg-white text-[#074139] shadow-xs font-bold'
-                  : 'text-gray-600 hover:text-gray-900'
+                  ? 'bg-[#074139] text-white shadow-xs font-bold'
+                  : 'text-[#074139]/70 hover:text-[#074139] hover:bg-white/60'
               }`}
             >
               <TableIcon className="h-4 w-4" />
               <span>Orders Table</span>
               <span
-                className={`text-[0.625rem] px-2 py-0.5 rounded-full font-bold ${
+                className={`text-[0.625rem] px-2 py-0.5 rounded-full font-bold font-mono ${
                   mainTab === 'table'
-                    ? 'bg-emerald-100 text-emerald-800'
-                    : 'bg-gray-300/80 text-gray-700'
+                    ? 'bg-[#CAEDE6] text-[#074139]'
+                    : 'bg-white/70 text-[#074139]'
                 }`}
               >
                 {isLoading ? '—' : (data?.total ?? data?.orders?.length ?? 0)}

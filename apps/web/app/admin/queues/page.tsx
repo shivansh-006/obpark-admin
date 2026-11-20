@@ -3,6 +3,7 @@
 import { useState } from 'react'
 import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query'
 import { api } from '@/lib/api'
+import { microgrammaBold } from '@/lib/fonts'
 import {
   Layers,
   RefreshCw,
@@ -138,15 +139,15 @@ export default function QueuesPage() {
   const jobs = jobsData?.jobs || []
 
   return (
-    <div className="space-y-6 p-6 max-w-[1600px] mx-auto min-h-screen">
+    <div className="space-y-6 p-6 max-w-[1600px] mx-auto min-h-screen bg-[#F0FAF5]">
       {/* Header */}
-      <div className="flex flex-col md:flex-row justify-between items-start md:items-center gap-4 bg-white p-6 rounded-xl border border-gray-100 shadow-sm">
+      <div className="flex flex-col md:flex-row justify-between items-start md:items-center gap-4 bg-white p-6 rounded-2xl border border-[#CAEDE6]/60 shadow-xs">
         <div>
-          <h1 className="text-2xl font-bold text-gray-900 tracking-tight flex items-center gap-3">
-            <Layers className="w-7 h-7 text-indigo-600" />
+          <h1 className={`${microgrammaBold.className} text-2xl font-bold text-[#074139] tracking-tight flex items-center gap-3`}>
+            <Layers className="w-7 h-7 text-[#074139]" />
             Transactional Outbox & Event Queues
           </h1>
-          <p className="text-sm text-gray-500 mt-1">
+          <p className="text-xs text-gray-500 mt-1">
             Section 9.1: Background outbox publisher, exponential backoff retries, and dead-letter queue (DLQ) controls.
           </p>
         </div>
@@ -157,7 +158,7 @@ export default function QueuesPage() {
               refetchStats()
               refetchJobs()
             }}
-            className="flex items-center gap-2 px-3 py-2 text-xs font-semibold text-gray-700 bg-white border border-gray-200 rounded-lg hover:bg-gray-50 shadow-sm"
+            className="flex items-center gap-2 px-3.5 py-2 text-xs font-semibold text-[#074139] bg-[#E6F5F2] border border-[#CAEDE6] rounded-xl hover:bg-[#d6f0ea] shadow-xs transition-colors"
           >
             <RefreshCw className="w-3.5 h-3.5" />
             Refresh
@@ -170,7 +171,7 @@ export default function QueuesPage() {
               }
             }}
             disabled={retryAllMutation.isPending || !stats?.failed}
-            className="flex items-center gap-2 px-4 py-2 text-xs font-semibold text-white bg-rose-600 rounded-lg hover:bg-rose-700 shadow-sm transition-all disabled:opacity-50"
+            className="flex items-center gap-2 px-4 py-2 text-xs font-semibold text-white bg-rose-700 rounded-xl hover:bg-rose-800 shadow-xs transition-all disabled:opacity-50"
           >
             <RotateCcw className="w-3.5 h-3.5" />
             Retry All Dead-Letter ({stats?.failed ?? 0})
@@ -182,7 +183,7 @@ export default function QueuesPage() {
         <div
           className={`p-4 rounded-xl border flex items-center justify-between ${
             feedbackMsg.type === 'success'
-              ? 'bg-emerald-50 border-emerald-200 text-emerald-800'
+              ? 'bg-[#E6F5F2] border-[#CAEDE6] text-[#074139]'
               : 'bg-rose-50 border-rose-200 text-rose-800'
           }`}
         >
@@ -195,52 +196,52 @@ export default function QueuesPage() {
 
       {/* KPI Stats Cards */}
       <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
-        <div className="bg-white p-5 rounded-xl border border-gray-100 shadow-sm flex items-center gap-4">
-          <div className="p-3 bg-amber-50 text-amber-600 rounded-lg">
+        <div className="bg-white p-5 rounded-2xl border border-[#CAEDE6]/60 shadow-xs hover:border-[#074139]/20 transition-all flex items-center gap-4">
+          <div className="p-3 bg-amber-50 text-amber-700 rounded-xl border border-amber-200/50">
             <Clock className="w-5 h-5" />
           </div>
           <div>
-            <div className="text-2xl font-bold text-gray-900">{stats?.pending ?? 0}</div>
-            <div className="text-xs text-gray-500 font-medium uppercase tracking-wider">Pending Outbox</div>
+            <div className={`${microgrammaBold.className} text-2xl font-bold text-[#074139]`}>{stats?.pending ?? 0}</div>
+            <div className="text-[11px] text-[#074139]/70 font-bold uppercase tracking-wider font-michroma">Pending Outbox</div>
           </div>
         </div>
 
-        <div className="bg-white p-5 rounded-xl border border-gray-100 shadow-sm flex items-center gap-4">
-          <div className="p-3 bg-blue-50 text-blue-600 rounded-lg">
+        <div className="bg-white p-5 rounded-2xl border border-[#CAEDE6]/60 shadow-xs hover:border-[#074139]/20 transition-all flex items-center gap-4">
+          <div className="p-3 bg-[#E6F5F2] text-[#074139] rounded-xl border border-[#CAEDE6]">
             <Activity className="w-5 h-5 animate-pulse" />
           </div>
           <div>
-            <div className="text-2xl font-bold text-gray-900">{stats?.processing ?? 0}</div>
-            <div className="text-xs text-gray-500 font-medium uppercase tracking-wider">Processing</div>
+            <div className={`${microgrammaBold.className} text-2xl font-bold text-[#074139]`}>{stats?.processing ?? 0}</div>
+            <div className="text-[11px] text-[#074139]/70 font-bold uppercase tracking-wider font-michroma">Processing</div>
           </div>
         </div>
 
-        <div className="bg-white p-5 rounded-xl border border-gray-100 shadow-sm flex items-center gap-4">
-          <div className="p-3 bg-emerald-50 text-emerald-600 rounded-lg">
+        <div className="bg-white p-5 rounded-2xl border border-[#CAEDE6]/60 shadow-xs hover:border-[#074139]/20 transition-all flex items-center gap-4">
+          <div className="p-3 bg-emerald-50 text-emerald-700 rounded-xl border border-emerald-200/50">
             <CheckCircle className="w-5 h-5" />
           </div>
           <div>
-            <div className="text-2xl font-bold text-gray-900">{stats?.completed ?? 0}</div>
-            <div className="text-xs text-gray-500 font-medium uppercase tracking-wider">Completed</div>
+            <div className={`${microgrammaBold.className} text-2xl font-bold text-[#074139]`}>{stats?.completed ?? 0}</div>
+            <div className="text-[11px] text-[#074139]/70 font-bold uppercase tracking-wider font-michroma">Completed</div>
           </div>
         </div>
 
-        <div className="bg-white p-5 rounded-xl border border-rose-100 shadow-sm flex items-center gap-4 bg-rose-50/20">
-          <div className="p-3 bg-rose-100 text-rose-700 rounded-lg">
+        <div className="bg-white p-5 rounded-2xl border border-rose-200 shadow-xs hover:border-rose-400 transition-all flex items-center gap-4 bg-rose-50/20">
+          <div className="p-3 bg-rose-100 text-rose-700 rounded-xl">
             <AlertOctagon className="w-5 h-5" />
           </div>
           <div>
-            <div className="text-2xl font-bold text-rose-700">{stats?.failed ?? 0}</div>
-            <div className="text-xs text-rose-600 font-semibold uppercase tracking-wider">Dead-Letter Queue</div>
+            <div className={`${microgrammaBold.className} text-2xl font-bold text-rose-700`}>{stats?.failed ?? 0}</div>
+            <div className="text-[11px] text-rose-700 font-bold uppercase tracking-wider font-michroma">Dead-Letter Queue</div>
           </div>
         </div>
       </div>
 
       {/* Main Table Card */}
-      <div className="bg-white rounded-xl border border-gray-200 shadow-sm overflow-hidden">
+      <div className="bg-white rounded-2xl border border-[#CAEDE6]/60 shadow-xs overflow-hidden">
         {/* Filter Bar */}
-        <div className="p-4 border-b border-gray-200 bg-gray-50/50 flex flex-col md:flex-row justify-between items-start md:items-center gap-4">
-          <div className="flex gap-2 overflow-x-auto text-xs w-full md:w-auto">
+        <div className="p-4 border-b border-[#CAEDE6]/60 bg-[#F0FAF5]/30 flex flex-col md:flex-row justify-between items-start md:items-center gap-4">
+          <div className="flex gap-1.5 overflow-x-auto text-xs w-full md:w-auto bg-[#E6F5F2]/80 p-1.5 rounded-2xl border border-[#CAEDE6]">
             {['ALL', 'FAILED', 'PENDING', 'PROCESSING', 'COMPLETED'].map((status) => (
               <button
                 key={status}
@@ -248,10 +249,10 @@ export default function QueuesPage() {
                   setStatusFilter(status)
                   setPage(1)
                 }}
-                className={`px-3 py-1.5 rounded-lg font-medium whitespace-nowrap transition-colors ${
+                className={`px-3.5 py-1.5 rounded-xl font-michroma text-xs font-semibold whitespace-nowrap transition-all ${
                   statusFilter === status
-                    ? 'bg-indigo-600 text-white'
-                    : 'bg-white border border-gray-200 text-gray-600 hover:bg-gray-100'
+                    ? 'bg-[#074139] text-white shadow-xs'
+                    : 'text-[#074139]/70 hover:text-[#074139] hover:bg-white/70'
                 }`}
               >
                 {status === 'ALL' ? 'All Events' : status === 'FAILED' ? 'Dead-Letter (Failed)' : status}
@@ -268,7 +269,7 @@ export default function QueuesPage() {
                 setEventTypeFilter(e.target.value)
                 setPage(1)
               }}
-              className="w-full px-3 py-1.5 text-xs bg-white border border-gray-200 rounded-lg focus:outline-none focus:ring-1 focus:ring-indigo-500"
+              className="w-full px-3.5 py-2 text-xs bg-white border border-[#CAEDE6] rounded-xl focus:outline-none focus:border-[#074139] focus:ring-2 focus:ring-[#074139]/10"
             />
           </div>
         </div>
@@ -277,14 +278,14 @@ export default function QueuesPage() {
         <div className="overflow-x-auto">
           <table className="w-full text-left text-xs border-collapse">
             <thead>
-              <tr className="border-b border-gray-200 bg-gray-50/80 text-gray-500 font-semibold uppercase tracking-wider">
-                <th className="py-3 px-4">Event Type</th>
-                <th className="py-3 px-4">Entity ID</th>
-                <th className="py-3 px-4">Status</th>
-                <th className="py-3 px-4">Attempts</th>
-                <th className="py-3 px-4">Last Error / Message</th>
-                <th className="py-3 px-4">Created / Scheduled</th>
-                <th className="py-3 px-4 text-right">Actions</th>
+              <tr className="border-b border-[#CAEDE6] bg-[#F0FAF5] text-[#074139] font-bold uppercase tracking-wider text-[11px]">
+                <th className="py-3 px-4 font-michroma">Event Type</th>
+                <th className="py-3 px-4 font-michroma">Entity ID</th>
+                <th className="py-3 px-4 font-michroma">Status</th>
+                <th className="py-3 px-4 font-michroma">Attempts</th>
+                <th className="py-3 px-4 font-michroma">Last Error / Message</th>
+                <th className="py-3 px-4 font-michroma">Created / Scheduled</th>
+                <th className="py-3 px-4 text-right font-michroma">Actions</th>
               </tr>
             </thead>
             <tbody className="divide-y divide-gray-100 font-normal">
@@ -302,9 +303,9 @@ export default function QueuesPage() {
                 </tr>
               ) : (
                 jobs.map((job) => (
-                  <tr key={job.id} className="hover:bg-gray-50/80 transition-colors">
+                  <tr key={job.id} className="hover:bg-[#F0FAF5]/40 transition-colors">
                     <td className="py-3 px-4 font-mono font-semibold text-gray-900">
-                      <span className="px-2 py-0.5 rounded bg-indigo-50 border border-indigo-100 text-indigo-700">
+                      <span className="px-2.5 py-1 rounded-lg bg-[#E6F5F2] border border-[#CAEDE6] text-[#074139] font-mono font-semibold text-[11px]">
                         {job.eventType}
                       </span>
                     </td>
@@ -348,7 +349,7 @@ export default function QueuesPage() {
                         <button
                           onClick={() => setSelectedJob(job)}
                           title="View Payload JSON"
-                          className="p-1.5 text-gray-500 hover:text-indigo-600 rounded hover:bg-gray-100 transition-colors"
+                          className="p-1.5 text-gray-500 hover:text-[#074139] rounded hover:bg-[#E6F5F2] transition-colors"
                         >
                           <Eye className="w-4 h-4" />
                         </button>
@@ -412,15 +413,15 @@ export default function QueuesPage() {
       {/* Payload Modal */}
       {selectedJob && (
         <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/50 p-4">
-          <div className="bg-white rounded-xl max-w-2xl w-full p-6 space-y-4 shadow-xl">
-            <div className="flex items-center justify-between border-b pb-3">
+          <div className="bg-white rounded-2xl border border-[#CAEDE6] max-w-2xl w-full p-6 space-y-4 shadow-xl">
+            <div className="flex items-center justify-between border-b border-[#CAEDE6]/60 pb-3">
               <div>
-                <h3 className="text-base font-bold text-gray-900">{selectedJob.eventType}</h3>
+                <h3 className={`${microgrammaBold.className} text-base font-bold text-[#074139]`}>{selectedJob.eventType}</h3>
                 <p className="text-xs text-gray-500 font-mono">Job ID: {selectedJob.id}</p>
               </div>
               <button
                 onClick={() => setSelectedJob(null)}
-                className="text-gray-400 hover:text-gray-600 p-1"
+                className="text-gray-400 hover:text-[#074139] p-1 rounded-lg"
               >
                 <X className="w-5 h-5" />
               </button>

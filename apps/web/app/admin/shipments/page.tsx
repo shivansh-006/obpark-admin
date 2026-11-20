@@ -3,6 +3,7 @@
 import { useState } from 'react'
 import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query'
 import { api } from '@/lib/api'
+import { microgrammaBold } from '@/lib/fonts'
 import {
   Truck,
   Search,
@@ -217,15 +218,15 @@ export default function ShipmentsPage() {
   const deliveredCount = shipments.filter((s) => s.status === 'DELIVERED').length
 
   return (
-    <div className="p-6 max-w-7xl mx-auto space-y-6">
+    <div className="p-6 max-w-7xl mx-auto space-y-6 bg-[#F0FAF5] min-h-screen">
       {/* Header */}
-      <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4">
+      <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4 bg-white p-6 rounded-2xl border border-[#CAEDE6]/60 shadow-xs">
         <div>
-          <h1 className="text-2xl font-bold text-gray-900 flex items-center gap-2">
+          <h1 className={`${microgrammaBold.className} text-2xl font-bold text-[#074139] tracking-tight flex items-center gap-2`}>
             <Truck className="w-7 h-7 text-[#074139]" />
             Vendor Shipments & Dispatch
           </h1>
-          <p className="text-sm text-gray-500 mt-1">
+          <p className="text-xs text-gray-500 mt-1">
             Track multi-vendor order fulfillment, monitor magic-link dispatch confirmations, and manage courier tracking.
           </p>
         </div>
@@ -233,34 +234,34 @@ export default function ShipmentsPage() {
 
       {/* KPI Cards */}
       <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
-        <div className="bg-white p-4 rounded-xl border border-gray-200 shadow-xs">
-          <span className="text-xs font-semibold text-gray-500 uppercase tracking-wider block">
+        <div className="bg-white p-5 rounded-2xl border border-[#CAEDE6]/60 shadow-xs hover:border-[#074139]/20 transition-all">
+          <span className="text-[11px] font-bold text-[#074139]/70 uppercase tracking-wider block font-michroma">
             Total Shipments
           </span>
-          <span className="text-2xl font-bold text-gray-900 mt-1 block">{totalCount}</span>
+          <span className={`${microgrammaBold.className} text-2xl font-bold text-[#074139] mt-1 block`}>{totalCount}</span>
         </div>
-        <div className="bg-white p-4 rounded-xl border border-amber-200 bg-amber-50/20 shadow-xs">
-          <span className="text-xs font-semibold text-amber-700 uppercase tracking-wider block">
+        <div className="bg-white p-5 rounded-2xl border border-amber-200 bg-amber-50/20 shadow-xs hover:border-amber-300 transition-all">
+          <span className="text-[11px] font-bold text-amber-700 uppercase tracking-wider block font-michroma">
             Awaiting Dispatch
           </span>
-          <span className="text-2xl font-bold text-amber-800 mt-1 block">{pendingCount}</span>
+          <span className={`${microgrammaBold.className} text-2xl font-bold text-amber-800 mt-1 block`}>{pendingCount}</span>
         </div>
-        <div className="bg-white p-4 rounded-xl border border-blue-200 bg-blue-50/20 shadow-xs">
-          <span className="text-xs font-semibold text-blue-700 uppercase tracking-wider block">
+        <div className="bg-white p-5 rounded-2xl border border-[#CAEDE6] bg-[#E6F5F2]/40 shadow-xs hover:border-[#074139]/30 transition-all">
+          <span className="text-[11px] font-bold text-[#074139] uppercase tracking-wider block font-michroma">
             In Transit
           </span>
-          <span className="text-2xl font-bold text-blue-800 mt-1 block">{dispatchedCount}</span>
+          <span className={`${microgrammaBold.className} text-2xl font-bold text-[#074139] mt-1 block`}>{dispatchedCount}</span>
         </div>
-        <div className="bg-white p-4 rounded-xl border border-emerald-200 bg-emerald-50/20 shadow-xs">
-          <span className="text-xs font-semibold text-emerald-700 uppercase tracking-wider block">
+        <div className="bg-white p-5 rounded-2xl border border-emerald-200 bg-emerald-50/20 shadow-xs hover:border-emerald-300 transition-all">
+          <span className="text-[11px] font-bold text-emerald-700 uppercase tracking-wider block font-michroma">
             Delivered
           </span>
-          <span className="text-2xl font-bold text-emerald-800 mt-1 block">{deliveredCount}</span>
+          <span className={`${microgrammaBold.className} text-2xl font-bold text-emerald-800 mt-1 block`}>{deliveredCount}</span>
         </div>
       </div>
 
       {/* Filter and Search Bar */}
-      <div className="bg-white p-4 rounded-xl border border-gray-200 shadow-xs flex flex-col md:flex-row gap-4 justify-between items-center">
+      <div className="bg-white p-4 rounded-2xl border border-[#CAEDE6]/60 shadow-xs flex flex-col md:flex-row gap-4 justify-between items-center">
         <div className="relative w-full md:w-80">
           <Search className="w-4 h-4 text-gray-400 absolute left-3 top-1/2 -translate-y-1/2" />
           <input
@@ -422,7 +423,7 @@ export default function ShipmentsPage() {
                                 href={s.courierWebsite}
                                 target="_blank"
                                 rel="noreferrer"
-                                className="text-[0.6875rem] text-blue-600 hover:underline flex items-center gap-1"
+                                className="text-[0.6875rem] text-[#074139] hover:text-[#06332d] hover:underline font-semibold flex items-center gap-1"
                               >
                                 Track on Website <ExternalLink className="w-2.5 h-2.5" />
                               </a>

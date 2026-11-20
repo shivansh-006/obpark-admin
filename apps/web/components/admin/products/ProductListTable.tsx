@@ -33,18 +33,18 @@ ModuleRegistry.registerModules([AllCommunityModule])
 // Custom AG Grid theme matching OBPARK branding
 const obparkGridTheme = themeQuartz.withParams({
   accentColor: '#074139',
-  headerBackgroundColor: '#F0FDF4',
-  headerTextColor: '#374151',
-  headerFontWeight: 600,
-  headerFontSize: 11.5,
-  fontSize: 11.5,
-  borderColor: '#E5E7EB',
-  borderRadius: 8,
+  headerBackgroundColor: '#E6F5F2',
+  headerTextColor: '#074139',
+  headerFontWeight: 700,
+  headerFontSize: 12,
+  fontSize: 12,
+  borderColor: '#CAEDE6',
+  borderRadius: 12,
   browserColorScheme: 'light',
-  rowHoverColor: '#F9FAFB',
-  selectedRowBackgroundColor: '#ECFDF5',
+  rowHoverColor: '#F0FAF5',
+  selectedRowBackgroundColor: '#E6F5F2',
   rowHeight: 52,
-  headerHeight: 36,
+  headerHeight: 40,
 })
 
 export function ProductListTable() {
@@ -369,7 +369,7 @@ export function ProductListTable() {
   const totalProducts = data?.total ?? products.length
 
   return (
-    <div className="bg-white border rounded-xl p-4 shadow-sm space-y-4">
+    <div className="bg-white border border-[#CAEDE6]/60 rounded-2xl p-5 shadow-xs space-y-4">
       {/* Scoped CSS to enforce exact vertical Y-axis centering across all AG Grid cells & wrappers */}
       <style>{`
         .ag-grid-obpark .ag-cell {
@@ -406,17 +406,17 @@ export function ProductListTable() {
         <div className="flex items-center gap-3 flex-wrap">
           {/* Quick Filter Search Input */}
           <div className="relative">
-            <Search className="absolute left-2.5 top-1/2 -translate-y-1/2 h-3.5 w-3.5 text-gray-400" />
+            <Search className="absolute left-3 top-1/2 -translate-y-1/2 h-3.5 w-3.5 text-gray-400" />
             <input
               value={quickFilterText}
               onChange={(e) => setQuickFilterText(e.target.value)}
               placeholder="Search products across all columns..."
-              className="pl-8 pr-7 py-2 rounded-lg bg-gray-50 border text-xs outline-none w-72 focus:bg-white focus:ring-1 focus:ring-emerald-700 transition-all"
+              className="pl-9 pr-7 py-2 rounded-xl bg-white border border-[#CAEDE6] text-xs outline-none w-72 focus:border-[#074139] focus:ring-2 focus:ring-[#074139]/10 transition-all shadow-2xs"
             />
             {quickFilterText && (
               <button
                 onClick={() => setQuickFilterText('')}
-                className="absolute right-2 top-1/2 -translate-y-1/2 text-gray-400 hover:text-gray-600"
+                className="absolute right-2.5 top-1/2 -translate-y-1/2 text-gray-400 hover:text-gray-600"
                 type="button"
               >
                 <X className="h-3.5 w-3.5" />
@@ -427,10 +427,10 @@ export function ProductListTable() {
           {/* Toggle Floating Filters */}
           <button
             onClick={() => setShowFloatingFilters((prev) => !prev)}
-            className={`flex items-center gap-1.5 px-3 py-2 rounded-lg border text-xs font-medium transition-colors ${
+            className={`flex items-center gap-1.5 px-3.5 py-2 rounded-xl border text-xs font-semibold font-michroma transition-colors ${
               showFloatingFilters
-                ? 'bg-emerald-50 border-emerald-300 text-emerald-800'
-                : 'text-gray-600 hover:bg-gray-50 border-gray-200'
+                ? 'bg-[#E6F5F2] border-[#CAEDE6] text-[#074139]'
+                : 'text-[#074139]/80 hover:bg-[#E6F5F2]/50 border-[#CAEDE6]'
             }`}
             title="Toggle column filter inputs"
             type="button"
@@ -443,7 +443,7 @@ export function ProductListTable() {
           <button
             onClick={handleExportCsv}
             disabled={!products.length}
-            className="flex items-center gap-1.5 px-3 py-2 rounded-lg border border-gray-200 text-xs font-medium text-gray-600 hover:bg-gray-50 disabled:opacity-50 transition-colors"
+            className="flex items-center gap-1.5 px-3.5 py-2 rounded-xl border border-[#CAEDE6] text-xs font-semibold text-[#074139] hover:bg-[#E6F5F2]/50 disabled:opacity-50 transition-colors"
             title="Export products to CSV"
             type="button"
           >
@@ -455,33 +455,32 @@ export function ProductListTable() {
           <button
             onClick={handleRefresh}
             disabled={isFetching}
-            className="p-2 rounded-lg border border-gray-200 text-gray-500 hover:bg-gray-50 transition-colors disabled:opacity-50"
+            className="p-2.5 rounded-xl border border-[#CAEDE6] text-[#074139] hover:bg-[#E6F5F2]/50 transition-colors disabled:opacity-50"
             title="Refresh product list"
             type="button"
           >
-            <RefreshCw className={`h-3.5 w-3.5 ${isFetching ? 'animate-spin text-emerald-700' : ''}`} />
+            <RefreshCw className={`h-3.5 w-3.5 ${isFetching ? 'animate-spin text-[#074139]' : ''}`} />
           </button>
         </div>
 
         <div className="flex items-center gap-3">
           {/* Badge count */}
-          <div className="text-xs text-gray-500">
+          <div className="text-xs text-gray-500 font-medium">
             {filteredCount !== null && filteredCount !== products.length ? (
               <span>
-                Filtered: <strong className="text-gray-800">{filteredCount}</strong> of{' '}
-                <strong className="text-gray-800">{products.length}</strong>
+                Filtered: <strong className="text-[#074139]">{filteredCount}</strong> of{' '}
+                <strong className="text-[#074139]">{products.length}</strong>
               </span>
             ) : (
               <span>
-                Total: <strong className="text-gray-800">{totalProducts}</strong> products
+                Total: <strong className="text-[#074139]">{totalProducts}</strong> products
               </span>
             )}
           </div>
 
           <Link
             href="/admin/products/add"
-            className="flex items-center gap-1.5 px-4 py-2 rounded-lg text-sm text-white font-medium hover:opacity-95 transition-opacity shadow-sm"
-            style={{ backgroundColor: '#074139' }}
+            className="flex items-center gap-1.5 px-4 py-2 rounded-xl text-xs font-semibold font-michroma text-white bg-[#074139] hover:bg-[#06332d] transition-all shadow-xs"
           >
             <Plus className="h-4 w-4" /> Add Product
           </Link>
@@ -490,7 +489,7 @@ export function ProductListTable() {
 
       {/* AG Grid Container */}
       <div
-        className="ag-grid-obpark w-full rounded-xl overflow-hidden border border-gray-200"
+        className="ag-grid-obpark w-full rounded-2xl overflow-hidden border border-[#CAEDE6]"
         style={{ height: 'calc(100vh - 168px)', minHeight: '364px' }}
       >
         <AgGridReact<AdminProduct>

@@ -106,8 +106,8 @@ export function Header({ title, onMenuClick }: HeaderProps) {
           </button>
 
           <div className="min-w-0">
-            <div className="hidden sm:flex items-center gap-1.5 text-xs font-semibold text-gray-500 uppercase tracking-wider">
-              <span className="text-[#074139] font-bold">{title}</span>
+            <div className="hidden sm:flex items-center gap-1.5 text-xs font-semibold uppercase tracking-wider">
+              <span className={`text-[#074139] font-bold ${microgrammaBold.className} tracking-tight`}>{title}</span>
             </div>
           </div>
         </div>
@@ -115,7 +115,7 @@ export function Header({ title, onMenuClick }: HeaderProps) {
         {/* Center Section: Global Command Search Bar */}
         <div ref={boxRef} className="hidden md:flex items-center flex-1 max-w-md lg:max-w-lg mx-4 relative">
           <div className="relative w-full group">
-            <Search className="absolute left-3.5 top-1/2 -translate-y-1/2 h-4 w-4 text-gray-500 group-focus-within:text-[#074139] transition-colors" />
+            <Search className="absolute left-3.5 top-1/2 -translate-y-1/2 h-4 w-4 text-gray-400 group-focus-within:text-[#074139] transition-colors" />
             <input
               ref={inputRef}
               value={query}
@@ -126,7 +126,7 @@ export function Header({ title, onMenuClick }: HeaderProps) {
               onFocus={() => setOpen(true)}
               onKeyDown={handleKeyDown}
               placeholder="Search actions, pages, orders..."
-              className="w-full pl-10 pr-20 py-1.5 bg-gray-50/90 border border-gray-200 rounded-sm text-sm text-gray-900 placeholder:text-gray-500 outline-none transition-all duration-200 focus:bg-white focus:border-[#074139]/40 focus:ring-4 focus:ring-[#074139]/5 shadow-xs"
+              className="w-full pl-10 pr-20 py-2 bg-white border border-[#CAEDE6] rounded-xl text-xs text-gray-900 placeholder:text-gray-400 outline-none transition-all duration-200 focus:bg-white focus:border-[#074139] focus:ring-2 focus:ring-[#074139]/10 shadow-xs"
             />
             {query ? (
               <button
@@ -140,7 +140,7 @@ export function Header({ title, onMenuClick }: HeaderProps) {
               </button>
             ) : (
               <div className="absolute right-3 top-1/2 -translate-y-1/2 flex items-center gap-1 pointer-events-none">
-                <kbd className="hidden lg:inline-flex items-center px-1.5 py-0.5 text-[0.625rem] font-mono text-gray-400 bg-white border border-gray-200 rounded shadow-2xs">
+                <kbd className="hidden lg:inline-flex items-center px-1.5 py-0.5 text-[0.625rem] font-mono text-[#074139] bg-[#E6F5F2] border border-[#CAEDE6] rounded shadow-2xs font-bold">
                   ⌘K
                 </kbd>
               </div>
@@ -233,16 +233,16 @@ export function Header({ title, onMenuClick }: HeaderProps) {
           {/* Profile Card / Link */}
           <Link
             href="/admin/adminrole"
-            className="flex items-center gap-2.5 pl-1.5 pr-3 py-1 rounded-full bg-gray-50 border border-gray-200/80 hover:bg-gray-100/80 hover:border-gray-300 transition-all duration-200 group"
+            className="flex items-center gap-2.5 pl-1.5 pr-3 py-1.5 rounded-full bg-[#E6F5F2]/80 border border-[#CAEDE6] hover:bg-[#E6F5F2] hover:border-[#074139]/30 transition-all duration-200 group shadow-2xs"
           >
-            <div className="w-8 h-8 rounded-full bg-gradient-to-br from-[#074139] to-[#1A817F] text-white flex items-center justify-center text-xs font-bold ring-2 ring-emerald-100 shrink-0">
+            <div className="w-8 h-8 rounded-full bg-[#074139] text-white flex items-center justify-center text-xs font-bold ring-2 ring-[#CAEDE6] shrink-0 font-michroma">
               {userInitial}
             </div>
             <div className="hidden sm:block text-left">
-              <p className="text-sm font-semibold text-gray-900 group-hover:text-[#074139] transition-colors leading-tight">
+              <p className="text-xs font-bold text-[#074139] font-michroma leading-tight">
                 {userName}
               </p>
-              <p className="text-xs text-gray-600 font-medium leading-tight">Role: Admin</p>
+              <p className="text-[10px] text-gray-500 font-medium leading-tight mt-0.5">Role: Admin</p>
             </div>
           </Link>
         </div>

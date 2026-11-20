@@ -78,39 +78,37 @@ export default function AnalyticsPage() {
   const hasOrders = statusData.some((s) => s.value > 0)
 
   return (
-    <div className="min-h-screen bg-gray-50">
+    <div className="min-h-screen bg-[#F0FAF5]">
       <Header
-  title="Analytics"
-  onMenuClick={() => setDrawerOpen(true)}
-/>
+        title="Analytics"
+        onMenuClick={() => setDrawerOpen(true)}
+      />
 
       <div className="p-6 space-y-6">
-        
-
         {/* Top-level KPI rollup — real data, same source as Dashboard/Coupons pages */}
         <div className="grid grid-cols-2 lg:grid-cols-4 gap-4">
           {[
-            { label: 'Total Revenue', value: `₹${(stats?.totalRevenue ?? 0).toLocaleString('en-IN')}`, icon: TrendingUp, bg: 'bg-green-50', color: 'text-green-600', loading: statsLoading },
-            { label: 'Total Orders', value: stats?.totalOrders ?? 0, icon: ShoppingBag, bg: 'bg-blue-50', color: 'text-blue-600', loading: statsLoading },
-            { label: 'Active Coupons', value: activeCoupons, icon: Ticket, bg: 'bg-purple-50', color: 'text-purple-600', loading: couponsLoading },
-            { label: 'Coupon Redemptions', value: totalRedemptions, icon: CreditCard, bg: 'bg-amber-50', color: 'text-amber-600', loading: couponsLoading },
+            { label: 'Total Revenue', value: `₹${(stats?.totalRevenue ?? 0).toLocaleString('en-IN')}`, icon: TrendingUp, bg: 'bg-[#E6F5F2]', color: 'text-[#074139]', loading: statsLoading },
+            { label: 'Total Orders', value: stats?.totalOrders ?? 0, icon: ShoppingBag, bg: 'bg-[#E6F5F2]', color: 'text-[#074139]', loading: statsLoading },
+            { label: 'Active Coupons', value: activeCoupons, icon: Ticket, bg: 'bg-emerald-50', color: 'text-emerald-700', loading: couponsLoading },
+            { label: 'Coupon Redemptions', value: totalRedemptions, icon: CreditCard, bg: 'bg-amber-50', color: 'text-amber-700', loading: couponsLoading },
           ].map((k) => (
-            <div key={k.label} className="bg-white border rounded-xl p-5 shadow-md">
-              <div className={`w-10 h-10 rounded-lg ${k.bg} flex items-center justify-center mb-3`}>
+            <div key={k.label} className="bg-white border border-[#CAEDE6]/60 rounded-2xl p-5 shadow-xs hover:border-[#074139]/20 transition-all">
+              <div className={`w-10 h-10 rounded-xl ${k.bg} border border-[#CAEDE6]/40 flex items-center justify-center mb-3`}>
                 <k.icon className={`h-5 w-5 ${k.color}`} />
               </div>
-              <p className="text-2xl font-bold text-gray-800">{k.loading ? '—' : k.value}</p>
-              <p className={`${microgrammaBold.className} text-[1rem] text-[#074891]-500 mt-1`}>{k.label}</p>
+              <p className={`${microgrammaBold.className} text-2xl font-bold text-[#074139]`}>{k.loading ? '—' : k.value}</p>
+              <p className="text-[11px] font-bold text-[#074139]/70 uppercase tracking-wider font-michroma mt-1">{k.label}</p>
             </div>
           ))}
         </div>
 
         <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
           {/* Revenue trend — real, from AnalyticsService.getRevenueTrend */}
-          <div className="lg:col-span-2 bg-white border rounded-xl p-6 shadow-md">
+          <div className="lg:col-span-2 bg-white border border-[#CAEDE6]/60 rounded-2xl p-6 shadow-xs hover:border-[#074139]/20 transition-all">
             <div className="flex items-center justify-between mb-4">
-              <h2 className={`${microgrammaBold.className} font-semibold text-[1.125rem] text-gray-800`}>Revenue Trend</h2>
-              <Link href="/admin/orders" className="text-xs text-blue-500 flex items-center gap-1">
+              <h2 className={`${microgrammaBold.className} font-bold text-[1.125rem] text-[#074139]`}>Revenue Trend</h2>
+              <Link href="/admin/orders" className="text-xs font-semibold text-[#074139] hover:text-[#06332d] flex items-center gap-1">
                 View Orders <ArrowRight className="h-3 w-3" />
               </Link>
             </div>
@@ -125,7 +123,7 @@ export default function AnalyticsPage() {
                 <XAxis dataKey="day" axisLine={false} tickLine={false} fontSize={8} />
                 <YAxis axisLine={false} tickLine={false} fontSize={8} tickFormatter={(v) => `${v / 1000}k`} />
                 <Tooltip formatter={(v: any) => `₹${Number(v).toLocaleString('en-IN')}`} />
-                <Area type="monotone" dataKey="value" stroke="#22c55e" fill="url(#analyticsRev)" strokeWidth={2} />
+                <Area type="monotone" dataKey="value" stroke="#074139" fill="url(#analyticsRev)" strokeWidth={2} />
               </AreaChart>
             </ResponsiveContainer>
             {!trendLoading && chartData.every((d) => d.value === 0) && (
@@ -134,10 +132,10 @@ export default function AnalyticsPage() {
           </div>
 
           {/* Order status breakdown — real, from AnalyticsService.getOrderStatusBreakdown */}
-          <div className="bg-white border rounded-xl p-6 shadow-md">
+          <div className="bg-white border border-[#CAEDE6]/60 rounded-2xl p-6 shadow-xs hover:border-[#074139]/20 transition-all">
             <div className="flex items-center justify-between mb-2">
-              <h2 className={`${microgrammaBold.className} font-semibold text-[1rem] text-gray-800`}>Order Status</h2>
-              <Link href="/admin/orders" className="text-xs text-blue-500 flex items-center gap-1">
+              <h2 className={`${microgrammaBold.className} font-bold text-[1rem] text-[#074139]`}>Order Status</h2>
+              <Link href="/admin/orders" className="text-xs font-semibold text-[#074139] hover:text-[#06332d] flex items-center gap-1">
                 View <ArrowRight className="h-3 w-3" />
               </Link>
             </div>
@@ -172,10 +170,10 @@ export default function AnalyticsPage() {
 
         {/* Bottom row: Top products (real) + Coupon performance (real) */}
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
-          <div className="bg-white border rounded-xl p-6 shadow-md">
+          <div className="bg-white border border-[#CAEDE6]/60 rounded-2xl p-6 shadow-xs hover:border-[#074139]/20 transition-all">
             <div className="flex items-center justify-between mb-4">
-              <h2 className={`${microgrammaBold.className} font-semibold text-[1.125rem] text-gray-800`}>Top Products</h2>
-              <Link href="/admin/products" className="text-xs text-blue-500 flex items-center gap-1">
+              <h2 className={`${microgrammaBold.className} font-bold text-[1.125rem] text-[#074139]`}>Top Products</h2>
+              <Link href="/admin/products" className="text-xs font-semibold text-[#074139] hover:text-[#06332d] flex items-center gap-1">
                 View Products <ArrowRight className="h-3 w-3" />
               </Link>
             </div>
@@ -186,23 +184,23 @@ export default function AnalyticsPage() {
                 <p className="text-sm text-gray-400 text-center py-6">No products yet</p>
               ) : (
                 productsData.products.slice(0, 5).map((p: any) => (
-                  <div key={p.id} className="flex items-center gap-3 border-b pb-3 last:border-0">
-                    <div className="h-9 w-9 rounded-lg bg-gray-100 shrink-0" />
+                  <div key={p.id} className="flex items-center gap-3 border-b border-gray-100 pb-3 last:border-0">
+                    <div className="h-9 w-9 rounded-lg bg-[#E6F5F2] border border-[#CAEDE6] shrink-0" />
                     <div className="flex-1 min-w-0">
-                      <p className="text-sm font-medium truncate">{p.name}</p>
-                      <p className="text-xs text-gray-400">SKU: {p.sku}</p>
+                      <p className="text-sm font-semibold truncate text-[#074139]">{p.name}</p>
+                      <p className="text-xs text-gray-400 font-mono">SKU: {p.sku}</p>
                     </div>
-                    <p className="text-sm font-bold">₹{Number(p.basePrice).toLocaleString('en-IN')}</p>
+                    <p className="text-sm font-bold text-[#074139]">₹{Number(p.basePrice).toLocaleString('en-IN')}</p>
                   </div>
                 ))
               )}
             </div>
           </div>
 
-          <div className="bg-white border rounded-xl p-6 shadow-md">
+          <div className="bg-white border border-[#CAEDE6]/60 rounded-2xl p-6 shadow-xs hover:border-[#074139]/20 transition-all">
             <div className="flex items-center justify-between mb-4">
-              <h2 className={`${microgrammaBold.className} font-semibold text-[1.125rem] text-gray-800`}>Coupon Performance</h2>
-              <Link href="/admin/coupons" className="text-xs text-blue-500 flex items-center gap-1">
+              <h2 className={`${microgrammaBold.className} font-bold text-[1.125rem] text-[#074139]`}>Coupon Performance</h2>
+              <Link href="/admin/coupons" className="text-xs font-semibold text-[#074139] hover:text-[#06332d] flex items-center gap-1">
                 View Coupons <ArrowRight className="h-3 w-3" />
               </Link>
             </div>
@@ -213,12 +211,12 @@ export default function AnalyticsPage() {
             ) : (
               <div className="space-y-3">
                 {coupons.slice(0, 5).map((c: any) => (
-                  <div key={c.id} className="flex items-center justify-between border-b pb-3 last:border-0">
+                  <div key={c.id} className="flex items-center justify-between border-b border-gray-100 pb-3 last:border-0">
                     <div>
-                      <p className="text-sm font-mono font-bold text-gray-800">{c.code}</p>
+                      <p className="text-sm font-mono font-bold text-[#074139]">{c.code}</p>
                       <p className="text-xs text-gray-400">{c.usedCount} redemption{c.usedCount !== 1 ? 's' : ''}</p>
                     </div>
-                    <span className={`text-xs px-2 py-1 rounded-full ${c.isActive ? 'bg-green-100 text-green-600' : 'bg-gray-100 text-gray-500'}`}>
+                    <span className={`text-xs px-2.5 py-0.5 rounded-full font-semibold ${c.isActive ? 'bg-[#E6F5F2] text-[#074139] border border-[#CAEDE6]' : 'bg-gray-100 text-gray-500'}`}>
                       {c.isActive ? 'Active' : 'Disabled'}
                     </span>
                   </div>

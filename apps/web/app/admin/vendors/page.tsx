@@ -3,6 +3,7 @@
 import { useState } from 'react'
 import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query'
 import { api } from '@/lib/api'
+import { microgrammaBold } from '@/lib/fonts'
 import {
   Store,
   Plus,
@@ -178,22 +179,22 @@ export default function VendorsPage() {
   }
 
   return (
-    <div className="p-6 max-w-7xl mx-auto space-y-6">
+    <div className="p-6 max-w-7xl mx-auto space-y-6 bg-[#F0FAF5] min-h-screen">
       {/* Page Header */}
-      <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4">
+      <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4 bg-white p-6 rounded-2xl border border-[#CAEDE6]/60 shadow-xs">
         <div>
-          <h1 className="text-2xl font-bold text-gray-900 flex items-center gap-2">
+          <h1 className={`${microgrammaBold.className} text-2xl font-bold text-[#074139] tracking-tight flex items-center gap-2`}>
             <Store className="w-7 h-7 text-[#074139]" />
             Vendor Management
           </h1>
-          <p className="text-sm text-gray-500 mt-1">
+          <p className="text-xs text-gray-500 mt-1">
             Manage marketplace merchant partners, commission terms, and dispatch contacts.
           </p>
         </div>
 
         <button
           onClick={openCreateModal}
-          className="bg-[#074139] hover:bg-[#05302a] text-white px-4 py-2.5 rounded-lg text-sm font-semibold flex items-center gap-2 shadow-sm transition-colors"
+          className="bg-[#074139] hover:bg-[#06332d] text-white px-4 py-2.5 rounded-xl text-xs font-semibold font-michroma flex items-center gap-2 shadow-xs transition-colors"
         >
           <Plus className="w-4 h-4" />
           Onboard New Vendor
@@ -201,7 +202,7 @@ export default function VendorsPage() {
       </div>
 
       {/* Filters Bar */}
-      <div className="bg-white p-4 rounded-xl border border-gray-200 shadow-sm flex flex-col sm:flex-row gap-4 justify-between items-center">
+      <div className="bg-white p-4 rounded-2xl border border-[#CAEDE6]/60 shadow-xs flex flex-col sm:flex-row gap-4 justify-between items-center">
         <div className="relative w-full sm:w-96">
           <Search className="w-4 h-4 text-gray-400 absolute left-3.5 top-1/2 -translate-y-1/2" />
           <input
@@ -209,20 +210,20 @@ export default function VendorsPage() {
             placeholder="Search by vendor name, email, city, GST..."
             value={search}
             onChange={(e) => setSearch(e.target.value)}
-            className="w-full pl-10 pr-4 py-2 text-sm border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-[#074139]"
+            className="w-full pl-10 pr-4 py-2 text-xs border border-[#CAEDE6] rounded-xl focus:outline-none focus:border-[#074139] focus:ring-2 focus:ring-[#074139]/10"
           />
         </div>
 
-        <div className="flex items-center gap-2 w-full sm:w-auto">
-          <span className="text-xs text-gray-500 font-medium">Status:</span>
+        <div className="flex items-center gap-1.5 bg-[#E6F5F2]/80 border border-[#CAEDE6] p-1.5 rounded-2xl w-full sm:w-auto">
+          <span className="text-[11px] text-[#074139]/70 font-bold uppercase tracking-wider px-2 font-michroma">Status:</span>
           {(['all', 'active', 'inactive'] as const).map((s) => (
             <button
               key={s}
               onClick={() => setStatusFilter(s)}
-              className={`px-3 py-1.5 rounded-lg text-xs font-semibold capitalize transition-colors ${
+              className={`px-3.5 py-1.5 rounded-xl text-xs font-semibold capitalize font-michroma transition-colors ${
                 statusFilter === s
-                  ? 'bg-[#074139] text-white'
-                  : 'bg-gray-100 text-gray-600 hover:bg-gray-200'
+                  ? 'bg-[#074139] text-white shadow-xs'
+                  : 'text-[#074139]/70 hover:text-[#074139] hover:bg-white/60'
               }`}
             >
               {s}
@@ -232,7 +233,7 @@ export default function VendorsPage() {
       </div>
 
       {/* Vendors Table */}
-      <div className="bg-white rounded-xl border border-gray-200 shadow-sm overflow-hidden">
+      <div className="bg-white rounded-2xl border border-[#CAEDE6]/60 shadow-xs overflow-hidden">
         {isLoading ? (
           <div className="p-12 text-center text-gray-500 text-sm">Loading vendors...</div>
         ) : vendors.length === 0 ? (

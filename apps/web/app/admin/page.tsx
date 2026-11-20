@@ -24,18 +24,18 @@ ModuleRegistry.registerModules([AllCommunityModule])
 // Custom AG Grid theme matching OBPARK branding
 const obparkGridTheme = themeQuartz.withParams({
   accentColor: '#074139',
-  headerBackgroundColor: '#F0FDF4',
-  headerTextColor: '#374151',
-  headerFontWeight: 600,
+  headerBackgroundColor: '#F0FAF5',
+  headerTextColor: '#074139',
+  headerFontWeight: 700,
   headerFontSize: 11,
   fontSize: 11,
-  borderColor: '#E5E7EB',
+  borderColor: '#E2EDE8',
   borderRadius: 12,
   browserColorScheme: 'light',
-  rowHoverColor: '#F9FAFB',
-  selectedRowBackgroundColor: '#ECFDF5',
+  rowHoverColor: '#F7FCF9',
+  selectedRowBackgroundColor: '#E6F5F2',
   rowHeight: 44,
-  headerHeight: 34,
+  headerHeight: 36,
 })
 
 interface DashboardStats {
@@ -284,62 +284,62 @@ export default function DashboardPage() {
         {/* KPI Cards Row */}
         <div className="grid grid-cols-1 md:grid-cols-3 gap-4 ">
 
-          <div className="bg-white border rounded-xl p-5 shadow-md">
+          <div className="bg-white border border-gray-200/80 rounded-2xl p-5 shadow-sm">
             <div className="flex items-start justify-between">
               <div>
-                <p className={`${microgrammaBold.className} text-[1.125rem] font-semibold text-gray-700`}>Total Sales</p>
+                <p className={`${microgrammaBold.className} text-[1.125rem] font-bold text-[#074139]`}>Total Sales</p>
                 <p className="text-xs text-gray-500 font-medium mt-0.5">Last 7 days</p>
               </div>
-              <MoreVertical className="h-4 w-4 text-gray-300" />
+              <MoreVertical className="h-4 w-4 text-gray-400" />
             </div>
             <div className="mt-3 flex items-baseline gap-2">
-              <p className="text-2xl font-bold text-gray-800">
+              <p className="text-2xl font-bold text-gray-900 font-mono">
                 ₹{isLoading ? '—' : (stats?.totalRevenue ?? 0).toLocaleString('en-IN')}
               </p>
             </div>
             <div className="mt-4 flex justify-end">
-              <Link href="/admin/transactions" className="text-xs px-4 py-1.5 rounded-full border border-blue-200 text-blue-500 hover:bg-gray-50">Details</Link>
+              <Link href="/admin/transactions" className="text-xs px-3.5 py-1.5 rounded-full border border-[#074139]/20 text-[#074139] bg-[#E6F5F2]/50 hover:bg-[#E6F5F2] font-semibold transition-colors">Details</Link>
             </div>
           </div>
 
-          <div className="bg-white border rounded-xl p-5 shadow-md">
+          <div className="bg-white border border-gray-200/80 rounded-2xl p-5 shadow-sm">
             <div className="flex items-start justify-between">
               <div>
-                <p className={`${microgrammaBold.className} text-[1.125rem] font-semibold text-gray-700`}>Total Orders</p>
+                <p className={`${microgrammaBold.className} text-[1.125rem] font-bold text-[#074139]`}>Total Orders</p>
                 <p className="text-xs text-gray-500 font-medium mt-0.5">Last 7 days</p>
               </div>
-              <MoreVertical className="h-4 w-4 text-gray-300" />
+              <MoreVertical className="h-4 w-4 text-gray-400" />
             </div>
             <div className="mt-3 flex items-baseline gap-2">
-              <p className="text-2xl font-bold text-gray-800">
+              <p className="text-2xl font-bold text-gray-900 font-mono">
                 {isLoading ? '—' : (stats?.totalOrders ?? 0).toLocaleString()}
               </p>
             </div>
             <div className="mt-4 flex justify-end">
-              <Link href="/admin/orders" className="text-xs px-4 py-1.5 rounded-full border border-blue-200 text-blue-500 hover:bg-gray-50">Details</Link>
+              <Link href="/admin/orders" className="text-xs px-3.5 py-1.5 rounded-full border border-[#074139]/20 text-[#074139] bg-[#E6F5F2]/50 hover:bg-[#E6F5F2] font-semibold transition-colors">Details</Link>
             </div>
           </div>
 
-          <div className="bg-white border rounded-xl p-5 shadow-md">
+          <div className="bg-white border border-gray-200/80 rounded-2xl p-5 shadow-sm">
             <div className="flex items-start justify-between">
               <div>
-                <p className={`${microgrammaBold.className} text-[1.125rem] font-semibold text-gray-700`}>Pending & Canceled</p>
+                <p className={`${microgrammaBold.className} text-[1.125rem] font-bold text-[#074139]`}>Pending & Canceled</p>
                 <p className="text-xs text-gray-500 font-medium mt-0.5">Last 7 days</p>
               </div>
-              <MoreVertical className="h-4 w-4 text-gray-300" />
+              <MoreVertical className="h-4 w-4 text-gray-400" />
             </div>
             <div className="mt-3 grid grid-cols-2 gap-4">
               <div>
                 <p className="text-xs text-gray-500 font-medium">Pending</p>
-                <p className="text-xl font-bold text-gray-800">{isLoading ? '—' : stats?.pendingOrders ?? 0}</p>
+                <p className="text-xl font-bold text-amber-700 font-mono">{isLoading ? '—' : stats?.pendingOrders ?? 0}</p>
               </div>
-              <div className="border-l pl-4">
+              <div className="border-l border-gray-100 pl-4">
                 <p className="text-xs text-gray-500 font-medium">Canceled</p>
-                <p className="text-xl font-bold text-red-500">{isLoading ? '—' : stats?.canceledOrders ?? 0}</p>
+                <p className="text-xl font-bold text-rose-600 font-mono">{isLoading ? '—' : stats?.canceledOrders ?? 0}</p>
               </div>
             </div>
             <div className="mt-4 flex justify-end">
-              <Link href="/admin/orders" className="text-xs px-4 py-1.5 rounded-full border border-blue-200 text-blue-500 hover:bg-gray-50">Details</Link>
+              <Link href="/admin/orders" className="text-xs px-3.5 py-1.5 rounded-full border border-[#074139]/20 text-[#074139] bg-[#E6F5F2]/50 hover:bg-[#E6F5F2] font-semibold transition-colors">Details</Link>
             </div>
           </div>
         </div>
@@ -351,23 +351,23 @@ export default function DashboardPage() {
             <MonthlyReportCard stats={stats} statsLoading={isLoading} />
           </div>
 
-          <div className="bg-white border rounded-xl p-5 shadow-md">
+          <div className="bg-white border border-gray-200/80 rounded-2xl p-5 shadow-sm">
             <div className="flex items-start justify-between">
-              <p className="text-xs text-purple-600 font-medium">Live user tracking</p>
-              <MoreVertical className="h-4 w-4 text-gray-300" />
+              <p className="text-xs text-[#074139] font-bold uppercase tracking-wider">Live user tracking</p>
+              <MoreVertical className="h-4 w-4 text-gray-400" />
             </div>
-            <p className="text-3xl font-bold text-gray-300 mt-1">—</p>
+            <p className="text-3xl font-bold text-gray-300 mt-1 font-mono">—</p>
             <p className="text-xs text-gray-400 mt-3 mb-2">Not enabled yet</p>
 
             <div className="flex items-end gap-0.5 h-12 mb-4">
               {STATIC_BARS.map((h, i) => (
-                <div key={i} className="flex-1 rounded-sm bg-gray-200" style={{ height: `${h * 10}%` }} />
+                <div key={i} className="flex-1 rounded-sm bg-[#E6F5F2]" style={{ height: `${h * 10}%` }} />
               ))}
             </div>
 
             <div className="flex items-center justify-between mb-2">
-              <p className="text-xs font-semibold text-gray-700">Sales by State</p>
-              <p className="text-xs font-semibold text-gray-700">Sales</p>
+              <p className="text-xs font-semibold text-[#074139]">Sales by State</p>
+              <p className="text-xs font-semibold text-[#074139]">Sales</p>
             </div>
 
             <div className="space-y-3">
@@ -379,13 +379,13 @@ export default function DashboardPage() {
                   const widthPct = Math.max(10, Math.round((s.total / max) * 100))
                   return (
                     <div key={s.state} className="flex items-center gap-2">
-                      <span className="text-[0.625rem] font-bold w-6 h-6 rounded-full bg-gray-100 flex items-center justify-center text-gray-600">
+                      <span className="text-[0.625rem] font-bold w-6 h-6 rounded-full bg-[#E6F5F2] border border-[#CAEDE6] flex items-center justify-center text-[#074139]">
                         {s.state.slice(0, 2).toUpperCase()}
                       </span>
                       <div className="flex-1">
-                        <p className="text-xs font-medium text-gray-700">₹{s.total.toLocaleString('en-IN')}</p>
+                        <p className="text-xs font-bold text-gray-800 font-mono">₹{s.total.toLocaleString('en-IN')}</p>
                         <p className="text-[0.625rem] text-gray-400">{s.state}</p>
-                        <div className="h-1 bg-blue-500 rounded mt-1" style={{ width: `${widthPct}%` }} />
+                        <div className="h-1.5 bg-gradient-to-r from-[#074139] to-[#1A817F] rounded-full mt-1.5" style={{ width: `${widthPct}%` }} />
                       </div>
                     </div>
                   )
@@ -446,35 +446,35 @@ export default function DashboardPage() {
             </div>
 
             <div className="flex justify-end mt-4">
-              <Link href="/admin/orders" className="text-xs px-4 py-1.5 rounded-full border border-blue-200 text-blue-500 hover:bg-gray-50">
+              <Link href="/admin/orders" className="text-xs px-3.5 py-1.5 rounded-full border border-[#074139]/20 text-[#074139] bg-[#E6F5F2]/50 hover:bg-[#E6F5F2] font-semibold transition-colors">
                 Details
               </Link>
             </div>
           </div>
 
-          <div className="bg-white border rounded-xl p-5 shadow-md">
+          <div className="bg-white border border-gray-200/80 rounded-2xl p-5 shadow-sm">
             <div className="flex items-center justify-between mb-3">
-              <h2 className={`${microgrammaBold.className} font-semibold text-[1.125rem] text-gray-800`}>Top Products</h2>
-              <Link href="/admin/products" className="text-xs text-blue-500 cursor-pointer hover:underline">All product</Link>
+              <h2 className={`${microgrammaBold.className} font-bold text-[1.125rem] text-[#074139]`}>Top Products</h2>
+              <Link href="/admin/products" className="text-xs text-[#074139] font-semibold cursor-pointer hover:underline">All Products</Link>
             </div>
             <div className="relative mb-3">
               <Search className="absolute left-2.5 top-1/2 -translate-y-1/2 h-3.5 w-3.5 text-gray-400" />
-              <input placeholder="Search" className="w-full pl-8 pr-2 py-1.5 rounded-lg bg-gray-50 border text-xs outline-none" />
+              <input placeholder="Search products..." className="w-full pl-8 pr-2 py-1.5 rounded-xl bg-gray-50 border border-gray-200 text-xs outline-none focus:border-[#074139] focus:ring-1 focus:ring-[#074139]/20" />
             </div>
             <div className="space-y-3">
               {productsLoading ? (
                 [...Array(4)].map((_, i) => <div key={i} className="h-10 bg-gray-100 rounded animate-pulse" />)
               ) : productsData?.products?.length ? (
                 productsData.products.slice(0, 4).map((p: any) => (
-                  <div key={p.id} className="flex items-center gap-3 border-b pb-3 last:border-0">
-                    <div className="h-10 w-10 rounded-lg bg-emerald-50 border border-emerald-100 shrink-0 flex items-center justify-center text-xs text-emerald-800 font-bold">
+                  <div key={p.id} className="flex items-center gap-3 border-b border-gray-100 pb-3 last:border-0">
+                    <div className="h-10 w-10 rounded-lg bg-[#E6F5F2] border border-[#CAEDE6] shrink-0 flex items-center justify-center text-xs text-[#074139] font-bold">
                       {p.name ? String(p.name).slice(0, 2).toUpperCase() : 'PR'}
                     </div>
                     <div className="flex-1 min-w-0">
-                      <p className="text-xs font-medium truncate">{p.name}</p>
-                      <p className="text-[0.625rem] text-gray-400">Item: #{p.sku}</p>
+                      <p className="text-xs font-semibold text-gray-800 truncate">{p.name}</p>
+                      <p className="text-[0.625rem] text-gray-400 font-mono">Item: #{p.sku}</p>
                     </div>
-                    <p className="text-xs font-bold font-mono">₹{Number(p.basePrice).toLocaleString('en-IN')}</p>
+                    <p className="text-xs font-bold font-mono text-gray-900">₹{Number(p.basePrice).toLocaleString('en-IN')}</p>
                   </div>
                 ))
               ) : (
@@ -487,13 +487,13 @@ export default function DashboardPage() {
         {/* Last Row: Best Selling + Add New Product */}
         <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
 
-          <div className="lg:col-span-2 bg-white border rounded-xl p-6 shadow-md flex flex-col justify-between">
+          <div className="lg:col-span-2 bg-white border border-gray-200/80 rounded-2xl p-6 shadow-sm flex flex-col justify-between">
             <div>
               <div className="flex items-center justify-between mb-4">
-                <h2 className={`${microgrammaBold.className} font-semibold text-[1.125rem] text-gray-800`}>Best selling product</h2>
+                <h2 className={`${microgrammaBold.className} font-bold text-[1.125rem] text-[#074139]`}>Best selling product</h2>
                 <Link
                   href="/admin/products"
-                  className="flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-xs text-white font-medium hover:opacity-90 transition-opacity"
+                  className="flex items-center gap-1.5 px-3 py-1.5 rounded-xl text-xs text-white font-semibold hover:bg-[#0a4a42] transition-colors"
                   style={{ backgroundColor: '#074139' }}
                 >
                   <Filter className="h-3.5 w-3.5" /> All Products
@@ -522,16 +522,16 @@ export default function DashboardPage() {
             </div>
 
             <div className="flex justify-end mt-4">
-              <Link href="/admin/products" className="text-xs px-4 py-1.5 rounded-full border border-gray-200 text-gray-500 hover:bg-gray-50">
+              <Link href="/admin/products" className="text-xs px-3.5 py-1.5 rounded-full border border-gray-200 text-gray-600 hover:bg-gray-50 font-medium">
                 Details
               </Link>
             </div>
           </div>
 
-          <div className="bg-white border rounded-xl p-5 shadow-md">
+          <div className="bg-white border border-gray-200/80 rounded-2xl p-5 shadow-sm">
             <div className="flex items-center justify-between mb-1">
-              <h2 className={`${microgrammaBold.className} font-semibold text-[1.125rem] text-gray-800`}>Add New Product</h2>
-              <Link href="/admin/products/add" className="text-xs text-blue-500 flex items-center gap-1 hover:underline">
+              <h2 className={`${microgrammaBold.className} font-bold text-[1.125rem] text-[#074139]`}>Add New Product</h2>
+              <Link href="/admin/products/add" className="text-xs text-[#074139] font-bold flex items-center gap-1 hover:underline">
                 <Plus className="h-3 w-3" /> Add New
               </Link>
             </div>
@@ -541,35 +541,35 @@ export default function DashboardPage() {
                 <Link
                   key={cat.id}
                   href={`/admin/products`}
-                  className="flex items-center justify-between p-2.5 rounded-lg border hover:bg-gray-50 cursor-pointer transition-colors"
+                  className="flex items-center justify-between p-2.5 rounded-xl border border-gray-100 hover:border-[#CAEDE6] hover:bg-[#E6F5F2]/40 cursor-pointer transition-colors"
                 >
                   <div className="flex items-center gap-2">
-                    <div className="w-8 h-8 rounded-lg bg-emerald-50 border border-emerald-100 flex items-center justify-center text-xs font-bold text-emerald-800">
+                    <div className="w-8 h-8 rounded-lg bg-[#E6F5F2] border border-[#CAEDE6] flex items-center justify-center text-xs font-bold text-[#074139]">
                       {cat.name.slice(0, 2).toUpperCase()}
                     </div>
-                    <span className="text-xs font-medium">{cat.name}</span>
+                    <span className="text-xs font-semibold text-gray-800">{cat.name}</span>
                   </div>
                   <ChevronRight className="h-3.5 w-3.5 text-gray-400" />
                 </Link>
               ))}
               {categories.length === 0 && <p className="text-xs text-gray-400">No categories yet</p>}
             </div>
-            <Link href="/admin/categories" className="text-xs text-blue-500 w-full text-center mb-4 block hover:underline">See more</Link>
+            <Link href="/admin/categories" className="text-xs text-[#074139] font-bold w-full text-center mb-4 block hover:underline">See more</Link>
 
             <p className="text-xs text-gray-400 mb-3">Product</p>
             <div className="space-y-3">
               {QUICK_PRODUCTS.map((p) => (
                 <div key={p.name} className="flex items-center gap-2">
-                  <div className="w-9 h-9 rounded-lg bg-emerald-50 border border-emerald-100 shrink-0 flex items-center justify-center text-xs font-bold text-emerald-800">
+                  <div className="w-9 h-9 rounded-lg bg-[#E6F5F2] border border-[#CAEDE6] shrink-0 flex items-center justify-center text-xs font-bold text-[#074139]">
                     {p.name.slice(0, 2).toUpperCase()}
                   </div>
                   <div className="flex-1 min-w-0">
-                    <p className="text-xs font-medium truncate">{p.name}</p>
-                    <p className="text-[0.625rem] text-green-600 font-mono font-semibold">{p.price}</p>
+                    <p className="text-xs font-semibold text-gray-800 truncate">{p.name}</p>
+                    <p className="text-[0.625rem] text-[#074139] font-mono font-bold">{p.price}</p>
                   </div>
                   <Link
                     href="/admin/products/add"
-                    className="flex items-center gap-1 px-2.5 py-1.5 rounded-full text-xs text-white font-medium hover:opacity-90 transition-opacity"
+                    className="flex items-center gap-1 px-3 py-1.5 rounded-full text-xs text-white font-medium hover:bg-[#0a4a42] transition-colors"
                     style={{ backgroundColor: '#074139' }}
                   >
                     <Plus className="h-3 w-3" /> Add
@@ -577,7 +577,7 @@ export default function DashboardPage() {
                 </div>
               ))}
             </div>
-            <Link href="/admin/products" className="text-xs text-blue-500 w-full text-center mt-3 block hover:underline">See more</Link>
+            <Link href="/admin/products" className="text-xs text-[#074139] font-bold w-full text-center mt-3 block hover:underline">See more</Link>
           </div>
         </div>
 

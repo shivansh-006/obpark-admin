@@ -23,18 +23,18 @@ ModuleRegistry.registerModules([AllCommunityModule])
 // Custom AG Grid theme matching OBPARK branding
 const obparkGridTheme = themeQuartz.withParams({
   accentColor: '#074139',
-  headerBackgroundColor: '#F0FDF4',
-  headerTextColor: '#374151',
-  headerFontWeight: 600,
-  headerFontSize: 11.5,
-  fontSize: 11.5,
-  borderColor: '#E5E7EB',
-  borderRadius: 8,
+  headerBackgroundColor: '#E6F5F2',
+  headerTextColor: '#074139',
+  headerFontWeight: 700,
+  headerFontSize: 12,
+  fontSize: 12,
+  borderColor: '#CAEDE6',
+  borderRadius: 12,
   browserColorScheme: 'light',
-  rowHoverColor: '#F9FAFB',
-  selectedRowBackgroundColor: '#ECFDF5',
+  rowHoverColor: '#F0FAF5',
+  selectedRowBackgroundColor: '#E6F5F2',
   rowHeight: 48,
-  headerHeight: 36,
+  headerHeight: 40,
 })
 
 interface Coupon {
@@ -397,18 +397,17 @@ export default function CouponsPage() {
   )
 
   return (
-    <div className="min-h-screen bg-gray-50">
+    <div className="min-h-screen bg-[#F0FAF5]">
       <Header title="Coupons" onMenuClick={() => setDrawerOpen(true)} />
 
       <div className="p-6 space-y-6">
         <div className="flex items-center justify-between flex-wrap gap-3">
-          <h2 className={`${microgrammaBold.className} font-semibold text-[1.125rem] text-gray-800`}>
+          <h2 className={`${microgrammaBold.className} font-bold text-[1.125rem] text-[#074139]`}>
             Coupon List
           </h2>
           <button
             onClick={() => setShowForm(true)}
-            className="flex items-center gap-1.5 px-4 py-2 rounded-lg text-sm font-semibold text-white hover:opacity-95 transition-all shadow-xs"
-            style={{ backgroundColor: '#074139' }}
+            className="flex items-center gap-1.5 px-4 py-2 rounded-xl text-xs font-semibold font-michroma text-white bg-[#074139] hover:bg-[#06332d] transition-all shadow-xs"
           >
             <Plus className="h-4 w-4" />
             <span>Add Coupon</span>
@@ -423,19 +422,19 @@ export default function CouponsPage() {
             { label: 'Expired Coupons', value: expiredCount },
             { label: 'Total Redemptions', value: totalUses },
           ].map((k) => (
-            <div key={k.label} className="bg-white border rounded-xl p-5 shadow-md">
+            <div key={k.label} className="bg-white border border-[#CAEDE6]/60 rounded-2xl p-5 shadow-xs hover:border-[#074139]/20 transition-all">
               <div className="flex items-start justify-between">
-                <p className={`${microgrammaBold.className} text-[1rem] font-semibold text-gray-700`}>{k.label}</p>
+                <p className="text-[11px] font-bold text-[#074139]/70 uppercase tracking-wider font-michroma">{k.label}</p>
                 <MoreVertical className="h-4 w-4 text-gray-300" />
               </div>
-              <p className="text-2xl font-bold text-gray-800 mt-2">{isLoading ? '—' : k.value}</p>
-              <p className="text-xs text-gray-500 font-medium mt-1">Last 7 days</p>
+              <p className={`${microgrammaBold.className} text-2xl font-bold text-[#074139] mt-2`}>{isLoading ? '—' : k.value}</p>
+              <p className="text-xs text-gray-400 font-medium mt-1">Platform Total</p>
             </div>
           ))}
         </div>
 
         {/* Filter tabs + table */}
-        <div className="bg-white border rounded-xl p-4 shadow-md space-y-4">
+        <div className="bg-white border border-[#CAEDE6]/60 rounded-2xl p-5 shadow-xs space-y-4">
           {/* Scoped CSS enforcing vertical Y-axis centering */}
           <style>{`
             .ag-grid-coupons .ag-cell {
@@ -468,15 +467,14 @@ export default function CouponsPage() {
           `}</style>
 
           <div className="flex items-center justify-between flex-wrap gap-3">
-            <div className="flex bg-gray-50 rounded-lg p-1 text-sm overflow-x-auto">
+            <div className="flex bg-[#E6F5F2]/80 border border-[#CAEDE6] rounded-2xl p-1.5 text-xs font-semibold overflow-x-auto gap-1">
               {TABS.map((tab) => (
                 <button
                   key={tab}
                   onClick={() => setActiveTab(tab)}
-                  className={`px-4 py-1.5 rounded-md font-medium whitespace-nowrap transition-colors ${
-                    activeTab === tab ? 'bg-white shadow-sm' : 'text-gray-500'
+                  className={`px-3.5 py-1.5 rounded-xl font-michroma text-xs font-semibold whitespace-nowrap transition-all ${
+                    activeTab === tab ? 'bg-[#074139] text-white shadow-xs' : 'text-[#074139]/70 hover:text-[#074139] hover:bg-white/60'
                   }`}
-                  style={activeTab === tab ? { color: '#074139' } : {}}
                 >
                   {tab === 'All Coupons' ? `All Coupons (${total})` : tab}
                 </button>
@@ -484,21 +482,21 @@ export default function CouponsPage() {
             </div>
             <div className="flex items-center gap-2">
               <div className="relative">
-                <Search className="absolute left-2.5 top-1/2 -translate-y-1/2 h-3.5 w-3.5 text-gray-400" />
+                <Search className="absolute left-3 top-1/2 -translate-y-1/2 h-3.5 w-3.5 text-gray-400" />
                 <input
                   value={search}
                   onChange={(e) => setSearch(e.target.value)}
                   placeholder="Search coupon code..."
-                  className="pl-8 pr-2 py-1.5 rounded-lg bg-gray-50 border text-xs outline-none w-48 focus:border-[#074139]"
+                  className="pl-9 pr-3 py-2 rounded-xl bg-white border border-[#CAEDE6] text-xs outline-none w-48 focus:border-[#074139] focus:ring-2 focus:ring-[#074139]/10"
                 />
               </div>
 
               <button
                 onClick={() => setShowFloatingFilters((prev) => !prev)}
-                className={`flex items-center gap-1.5 px-2.5 py-1.5 rounded-lg border text-xs font-medium transition-colors ${
+                className={`flex items-center gap-1.5 px-3 py-2 rounded-xl border text-xs font-semibold transition-colors ${
                   showFloatingFilters
-                    ? 'bg-emerald-50 border-emerald-300 text-emerald-800'
-                    : 'text-gray-600 hover:bg-gray-50 border-gray-200'
+                    ? 'bg-[#E6F5F2] border-[#CAEDE6] text-[#074139]'
+                    : 'text-[#074139]/70 hover:bg-[#E6F5F2]/50 border-[#CAEDE6]'
                 }`}
                 title="Toggle column filters"
                 type="button"
@@ -509,7 +507,7 @@ export default function CouponsPage() {
               <button
                 onClick={handleExportCsv}
                 disabled={!coupons?.length}
-                className="flex items-center gap-1.5 px-2.5 py-1.5 rounded-lg border border-gray-200 text-xs font-medium text-gray-600 hover:bg-gray-50 disabled:opacity-50 transition-colors"
+                className="flex items-center gap-1.5 px-3 py-2 rounded-xl border border-[#CAEDE6] text-xs font-semibold text-[#074139] hover:bg-[#E6F5F2]/50 disabled:opacity-50 transition-colors"
                 title="Export coupons to CSV"
                 type="button"
               >

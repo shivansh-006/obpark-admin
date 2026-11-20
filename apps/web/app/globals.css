@@ -6,16 +6,17 @@ html {
 }
 
 :root {
-  --background: 0 0% 100%;
-  --foreground: 222.2 84% 4.9%;
-  --primary: 221.2 83.2% 53.3%;
-  --primary-foreground: 210 40% 98%;
-  --secondary: 210 40% 96.1%;
-  --secondary-foreground: 222.2 47.4% 11.2%;
-  --muted: 210 40% 96.1%;
+  --background: 154 33% 97%;
+  --foreground: 174 81% 14%;
+  --primary: 174 81% 14%; /* #074139 Deep Forest Teal */
+  --primary-foreground: 0 0% 100%;
+  --secondary: 168 47% 93%; /* #E6F5F2 Mint Light */
+  --secondary-foreground: 174 81% 14%;
+  --accent: #A2F1DF;
+  --muted: 160 20% 96%;
   --muted-foreground: 215.4 16.3% 46.9%;
-  --border: 214.3 31.8% 91.4%;
-  --radius: 0.5rem;
+  --border: 168 25% 90%;
+  --radius: 0.75rem;
   --font-geist-sans: 'Geist Sans', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
   --font-michroma: 'Michroma', sans-serif;
   --font-microgamma: 'Microgramma Extended', sans-serif;
@@ -23,15 +24,15 @@ html {
 }
 
 .dark {
-  --background: 222.2 84% 4.9%;
-  --foreground: 210 40% 98%;
-  --primary: 217.2 91.2% 59.8%;
-  --primary-foreground: 222.2 47.4% 11.2%;
-  --secondary: 217.2 32.6% 17.5%;
-  --secondary-foreground: 210 40% 98%;
-  --muted: 217.2 32.6% 17.5%;
-  --muted-foreground: 215 20.2% 65.1%;
-  --border: 217.2 32.6% 17.5%;
+  --background: 174 50% 6%;
+  --foreground: 168 40% 98%;
+  --primary: 168 76% 79%; /* #A2F1DF */
+  --primary-foreground: 174 81% 14%;
+  --secondary: 174 40% 12%;
+  --secondary-foreground: 168 40% 98%;
+  --muted: 174 30% 15%;
+  --muted-foreground: 168 20% 65%;
+  --border: 174 30% 18%;
 }
 
 * {
@@ -52,12 +53,31 @@ body {
   --font-sans: var(--font-geist-sans), -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
   --font-heading: var(--font-microgramma), 'Microgramma Extended', sans-serif;
   --font-michroma: var(--font-michroma), 'Michroma', sans-serif;
+  --font-microgramma: var(--font-microgramma), 'Microgramma Extended', sans-serif;
+  --font-microgramma-bold: var(--font-microgramma-bold), 'Microgramma Extended', sans-serif;
 
   /* Rich high-contrast grays so secondary and helper texts are never washed out or bleached */
   --color-gray-300: #94a3b8;
   --color-gray-400: #64748b;
   --color-gray-500: #475569;
 }
+
+/* Explicit Obrive Typography Classes */
+.font-michroma {
+  font-family: var(--font-michroma), 'Michroma', sans-serif !important;
+}
+
+.font-microgramma,
+.font-microgramma-bold,
+.font-heading {
+  font-family: var(--font-microgramma), 'Microgramma Extended', sans-serif !important;
+}
+
+.font-geist,
+.font-sans {
+  font-family: var(--font-geist-sans), -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif !important;
+}
+
 
 /* Form Input Labels - Darker (#111827) and slightly larger (0.875rem / text-sm) for enhanced readability */
 label:not(.cursor-pointer):not([class*="badge"]),
@@ -66,6 +86,57 @@ label:not(.cursor-pointer):not([class*="badge"]),
   font-weight: 600 !important;
   color: #111827 !important;
   line-height: 1.35;
+}
+
+/* Obrive Design System Components & Helpers */
+.bg-obrive-primary {
+  background-color: #074139 !important;
+}
+.text-obrive-primary {
+  color: #074139 !important;
+}
+.border-obrive-primary {
+  border-color: #074139 !important;
+}
+.bg-obrive-mint {
+  background-color: #E6F5F2 !important;
+}
+.border-obrive-mint {
+  border-color: #CAEDE6 !important;
+}
+.text-obrive-mint {
+  color: #074139 !important;
+}
+
+.obrive-btn-primary {
+  background-color: #074139;
+  color: #ffffff;
+  font-weight: 600;
+  border-radius: 0.75rem;
+  transition: all 0.2s ease;
+  box-shadow: 0 1px 2px 0 rgba(7, 65, 57, 0.15);
+}
+.obrive-btn-primary:hover {
+  background-color: #0a4a42;
+}
+
+.obrive-btn-secondary {
+  background-color: #E6F5F2;
+  color: #074139;
+  font-weight: 600;
+  border-radius: 0.75rem;
+  border: 1px solid rgba(7, 65, 57, 0.15);
+  transition: all 0.2s ease;
+}
+.obrive-btn-secondary:hover {
+  background-color: #caede5;
+}
+
+.obrive-card {
+  background-color: #ffffff;
+  border: 1px solid rgba(226, 237, 232, 0.9);
+  border-radius: 1rem;
+  box-shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.04);
 }
 
 /* Custom slim scrollbar */

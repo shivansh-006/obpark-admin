@@ -76,26 +76,27 @@ export function Sidebar({ onNavigate }: { onNavigate?: () => void }) {
         <Link
           href="/admin"
           onClick={onNavigate}
-          className="flex items-center gap-3 group focus:outline-none"
+          className="flex items-center gap-2 group focus:outline-none"
         >
-          <div className="flex h-11 w-32 items-center justify-start overflow-hidden transition-transform duration-200 group-hover:scale-[1.02]">
+          <div className="flex items-center justify-start transition-transform duration-200 group-hover:scale-[1.02]">
             <Image
-              src="/ObriveLogo.png"
+              src="/obrive-main-logo.svg"
               alt="Obrive Logo"
-              width={140}
-              height={40}
-              className="h-auto w-auto max-h-9 max-w-full object-contain"
+              width={160}
+              height={36}
+              className="h-8 w-auto object-contain"
               priority
+              unoptimized
             />
           </div>
         </Link>
-        {/* <span className="inline-flex items-center gap-1.5 px-2 py-0.5 rounded-full text-[0.625rem] font-semibold bg-emerald-50 text-emerald-700 border border-emerald-200/60">
+        <span className="inline-flex items-center gap-1.5 px-2 py-0.5 rounded-full text-[0.625rem] font-bold bg-[#E6F5F2] text-[#074139] border border-[#CAEDE6]">
           <span className="relative flex h-1.5 w-1.5">
-            <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-emerald-400 opacity-75" />
-            <span className="relative inline-flex rounded-full h-1.5 w-1.5 bg-emerald-500" />
+            <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-[#59D0B5] opacity-75" />
+            <span className="relative inline-flex rounded-full h-1.5 w-1.5 bg-[#074139]" />
           </span>
-          LIVE
-        </span> */}
+          CENTRAL
+        </span>
       </div>
 
       {/* Navigation Groups - scrollable with slim custom scrollbar */}
@@ -144,6 +145,26 @@ export function Sidebar({ onNavigate }: { onNavigate?: () => void }) {
 
       {/* User Mini Profile & Logout Area */}
       <div className="p-3 border-t border-gray-100 bg-gray-50/70 shrink-0 space-y-2">
+        {/* Obrive Support & Live Desk Card */}
+        <div className="p-3 rounded-2xl bg-gradient-to-br from-[#E6F5F2] to-[#D9F2F2] border border-[#CAEDE6] text-[#074139]">
+          <div className="flex items-center gap-2 mb-1">
+            <div className="p-1.5 rounded-lg bg-[#074139] text-white">
+              <LifeBuoy className="w-3.5 h-3.5" />
+            </div>
+            <div>
+              <p className="text-xs font-bold leading-none">Support Desk</p>
+              <p className="text-[10px] text-gray-500 mt-0.5">Live ticket resolution</p>
+            </div>
+          </div>
+          <Link
+            href="/admin/support"
+            onClick={onNavigate}
+            className="mt-2 block w-full py-1.5 text-center text-xs font-bold rounded-lg bg-[#074139] text-white hover:bg-[#0a4a42] transition-colors shadow-2xs"
+          >
+            Open Tickets
+          </Link>
+        </div>
+
         <Link
           href="/admin/adminrole"
           onClick={onNavigate}
