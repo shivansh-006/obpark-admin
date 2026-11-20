@@ -3,7 +3,6 @@ import React, { useState, useEffect } from "react";
 import { ArrowUpRight } from "lucide-react";
 import Link from "next/link";
 import Image from "next/image";
-import obriveLogo from "@/app/assets/logo/obpark_title_logo.svg";
 import { useRouter } from "next/navigation";
 
 interface HeaderProps {
@@ -75,7 +74,7 @@ export default function Header({ categoryName }: HeaderProps) {
           >
             
                         <Image
-                            src={obriveLogo}
+                            src="/ObriveLogo.png"
                             alt="Obrive Logo"
                             width={130}
                             height={60}

@@ -25,8 +25,9 @@ export class StorageService {
 
   private resolveUploadDir(): string {
     // 1. Explicit environment variable takes highest priority
-    if (process.env.UPLOAD_DIR) {
-      const explicit = path.resolve(process.env.UPLOAD_DIR)
+    const envUploadDir = process.env.UPLOAD_DIR || process.env.UPLOADS_DIR
+    if (envUploadDir) {
+      const explicit = path.resolve(envUploadDir)
       if (fs.existsSync(explicit)) {
         return explicit
       }
@@ -74,7 +75,7 @@ export class StorageService {
     const filename = index !== undefined ? `p-${index}${ext}` : `p-${Date.now()}${ext}`
     const fullPath = path.join(targetDir, filename)
 
-    fs.writeFileSync(fullPath, file.buffer)
+    await fs.promises.writeFile(fullPath, file.buffer)
 
     const url = `/uploads/products/${cleanSlug}/${filename}`
     const relativePath = `products/${cleanSlug}/${filename}`
@@ -97,7 +98,7 @@ export class StorageService {
     const filename = `${imageType}${ext}`
     const fullPath = path.join(targetDir, filename)
 
-    fs.writeFileSync(fullPath, file.buffer)
+    await fs.promises.writeFile(fullPath, file.buffer)
 
     const url = `/uploads/categories/${cleanSlug}/${filename}`
     const relativePath = `categories/${cleanSlug}/${filename}`
@@ -119,7 +120,7 @@ export class StorageService {
     const filename = `${cleanId}${ext}`
     const fullPath = path.join(targetDir, filename)
 
-    fs.writeFileSync(fullPath, file.buffer)
+    await fs.promises.writeFile(fullPath, file.buffer)
 
     const url = `/uploads/profile/${filename}`
     const relativePath = `profile/${filename}`

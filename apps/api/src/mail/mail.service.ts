@@ -77,7 +77,8 @@ export class MailService {
   }
 
   async sendVendorDispatchAlert(payload: VendorDispatchEmailPayload): Promise<boolean> {
-    const dispatchUrl = `https://admin.obpark.in/dispatch/${payload.dispatchToken}`
+    const baseUrl = (env.ADMIN_FRONTEND_URL || 'https://admin.obpark.in').replace(/\/$/, '')
+    const dispatchUrl = `${baseUrl}/dispatch/${payload.dispatchToken}`
     const html = this.buildVendorPackingSlipHtml(payload, dispatchUrl)
 
     if (!this.transporter) {

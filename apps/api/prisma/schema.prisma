@@ -75,7 +75,11 @@ enum DocReviewStatus {
   ACTION_REQUIRED
 }
 
-// LEGACY ADMIN USERS TABLE 
+// =========================================================================
+// 1. ADMIN OPERATORS & BACKOFFICE USERS (Internal Admin Panel)
+// Represents administrative backoffice staff, managers, and operators.
+// Used exclusively by `AuthService` (JWT login/refresh) and `Session`.
+// =========================================================================
 model User { 
   id           String    @id @default(cuid())
   email        String    @unique
@@ -88,11 +92,7 @@ model User {
   isVerified   Boolean   @default(false)
   createdAt    DateTime  @default(now())
   updatedAt    DateTime  @updatedAt
-  // addresses Address[]
-  // cart Cart?
-  // orders Order[]
   sessions     Session[]
-  // vehicles     Vehicle[]
 }
 
 model Session {
@@ -104,6 +104,11 @@ model Session {
   user         User     @relation(fields: [userId], references: [id], onDelete: Cascade)
 }
 
+// =========================================================================
+// 2. STOREFRONT END-CUSTOMERS (Consumer Marketplace Accounts)
+// Represents mobile/web e-commerce shoppers, bookings, and vehicle owners.
+// Referenced by `Order`, `Payment`, `Cart`, `CustomerCar`, and `Booking`.
+// =========================================================================
 model Users {
   id               String    @id @default(uuid())
   firebaseUid      String?   @unique   // <-- NEW: added to match Firebase accounts for google login
@@ -560,6 +565,7 @@ model VendorShipment {
   createdAt       DateTime        @default(now())
   updatedAt       DateTime        @updatedAt
 
+  @@unique([orderId, vendorId])
   @@index([orderId])
   @@index([vendorId])
   @@index([dispatchToken])

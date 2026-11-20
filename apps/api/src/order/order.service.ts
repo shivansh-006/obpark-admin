@@ -169,15 +169,24 @@ export class OrderService {
       if (!vendor || !vendor.isActive) continue
 
       const subtotal = items.reduce((sum, it) => sum + it.totalPrice, 0)
-      const shipment = await this.prisma.vendorShipment.create({
-        data: {
-          orderId: order.id,
-          vendorId: vendor.id,
-          items: items,
-          subtotal: subtotal,
-          status: 'PENDING',
-        },
-      })
+      let shipment
+      try {
+        shipment = await this.prisma.vendorShipment.create({
+          data: {
+            orderId: order.id,
+            vendorId: vendor.id,
+            items: items,
+            subtotal: subtotal,
+            status: 'PENDING',
+          },
+        })
+      } catch (err: any) {
+        if (err.code === 'P2002') {
+          this.logger.warn(`Shipment already created concurrently for Order ${order.id} and Vendor ${vendor.id}, skipping duplicate.`)
+          continue
+        }
+        throw err
+      }
 
       this.logger.log(`Created VendorShipment ${shipment.id} for Vendor ${vendor.businessName} on Order ${order.orderNumber}`)
 

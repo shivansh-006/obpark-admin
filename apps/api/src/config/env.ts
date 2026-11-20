@@ -3,7 +3,7 @@ import { z } from 'zod'
 
 const envSchema = z.object({
   // Database
-  DATABASE_URL: z.string().url(),
+  DATABASE_URL: z.string().url().default('postgresql://obrive:obrive_password@localhost:5432/obrive_dev'),
 
   // Redis
   REDIS_URL: z.string().default('redis://127.0.0.1:6379'),
@@ -15,6 +15,7 @@ const envSchema = z.object({
   // App
   PORT: z.coerce.number().default(3001),
   NODE_ENV: z.enum(['development', 'production', 'test']).default('development'),
+  ADMIN_FRONTEND_URL: z.string().default('https://admin.obpark.in'),
   /** Comma-separated browser origins allowed to call the API (e.g. Next.js dev server) */
   CORS_ORIGINS: z
     .string()

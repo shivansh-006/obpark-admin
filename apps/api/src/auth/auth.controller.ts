@@ -2,20 +2,22 @@ import { Controller, Post, Patch, Body, Res, Req, UseGuards, UnauthorizedExcepti
 import type { Response, Request } from 'express'
 import { AuthService } from './auth.service'
 import { JwtAuthGuard } from './jwt-auth.guard'
+import { RolesGuard } from './roles.guard'
+import { Roles } from './roles.decorator'
 import { CurrentUser } from './current-user.decorator'
 
 @Controller('auth')
 export class AuthController {
   constructor(private authService: AuthService) {}
 
+  @UseGuards(JwtAuthGuard, RolesGuard)
+  @Roles('ADMIN')
   @Post('register')
   async register(
     @Body() dto: { email: string; password: string; name: string },
-    @Res({ passthrough: true }) res: Response,
   ) {
     const result = await this.authService.register(dto.email, dto.password, dto.name)
-    this.setRefreshCookie(res, result.refreshToken)
-    return { user: result.user, accessToken: result.accessToken }
+    return { user: result.user, message: 'Admin user created successfully' }
   }
 
   @Post('login')

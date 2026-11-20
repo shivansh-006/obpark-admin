@@ -56,8 +56,8 @@ export function ProductListTable() {
   const gridRef = useRef<AgGridReact<AdminProduct>>(null)
   const queryClient = useQueryClient()
 
-  // Fetch up to 1000 products for complete client-side sorting, filtering & pagination
-  const { data, isLoading, isFetching } = useAdminProducts(undefined, 1000)
+  // Fetch reasonable batch of active products with client-side pagination
+  const { data, isLoading, isFetching } = useAdminProducts(undefined, 100)
   const deleteProduct = useDeleteProduct()
 
   const handleDelete = useCallback(

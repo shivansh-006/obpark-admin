@@ -103,7 +103,7 @@ export class ShipmentsService {
         dispatchedAt: s.dispatchedAt,
         deliveredAt: s.deliveredAt,
         createdAt: s.createdAt,
-        dispatchUrl: `https://admin.obpark.in/dispatch/${s.dispatchToken}`,
+        dispatchUrl: `${(process.env.ADMIN_FRONTEND_URL || 'https://admin.obpark.in').replace(/\/$/, '')}/dispatch/${s.dispatchToken}`,
       }
     })
 

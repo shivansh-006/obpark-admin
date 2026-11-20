@@ -4,6 +4,7 @@ import path from 'path'
 
 // Candidate base directories where uploads can reside
 const CANDIDATE_BASE_DIRS = [
+  process.env.UPLOAD_DIR,
   process.env.UPLOADS_DIR,
   '/var/www/obpark-api/uploads',
   path.resolve(process.cwd(), '../api/uploads'),

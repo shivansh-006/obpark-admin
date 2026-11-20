@@ -21,14 +21,27 @@ export class AnalyticsService {
   constructor(private prisma: PrismaService) {}
 
   async getOrderStatusBreakdown() {
-    const counts = await Promise.all(
-      COUNT_STATUSES.map((s) => this.prisma.order.count({ where: { status: s } }))
-    )
-    const total = counts.reduce((a, b) => a + b, 0) || 1
-    return COUNT_STATUSES.map((name, i) => ({
-      name,
-      value: Math.round((counts[i] / total) * 100),
-    }))
+    const grouped = await this.prisma.order.groupBy({
+      by: ['status'],
+      where: { status: { in: COUNT_STATUSES } },
+      _count: { id: true },
+    })
+
+    const countMap = new Map<OrderStatus, number>()
+    let total = 0
+    for (const g of grouped) {
+      countMap.set(g.status, g._count.id)
+      total += g._count.id
+    }
+    const safeTotal = total || 1
+
+    return COUNT_STATUSES.map((name) => {
+      const count = countMap.get(name) || 0
+      return {
+        name,
+        value: Math.round((count / safeTotal) * 100),
+      }
+    })
   }
 
   async getRevenueTrend(year?: number, month?: number, days = 7) {
