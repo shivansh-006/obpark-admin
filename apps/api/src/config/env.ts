@@ -42,7 +42,13 @@ const envSchema = z.object({
   // Surepass (optional — falls back to mock)
   SUREPASS_API_TOKEN: z.string().optional(),
 
-  // Hostinger SMTP (Optional in dev, required in prod for vendor dispatch)
+  // Brevo Transactional Email Service (Recommended)
+  BREVO_API_KEY: z.string().optional(),
+  BREVO_SENDER_EMAIL: z.string().default('orders@obpark.in'),
+  BREVO_SENDER_NAME: z.string().default('OBPark Orders'),
+  BREVO_ADMIN_CC: z.string().optional(),
+
+  // Hostinger / Generic SMTP (Fallback)
   SMTP_HOST: z.string().default('smtp.hostinger.com'),
   SMTP_PORT: z.coerce.number().default(465),
   SMTP_SECURE: z.coerce.boolean().default(true),

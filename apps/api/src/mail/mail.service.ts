@@ -50,9 +50,16 @@ export class MailService {
   }
 
   private initTransporter() {
+    if (env.BREVO_API_KEY) {
+      this.logger.log(
+        `✉️ Brevo Transactional Email Service active (Sender: ${env.BREVO_SENDER_NAME} <${env.BREVO_SENDER_EMAIL}>)`,
+      );
+      return;
+    }
+
     if (!env.SMTP_PASS) {
       this.logger.warn(
-        '⚠️ SMTP_PASS is not configured. Outbound emails will be simulated and logged to console.',
+        '⚠️ Neither BREVO_API_KEY nor SMTP_PASS is configured. Outbound emails will be simulated and logged to console.',
       );
       return;
     }
@@ -88,62 +95,135 @@ export class MailService {
     ).replace(/\/$/, '');
     const dispatchUrl = `${baseUrl}/dispatch/${payload.dispatchToken}`;
     const html = this.buildVendorPackingSlipHtml(payload, dispatchUrl);
+    const subject = `[OBPark Dispatch] New Order ${payload.orderNumber} - Pack & Ship Request`;
 
-    if (!this.transporter) {
-      this.logger.log(
-        `[SIMULATED EMAIL] To: ${payload.vendorEmail} | Subject: [OBPark] New Order ${payload.orderNumber} - Action Required`,
-      );
-      this.logger.log(`Dispatch URL: ${dispatchUrl}`);
-      return true;
-    }
-
-    try {
-      await this.transporter.sendMail({
-        from: env.SMTP_FROM,
-        to: payload.vendorEmail,
-        cc: env.SMTP_ADMIN_CC || undefined,
-        subject: `[OBPark Dispatch] New Order ${payload.orderNumber} - Pack & Ship Request`,
-        html,
+    // 1. Send via Brevo API if configured
+    if (env.BREVO_API_KEY) {
+      return this.sendViaBrevo({
+        to: [{ email: payload.vendorEmail, name: payload.vendorName }],
+        subject,
+        htmlContent: html,
+        cc: env.BREVO_ADMIN_CC || env.SMTP_ADMIN_CC,
       });
-      this.logger.log(
-        `Dispatch packing slip sent to vendor ${payload.vendorEmail} for order ${payload.orderNumber}`,
-      );
-      return true;
-    } catch (err: any) {
-      this.logger.error(
-        `Failed to send dispatch email to ${payload.vendorEmail}: ${err.message}`,
-      );
-      return false;
     }
+
+    // 2. Send via SMTP transporter if configured
+    if (this.transporter) {
+      try {
+        await this.transporter.sendMail({
+          from: env.SMTP_FROM,
+          to: payload.vendorEmail,
+          cc: env.SMTP_ADMIN_CC || undefined,
+          subject,
+          html,
+        });
+        this.logger.log(
+          `Dispatch packing slip sent to vendor ${payload.vendorEmail} for order ${payload.orderNumber}`,
+        );
+        return true;
+      } catch (err: any) {
+        this.logger.error(
+          `Failed to send dispatch email to ${payload.vendorEmail}: ${err.message}`,
+        );
+        return false;
+      }
+    }
+
+    // 3. Fallback simulated
+    this.logger.log(
+      `[SIMULATED EMAIL] To: ${payload.vendorEmail} | Subject: ${subject}`,
+    );
+    this.logger.log(`Dispatch URL: ${dispatchUrl}`);
+    return true;
   }
 
   async sendCustomerTrackingAlert(
     payload: CustomerTrackingEmailPayload,
   ): Promise<boolean> {
     const html = this.buildCustomerTrackingHtml(payload);
+    const subject = `Your OBPark Order ${payload.orderNumber} Has Shipped! (${payload.courierName})`;
 
-    if (!this.transporter) {
-      this.logger.log(
-        `[SIMULATED EMAIL] To: ${payload.customerEmail} | Subject: Your OBPark Order ${payload.orderNumber} has been dispatched!`,
-      );
-      return true;
+    // 1. Send via Brevo API if configured
+    if (env.BREVO_API_KEY) {
+      return this.sendViaBrevo({
+        to: [{ email: payload.customerEmail, name: payload.customerName }],
+        subject,
+        htmlContent: html,
+      });
+    }
+
+    // 2. Send via SMTP transporter if configured
+    if (this.transporter) {
+      try {
+        await this.transporter.sendMail({
+          from: env.SMTP_FROM,
+          to: payload.customerEmail,
+          subject,
+          html,
+        });
+        this.logger.log(
+          `Tracking notification sent to customer ${payload.customerEmail} for order ${payload.orderNumber}`,
+        );
+        return true;
+      } catch (err: any) {
+        this.logger.error(
+          `Failed to send tracking email to ${payload.customerEmail}: ${err.message}`,
+        );
+        return false;
+      }
+    }
+
+    // 3. Fallback simulated
+    this.logger.log(
+      `[SIMULATED EMAIL] To: ${payload.customerEmail} | Subject: ${subject}`,
+    );
+    return true;
+  }
+
+  private async sendViaBrevo(options: {
+    to: Array<{ email: string; name?: string }>;
+    subject: string;
+    htmlContent: string;
+    cc?: string;
+  }): Promise<boolean> {
+    const senderEmail = env.BREVO_SENDER_EMAIL || 'orders@obpark.in';
+    const senderName = env.BREVO_SENDER_NAME || 'OBPark Orders';
+
+    const body: Record<string, any> = {
+      sender: { name: senderName, email: senderEmail },
+      to: options.to,
+      subject: options.subject,
+      htmlContent: options.htmlContent,
+    };
+
+    if (options.cc) {
+      body.cc = [{ email: options.cc }];
     }
 
     try {
-      await this.transporter.sendMail({
-        from: env.SMTP_FROM,
-        to: payload.customerEmail,
-        subject: `Your OBPark Order ${payload.orderNumber} Has Shipped! (${payload.courierName})`,
-        html,
+      const response = await fetch('https://api.brevo.com/v3/smtp/email', {
+        method: 'POST',
+        headers: {
+          accept: 'application/json',
+          'api-key': env.BREVO_API_KEY!,
+          'content-type': 'application/json',
+        },
+        body: JSON.stringify(body),
       });
+
+      if (!response.ok) {
+        const errorText = await response.text();
+        this.logger.error(`Brevo API Error (${response.status}): ${errorText}`);
+        return false;
+      }
+
+      const resData = (await response.json()) as { messageId?: string };
       this.logger.log(
-        `Tracking notification sent to customer ${payload.customerEmail} for order ${payload.orderNumber}`,
+        `Email sent via Brevo to ${options.to.map((t) => t.email).join(', ')} (MessageId: ${resData.messageId || 'ok'})`,
       );
       return true;
     } catch (err: any) {
-      this.logger.error(
-        `Failed to send tracking email to ${payload.customerEmail}: ${err.message}`,
-      );
+      this.logger.error(`Failed to send email via Brevo: ${err.message}`);
       return false;
     }
   }
