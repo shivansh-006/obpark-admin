@@ -6,11 +6,11 @@ import {
   Body,
   Query,
   UseGuards,
-} from '@nestjs/common'
-import { PayoutsService, SettleShipmentDto } from './payouts.service'
-import { JwtAuthGuard } from '../auth/jwt-auth.guard'
-import { RolesGuard } from '../auth/roles.guard'
-import { Roles } from '../auth/roles.decorator'
+} from '@nestjs/common';
+import { PayoutsService, SettleShipmentDto } from './payouts.service';
+import { JwtAuthGuard } from '../auth/jwt-auth.guard';
+import { RolesGuard } from '../auth/roles.guard';
+import { Roles } from '../auth/roles.decorator';
 
 @Controller('admin/payouts')
 @UseGuards(JwtAuthGuard, RolesGuard)
@@ -23,12 +23,12 @@ export class PayoutsController {
     @Query('startDate') startDate?: string,
     @Query('endDate') endDate?: string,
   ) {
-    return this.payoutsService.getPayoutSummary({ startDate, endDate })
+    return this.payoutsService.getPayoutSummary({ startDate, endDate });
   }
 
   @Get('vendor/:vendorId')
   getVendorDetails(@Param('vendorId') vendorId: string) {
-    return this.payoutsService.getVendorLedgerDetails(vendorId)
+    return this.payoutsService.getVendorLedgerDetails(vendorId);
   }
 
   @Post('settle/:shipmentId')
@@ -36,6 +36,6 @@ export class PayoutsController {
     @Param('shipmentId') shipmentId: string,
     @Body() dto: SettleShipmentDto,
   ) {
-    return this.payoutsService.settleShipment(shipmentId, dto)
+    return this.payoutsService.settleShipment(shipmentId, dto);
   }
 }

@@ -8,15 +8,15 @@ import {
   UseGuards,
   Body,
   Query,
-} from '@nestjs/common'
-import { FileInterceptor } from '@nestjs/platform-express'
-import * as fs from 'fs'
-import * as path from 'path'
-import { JwtAuthGuard } from '../auth/jwt-auth.guard'
-import { RolesGuard } from '../auth/roles.guard'
-import { Roles } from '../auth/roles.decorator'
-import { cloudinary } from './cloudinary.provider'
-import { StorageService, UploadedFileDto } from '../storage/storage.service'
+} from '@nestjs/common';
+import { FileInterceptor } from '@nestjs/platform-express';
+import * as fs from 'fs';
+import * as path from 'path';
+import { JwtAuthGuard } from '../auth/jwt-auth.guard';
+import { RolesGuard } from '../auth/roles.guard';
+import { Roles } from '../auth/roles.decorator';
+import { cloudinary } from './cloudinary.provider';
+import { StorageService, UploadedFileDto } from '../storage/storage.service';
 
 @Controller('admin/media')
 @UseGuards(JwtAuthGuard, RolesGuard)
@@ -29,16 +29,22 @@ export class MediaController {
     FileInterceptor('file', {
       limits: { fileSize: 10 * 1024 * 1024 }, // 10MB limit to prevent OOM
       fileFilter: (_req, file, cb) => {
-        const allowed = ['image/jpeg', 'image/png', 'image/webp', 'image/gif', 'image/svg+xml']
+        const allowed = [
+          'image/jpeg',
+          'image/png',
+          'image/webp',
+          'image/gif',
+          'image/svg+xml',
+        ];
         if (!allowed.includes(file.mimetype)) {
           return cb(
             new BadRequestException(
               'Invalid file type. Only JPEG, PNG, WebP, GIF, and SVG images are permitted.',
             ),
             false,
-          )
+          );
         }
-        cb(null, true)
+        cb(null, true);
       },
     }),
   )
@@ -56,47 +62,75 @@ export class MediaController {
     @Query('index') queryIndex?: string,
   ) {
     if (!file?.buffer) {
-      throw new BadRequestException('No file uploaded')
+      throw new BadRequestException('No file uploaded');
     }
 
-    const type = bodyType || queryType
-    const slug = bodySlug || querySlug
-    const imageType = (bodyImageType || queryImageType || 'card') as 'card' | 'banner' | 'slider'
-    const index = bodyIndex !== undefined || queryIndex !== undefined ? Number(bodyIndex ?? queryIndex) : undefined
+    const type = bodyType || queryType;
+    const slug = bodySlug || querySlug;
+    const imageType = (bodyImageType || queryImageType || 'card') as
+      | 'card'
+      | 'banner'
+      | 'slider';
+    const index =
+      bodyIndex !== undefined || queryIndex !== undefined
+        ? Number(bodyIndex ?? queryIndex)
+        : undefined;
 
     // 1. Dedicated Category Image Upload: uploads/categories/{category_slug}/{imageType}.ext
-    if ((type === 'category' || bodyFolder === 'categories' || queryFolder === 'categories') && slug) {
-      const saved = await this.storageService.saveCategoryImage(slug, imageType, file)
+    if (
+      (type === 'category' ||
+        bodyFolder === 'categories' ||
+        queryFolder === 'categories') &&
+      slug
+    ) {
+      const saved = await this.storageService.saveCategoryImage(
+        slug,
+        imageType,
+        file,
+      );
       return {
         url: saved.url,
         path: saved.relativePath,
         publicUrl: saved.url,
-      }
+      };
     }
 
     // 2. Dedicated Product Image Upload: uploads/products/{product_slug}/p-{index}.ext
-    if ((type === 'product' || bodyFolder === 'products' || queryFolder === 'products') && slug) {
-      const saved = await this.storageService.saveProductImage(slug, file, index)
+    if (
+      (type === 'product' ||
+        bodyFolder === 'products' ||
+        queryFolder === 'products') &&
+      slug
+    ) {
+      const saved = await this.storageService.saveProductImage(
+        slug,
+        file,
+        index,
+      );
       return {
         url: saved.url,
         path: saved.relativePath,
         publicUrl: saved.url,
-      }
+      };
     }
 
     // 3. Dedicated Profile Image Upload: uploads/profile/{identifier}.ext
-    if (type === 'profile' || bodyFolder === 'profile' || queryFolder === 'profile') {
-      const saved = await this.storageService.saveProfileImage(file, slug)
+    if (
+      type === 'profile' ||
+      bodyFolder === 'profile' ||
+      queryFolder === 'profile'
+    ) {
+      const saved = await this.storageService.saveProfileImage(file, slug);
       return {
         url: saved.url,
         path: saved.relativePath,
         publicUrl: saved.url,
-      }
+      };
     }
 
     // 3. Cloudinary upload if explicitly configured
-    const rawFolder = bodyFolder || queryFolder || 'products'
-    const folder = rawFolder.replace(/[^a-zA-Z0-9_-]/g, '') || 'products'
+    const rawFolder = bodyFolder || queryFolder || 'products';
+    const folder = rawFolder.replace(/[^a-zA-Z0-9_-]/g, '') || 'products';
 
     if (
       process.env.CLOUDINARY_CLOUD_NAME &&
@@ -108,59 +142,67 @@ export class MediaController {
           const stream = cloudinary.uploader.upload_stream(
             { folder: `obpark-${folder}` },
             (error, res) => {
-              if (error) return reject(error)
-              resolve(res)
+              if (error) return reject(error);
+              resolve(res);
             },
-          )
-          stream.end(file.buffer)
-        })
+          );
+          stream.end(file.buffer);
+        });
 
         return {
           url: result.secure_url,
           path: result.public_id,
           publicUrl: result.secure_url,
-        }
+        };
       } catch (err: any) {
-        console.warn('Cloudinary upload unreachable, falling back to local storage:', err?.message)
+        console.warn(
+          'Cloudinary upload unreachable, falling back to local storage:',
+          err?.message,
+        );
       }
     }
 
     // 4. Fallback storage in baseUploadDir/{folder}/
     try {
-      const ext = path.extname(file.originalname).toLowerCase() || '.png'
+      const ext = path.extname(file.originalname).toLowerCase() || '.png';
       const rawBase = path
         .basename(file.originalname, ext)
-        .replace(/[^a-zA-Z0-9_-]/g, '_')
-      const filename = `${Date.now()}-${rawBase}${ext}`
+        .replace(/[^a-zA-Z0-9_-]/g, '_');
+      const filename = `${Date.now()}-${rawBase}${ext}`;
 
-      const baseDir = this.storageService.getBaseDir()
-      const targetDir = path.join(baseDir, folder)
-      this.storageService.ensureDirectoryExists(targetDir)
+      const baseDir = this.storageService.getBaseDir();
+      const targetDir = path.join(baseDir, folder);
+      this.storageService.ensureDirectoryExists(targetDir);
 
-      fs.writeFileSync(path.join(targetDir, filename), file.buffer)
+      fs.writeFileSync(path.join(targetDir, filename), file.buffer);
 
-      const relativeUrl = `/uploads/${folder}/${filename}`
+      const relativeUrl = `/uploads/${folder}/${filename}`;
       return {
         url: relativeUrl,
         path: `${folder}/${filename}`,
         publicUrl: relativeUrl,
-      }
+      };
     } catch (err: any) {
-      throw new BadRequestException(err?.message || 'Failed to save uploaded media file')
+      throw new BadRequestException(
+        err?.message || 'Failed to save uploaded media file',
+      );
     }
   }
 
   @Delete()
-  async delete(@Body('path') bodyPath?: string, @Query('path') queryPath?: string) {
-    const rawPath = bodyPath || queryPath
-    if (!rawPath) throw new BadRequestException('path is required')
+  async delete(
+    @Body('path') bodyPath?: string,
+    @Query('path') queryPath?: string,
+  ) {
+    const rawPath = bodyPath || queryPath;
+    if (!rawPath) throw new BadRequestException('path is required');
 
-    const cleanPath = rawPath.replace(/^\/?uploads\//, '').replace(/^\/+/, '')
-    const deleted = this.storageService.deleteFile(cleanPath)
+    const cleanPath = rawPath.replace(/^\/?uploads\//, '').replace(/^\/+/, '');
+    const deleted = this.storageService.deleteFile(cleanPath);
 
     if (process.env.CLOUDINARY_CLOUD_NAME) {
       try {
-        await cloudinary.uploader.destroy(cleanPath)
+        await cloudinary.uploader.destroy(cleanPath);
       } catch {
         // ignore
       }
@@ -170,6 +212,6 @@ export class MediaController {
       success: true,
       deleted,
       path: cleanPath,
-    }
+    };
   }
 }

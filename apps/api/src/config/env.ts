@@ -1,25 +1,38 @@
-import 'dotenv/config'
-import { z } from 'zod'
+import 'dotenv/config';
+import { z } from 'zod';
 
 const envSchema = z.object({
   // Database
-  DATABASE_URL: z.string().url().default('postgresql://obrive:obrive_password@localhost:5432/obrive_dev'),
+  DATABASE_URL: z
+    .string()
+    .url()
+    .default('postgresql://obrive:obrive_password@localhost:5432/obrive_dev'),
 
   // Redis
   REDIS_URL: z.string().default('redis://127.0.0.1:6379'),
 
   // JWT
-  JWT_SECRET: z.string().min(32, 'JWT_SECRET must be at least 32 characters').default('ObPark2026SuperSecureAdminSecretKey!#123'),
-  JWT_REFRESH_SECRET: z.string().min(32, 'JWT_REFRESH_SECRET must be at least 32 characters').default('ObPark2026SuperSecureAdminRefreshSecretKey!#123'),
+  JWT_SECRET: z
+    .string()
+    .min(32, 'JWT_SECRET must be at least 32 characters')
+    .default('ObPark2026SuperSecureAdminSecretKey!#123'),
+  JWT_REFRESH_SECRET: z
+    .string()
+    .min(32, 'JWT_REFRESH_SECRET must be at least 32 characters')
+    .default('ObPark2026SuperSecureAdminRefreshSecretKey!#123'),
 
   // App
   PORT: z.coerce.number().default(3001),
-  NODE_ENV: z.enum(['development', 'production', 'test']).default('development'),
+  NODE_ENV: z
+    .enum(['development', 'production', 'test'])
+    .default('development'),
   ADMIN_FRONTEND_URL: z.string().default('https://admin.obpark.in'),
   /** Comma-separated browser origins allowed to call the API (e.g. Next.js dev server) */
   CORS_ORIGINS: z
     .string()
-    .default('https://admin.obpark.in,https://obpark.in,http://localhost:3000,http://localhost:3001,http://localhost:3002,http://localhost:8021'),
+    .default(
+      'https://admin.obpark.in,https://obpark.in,http://localhost:3000,http://localhost:3001,http://localhost:3002,http://localhost:8021',
+    ),
 
   // Razorpay (optional in dev — required in prod)
   RAZORPAY_KEY_ID: z.string().optional(),
@@ -37,8 +50,8 @@ const envSchema = z.object({
   SMTP_PASS: z.string().optional(),
   SMTP_FROM: z.string().default('OBPark Orders <orders@obpark.in>'),
   SMTP_ADMIN_CC: z.string().optional(),
-})
+});
 
-export const env = envSchema.parse(process.env)
+export const env = envSchema.parse(process.env);
 
-export type Env = z.infer<typeof envSchema>
+export type Env = z.infer<typeof envSchema>;

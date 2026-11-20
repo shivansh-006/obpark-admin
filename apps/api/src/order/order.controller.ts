@@ -1,8 +1,16 @@
-import { Controller, Get, Patch, Query, Param, Body, UseGuards } from '@nestjs/common'
-import { OrderService } from './order.service'
-import { JwtAuthGuard } from '../auth/jwt-auth.guard'
-import { RolesGuard } from '../auth/roles.guard'
-import { Roles } from '../auth/roles.decorator'
+import {
+  Controller,
+  Get,
+  Patch,
+  Query,
+  Param,
+  Body,
+  UseGuards,
+} from '@nestjs/common';
+import { OrderService } from './order.service';
+import { JwtAuthGuard } from '../auth/jwt-auth.guard';
+import { RolesGuard } from '../auth/roles.guard';
+import { Roles } from '../auth/roles.decorator';
 
 @Controller('admin/orders')
 @UseGuards(JwtAuthGuard, RolesGuard)
@@ -12,7 +20,7 @@ export class OrderController {
 
   @Get('counts')
   getCounts() {
-    return this.orderService.getOrderCounts()
+    return this.orderService.getOrderCounts();
   }
 
   @Get()
@@ -20,11 +28,14 @@ export class OrderController {
     return this.orderService.listOrders(
       limit ? Number(limit) : undefined,
       offset ? Number(offset) : undefined,
-    )
+    );
   }
 
   @Patch(':orderId/status')
-  updateStatus(@Param('orderId') orderId: string, @Body('status') status: string) {
-    return this.orderService.updateStatus(orderId, status)
+  updateStatus(
+    @Param('orderId') orderId: string,
+    @Body('status') status: string,
+  ) {
+    return this.orderService.updateStatus(orderId, status);
   }
 }

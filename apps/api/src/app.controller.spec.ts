@@ -1,22 +1,22 @@
-import { Test, TestingModule } from '@nestjs/testing'
-import { AppController } from './app.controller'
+import { Test, TestingModule } from '@nestjs/testing';
+import { AppController } from './app.controller';
 
 describe('AppController', () => {
-  let appController: AppController
+  let appController: AppController;
 
   beforeEach(async () => {
     const app: TestingModule = await Test.createTestingModule({
       controllers: [AppController],
-    }).compile()
+    }).compile();
 
-    appController = app.get<AppController>(AppController)
-  })
+    appController = app.get<AppController>(AppController);
+  });
 
   describe('health', () => {
     it('should return status ok and timestamp', () => {
-      const res = appController.health()
-      expect(res.status).toBe('ok')
-      expect(res.timestamp).toBeDefined()
-    })
-  })
-})
+      const res = appController.health();
+      expect(res.status).toBe('ok');
+      expect(res.timestamp).toBeDefined();
+    });
+  });
+});

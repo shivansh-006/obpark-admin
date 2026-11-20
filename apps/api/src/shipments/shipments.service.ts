@@ -3,13 +3,13 @@ import {
   NotFoundException,
   BadRequestException,
   Logger,
-} from '@nestjs/common'
-import { PrismaService } from '../prisma/prisma.service'
-import { MailService } from '../mail/mail.service'
+} from '@nestjs/common';
+import { PrismaService } from '../prisma/prisma.service';
+import { MailService } from '../mail/mail.service';
 
 @Injectable()
 export class ShipmentsService {
-  private readonly logger = new Logger(ShipmentsService.name)
+  private readonly logger = new Logger(ShipmentsService.name);
 
   constructor(
     private prisma: PrismaService,
@@ -17,26 +17,26 @@ export class ShipmentsService {
   ) {}
 
   async listShipments(filters: {
-    status?: string
-    vendorId?: string
-    payoutStatus?: string
-    limit?: number
-    page?: number
+    status?: string;
+    vendorId?: string;
+    payoutStatus?: string;
+    limit?: number;
+    page?: number;
   }) {
-    const where: any = {}
+    const where: any = {};
     if (filters.status) {
-      where.status = filters.status
+      where.status = filters.status;
     }
     if (filters.vendorId) {
-      where.vendorId = filters.vendorId
+      where.vendorId = filters.vendorId;
     }
     if (filters.payoutStatus) {
-      where.payoutStatus = filters.payoutStatus
+      where.payoutStatus = filters.payoutStatus;
     }
 
-    const limit = Math.min(Math.max(Number(filters.limit) || 20, 1), 100)
-    const page = Math.max(Number(filters.page) || 1, 1)
-    const skip = (page - 1) * limit
+    const limit = Math.min(Math.max(Number(filters.limit) || 20, 1), 100);
+    const page = Math.max(Number(filters.page) || 1, 1);
+    const skip = (page - 1) * limit;
 
     const [shipments, total] = await Promise.all([
       this.prisma.vendorShipment.findMany({
@@ -74,13 +74,13 @@ export class ShipmentsService {
         },
       }),
       this.prisma.vendorShipment.count({ where }),
-    ])
+    ]);
 
     const mapped = shipments.map((s) => {
-      const gross = Number(s.subtotal)
-      const commissionRate = Number(s.vendor?.commissionRate || 10)
-      const platformFee = Number(((gross * commissionRate) / 100).toFixed(2))
-      const netPayable = Number((gross - platformFee).toFixed(2))
+      const gross = Number(s.subtotal);
+      const commissionRate = Number(s.vendor?.commissionRate || 10);
+      const platformFee = Number(((gross * commissionRate) / 100).toFixed(2));
+      const netPayable = Number((gross - platformFee).toFixed(2));
 
       return {
         id: s.id,
@@ -104,32 +104,36 @@ export class ShipmentsService {
         deliveredAt: s.deliveredAt,
         createdAt: s.createdAt,
         dispatchUrl: `${(process.env.ADMIN_FRONTEND_URL || 'https://admin.obpark.in').replace(/\/$/, '')}/dispatch/${s.dispatchToken}`,
-      }
-    })
+      };
+    });
 
     return {
       shipments: mapped,
       total,
       page,
       limit,
-    }
+    };
   }
 
   async overrideDispatch(
     id: string,
-    dto: { courierName: string; trackingNumber: string; courierWebsite?: string },
+    dto: {
+      courierName: string;
+      trackingNumber: string;
+      courierWebsite?: string;
+    },
   ) {
     const shipment = await this.prisma.vendorShipment.findUnique({
       where: { id },
       include: { order: { include: { user: true } } },
-    })
+    });
 
     if (!shipment) {
-      throw new NotFoundException(`Shipment ${id} not found`)
+      throw new NotFoundException(`Shipment ${id} not found`);
     }
 
-    const cleanCourier = dto.courierName.trim()
-    const cleanTracking = dto.trackingNumber.trim().toUpperCase()
+    const cleanCourier = dto.courierName.trim();
+    const cleanTracking = dto.trackingNumber.trim().toUpperCase();
 
     const updated = await this.prisma.vendorShipment.update({
       where: { id },
@@ -140,7 +144,7 @@ export class ShipmentsService {
         courierWebsite: dto.courierWebsite?.trim() || null,
         dispatchedAt: new Date(),
       },
-    })
+    });
 
     // Check sibling shipments to adjust parent order status
     const remainingPending = await this.prisma.vendorShipment.count({
@@ -148,47 +152,55 @@ export class ShipmentsService {
         orderId: shipment.orderId,
         status: { in: ['PENDING', 'READY_FOR_PICKUP'] },
       },
-    })
+    });
 
-    const parentStatus = remainingPending === 0 ? 'SHIPPED' : 'PARTIALLY_SHIPPED'
+    const parentStatus =
+      remainingPending === 0 ? 'SHIPPED' : 'PARTIALLY_SHIPPED';
     await this.prisma.order.update({
       where: { id: shipment.orderId },
       data: { status: parentStatus as any },
-    })
+    });
 
     // Trigger customer notification
     if (shipment.order.user?.email) {
       const itemsArr = Array.isArray(shipment.items)
-        ? (shipment.items as any[]).map((it) => ({ name: it.name, quantity: it.quantity }))
-        : []
+        ? (shipment.items as any[]).map((it) => ({
+            name: it.name,
+            quantity: it.quantity,
+          }))
+        : [];
 
       const customerName =
         `${shipment.order.user.firstName || ''} ${shipment.order.user.lastName || ''}`.trim() ||
-        'Customer'
+        'Customer';
 
-      this.mailService.sendCustomerTrackingAlert({
-        customerEmail: shipment.order.user.email,
-        customerName,
-        orderNumber: shipment.order.orderNumber,
-        courierName: cleanCourier,
-        trackingNumber: cleanTracking,
-        items: itemsArr,
-      }).catch((err) => {
-        this.logger.error(`Error notifying customer: ${err.message}`)
-      })
+      this.mailService
+        .sendCustomerTrackingAlert({
+          customerEmail: shipment.order.user.email,
+          customerName,
+          orderNumber: shipment.order.orderNumber,
+          courierName: cleanCourier,
+          trackingNumber: cleanTracking,
+          items: itemsArr,
+        })
+        .catch((err) => {
+          this.logger.error(`Error notifying customer: ${err.message}`);
+        });
     }
 
     return {
       success: true,
       message: 'Shipment dispatched manually by Admin.',
       shipment: updated,
-    }
+    };
   }
 
   async markDelivered(id: string) {
-    const shipment = await this.prisma.vendorShipment.findUnique({ where: { id } })
+    const shipment = await this.prisma.vendorShipment.findUnique({
+      where: { id },
+    });
     if (!shipment) {
-      throw new NotFoundException(`Shipment ${id} not found`)
+      throw new NotFoundException(`Shipment ${id} not found`);
     }
 
     // Mark as DELIVERED and transition payoutStatus to ELIGIBLE
@@ -199,7 +211,7 @@ export class ShipmentsService {
         deliveredAt: new Date(),
         payoutStatus: 'ELIGIBLE', // Eligible for financial settlement!
       },
-    })
+    });
 
     // If all shipments for this order are delivered, set parent order to DELIVERED
     const remainingUndelivered = await this.prisma.vendorShipment.count({
@@ -207,20 +219,21 @@ export class ShipmentsService {
         orderId: shipment.orderId,
         status: { not: 'DELIVERED' },
       },
-    })
+    });
 
     if (remainingUndelivered === 0) {
       await this.prisma.order.update({
         where: { id: shipment.orderId },
         data: { status: 'DELIVERED' },
-      })
+      });
     }
 
     return {
       success: true,
-      message: 'Shipment marked as DELIVERED. Vendor payout status transitioned to ELIGIBLE.',
+      message:
+        'Shipment marked as DELIVERED. Vendor payout status transitioned to ELIGIBLE.',
       shipment: updated,
-    }
+    };
   }
 
   async resendDispatchEmail(id: string) {
@@ -234,26 +247,33 @@ export class ShipmentsService {
           },
         },
       },
-    })
+    });
 
     if (!shipment) {
-      throw new NotFoundException(`Shipment ${id} not found`)
+      throw new NotFoundException(`Shipment ${id} not found`);
     }
 
-    const rawAddress: any = shipment.order.shippingAddress || {}
+    const rawAddress: any = shipment.order.shippingAddress || {};
     const customer = {
       name:
         `${shipment.order.user?.firstName || ''} ${shipment.order.user?.lastName || ''}`.trim() ||
         shipment.order.user?.email ||
         'Valued Customer',
-      phone: rawAddress.phone || rawAddress.phoneNumber || shipment.order.user?.phoneNumber || '—',
-      streetAddress: rawAddress.streetAddress || rawAddress.address || 'Address on file',
+      phone:
+        rawAddress.phone ||
+        rawAddress.phoneNumber ||
+        shipment.order.user?.phoneNumber ||
+        '—',
+      streetAddress:
+        rawAddress.streetAddress || rawAddress.address || 'Address on file',
       city: rawAddress.city || '—',
       state: rawAddress.state || '—',
       postalCode: rawAddress.zipCode || rawAddress.postalCode || '—',
-    }
+    };
 
-    const items = Array.isArray(shipment.items) ? (shipment.items as any[]) : []
+    const items = Array.isArray(shipment.items)
+      ? (shipment.items as any[])
+      : [];
 
     const sent = await this.mailService.sendVendorDispatchAlert({
       vendorEmail: shipment.vendor.email,
@@ -264,13 +284,13 @@ export class ShipmentsService {
       subtotal: Number(shipment.subtotal),
       items,
       customer,
-    })
+    });
 
     return {
       success: sent,
       message: sent
         ? `Dispatch email resent to ${shipment.vendor.email}`
         : `Failed to resend dispatch email to ${shipment.vendor.email}`,
-    }
+    };
   }
 }

@@ -7,17 +7,17 @@ import {
   Body,
   Query,
   UseGuards,
-} from '@nestjs/common'
+} from '@nestjs/common';
 import {
   TicketsService,
   CreateTicketDto,
   AddTicketMessageDto,
   UpdateTicketDto,
-} from './tickets.service'
-import { JwtAuthGuard } from '../auth/jwt-auth.guard'
-import { RolesGuard } from '../auth/roles.guard'
-import { Roles } from '../auth/roles.decorator'
-import { TicketCategory, TicketPriority, TicketStatus } from '@prisma/client'
+} from './tickets.service';
+import { JwtAuthGuard } from '../auth/jwt-auth.guard';
+import { RolesGuard } from '../auth/roles.guard';
+import { Roles } from '../auth/roles.decorator';
+import { TicketCategory, TicketPriority, TicketStatus } from '@prisma/client';
 
 @Controller('admin/tickets')
 @UseGuards(JwtAuthGuard, RolesGuard)
@@ -27,7 +27,7 @@ export class TicketsController {
 
   @Get('stats')
   getStats() {
-    return this.ticketsService.getTicketStats()
+    return this.ticketsService.getTicketStats();
   }
 
   @Get()
@@ -48,32 +48,26 @@ export class TicketsController {
       search,
       page: page ? Number(page) : 1,
       limit: limit ? Number(limit) : 20,
-    })
+    });
   }
 
   @Post()
   createTicket(@Body() dto: CreateTicketDto) {
-    return this.ticketsService.createTicket(dto)
+    return this.ticketsService.createTicket(dto);
   }
 
   @Get(':id')
   getTicket(@Param('id') id: string) {
-    return this.ticketsService.getTicketById(id)
+    return this.ticketsService.getTicketById(id);
   }
 
   @Post(':id/messages')
-  addMessage(
-    @Param('id') id: string,
-    @Body() dto: AddTicketMessageDto,
-  ) {
-    return this.ticketsService.addMessage(id, dto)
+  addMessage(@Param('id') id: string, @Body() dto: AddTicketMessageDto) {
+    return this.ticketsService.addMessage(id, dto);
   }
 
   @Patch(':id')
-  updateTicket(
-    @Param('id') id: string,
-    @Body() dto: UpdateTicketDto,
-  ) {
-    return this.ticketsService.updateTicket(id, dto)
+  updateTicket(@Param('id') id: string, @Body() dto: UpdateTicketDto) {
+    return this.ticketsService.updateTicket(id, dto);
   }
 }

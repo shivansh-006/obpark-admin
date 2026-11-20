@@ -1,20 +1,22 @@
-import { env } from './config/env'
-import { NestFactory } from '@nestjs/core'
-import { ValidationPipe } from '@nestjs/common'
-import { NestExpressApplication } from '@nestjs/platform-express'
-import { AppModule } from './app.module'
-import { StorageService } from './storage/storage.service'
-import { PrismaExceptionFilter } from './prisma/prisma-exception.filter'
-import cookieParser from 'cookie-parser'
-import * as path from 'path'
-import * as fs from 'fs'
+import { env } from './config/env';
+import { NestFactory } from '@nestjs/core';
+import { ValidationPipe } from '@nestjs/common';
+import { NestExpressApplication } from '@nestjs/platform-express';
+import { AppModule } from './app.module';
+import { StorageService } from './storage/storage.service';
+import { PrismaExceptionFilter } from './prisma/prisma-exception.filter';
+import cookieParser from 'cookie-parser';
+import * as path from 'path';
+import * as fs from 'fs';
 
 const allowedOrigins = new Set(
-  env.CORS_ORIGINS.split(',').map((o) => o.trim()).filter(Boolean),
-)
+  env.CORS_ORIGINS.split(',')
+    .map((o) => o.trim())
+    .filter(Boolean),
+);
 
 function isCorsOriginAllowed(origin: string | undefined): boolean {
-  if (!origin) return true
+  if (!origin) return true;
   if (
     origin === 'https://admin.obpark.in' ||
     origin === 'https://obpark.in' ||
@@ -22,68 +24,70 @@ function isCorsOriginAllowed(origin: string | undefined): boolean {
     origin === 'https://api.obpark.in' ||
     origin.endsWith('.obpark.in')
   ) {
-    return true
+    return true;
   }
-  if (allowedOrigins.has(origin)) return true
+  if (allowedOrigins.has(origin)) return true;
   // Allow localhost ports
   if (/^http:\/\/localhost:\d+$/.test(origin)) {
-    return true
+    return true;
   }
-  return false
+  return false;
 }
 
 async function bootstrap() {
-  const app = await NestFactory.create<NestExpressApplication>(AppModule, { rawBody: true })
-  app.enableShutdownHooks()
-  app.use(cookieParser())
-  app.useGlobalPipes(new ValidationPipe({ whitelist: true, transform: true }))
-  app.useGlobalFilters(new PrismaExceptionFilter())
+  const app = await NestFactory.create<NestExpressApplication>(AppModule, {
+    rawBody: true,
+  });
+  app.enableShutdownHooks();
+  app.use(cookieParser());
+  app.useGlobalPipes(new ValidationPipe({ whitelist: true, transform: true }));
+  app.useGlobalFilters(new PrismaExceptionFilter());
 
   // Configure reverse proxy trust for accurate client IP resolution
-  const expressInstance = app.getHttpAdapter().getInstance()
+  const expressInstance = app.getHttpAdapter().getInstance();
   if (typeof expressInstance?.set === 'function') {
-    expressInstance.set('trust proxy', 1)
+    expressInstance.set('trust proxy', 1);
   }
 
   // Serve static uploaded assets directly from dynamic StorageService base directory
-  const storageService = app.get(StorageService)
-  const uploadDir = storageService.getBaseDir()
+  const storageService = app.get(StorageService);
+  const uploadDir = storageService.getBaseDir();
   if (!fs.existsSync(uploadDir)) {
-    fs.mkdirSync(uploadDir, { recursive: true })
+    fs.mkdirSync(uploadDir, { recursive: true });
   }
-  app.useStaticAssets(uploadDir, { prefix: '/uploads/' })
+  app.useStaticAssets(uploadDir, { prefix: '/uploads/' });
 
   // Also serve local ./uploads if different
-  const localUploads = path.resolve(process.cwd(), 'uploads')
+  const localUploads = path.resolve(process.cwd(), 'uploads');
   if (localUploads !== uploadDir && fs.existsSync(localUploads)) {
-    app.useStaticAssets(localUploads, { prefix: '/uploads/' })
+    app.useStaticAssets(localUploads, { prefix: '/uploads/' });
   }
 
   app.enableCors({
     origin: (origin, callback) => {
       if (isCorsOriginAllowed(origin)) {
-        return callback(null, true)
+        return callback(null, true);
       }
-      return callback(null, false)
+      return callback(null, false);
     },
     credentials: true,
     methods: 'GET,HEAD,PUT,PATCH,POST,DELETE,OPTIONS',
     allowedHeaders:
       'Content-Type, Accept, Authorization, X-Requested-With, Origin, Access-Control-Request-Method, Access-Control-Request-Headers',
     maxAge: 86400,
-  })
+  });
 
-  const port = env.PORT
+  const port = env.PORT;
   try {
-    await app.listen(port)
-    console.log(`API running on http://localhost:${port}`)
+    await app.listen(port);
+    console.log(`API running on http://localhost:${port}`);
   } catch (err: unknown) {
     if (err instanceof Error && 'code' in err && err.code === 'EADDRINUSE') {
       console.error(
         `Port ${port} is in use. Run: pnpm run free-port (in apps/api), then pnpm start:dev`,
-      )
+      );
     }
-    throw err
+    throw err;
   }
 }
-bootstrap()
+bootstrap();

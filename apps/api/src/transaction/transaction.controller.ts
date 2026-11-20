@@ -1,8 +1,8 @@
-import { Controller, Get, Query, UseGuards } from '@nestjs/common'
-import { TransactionService } from './transaction.service'
-import { JwtAuthGuard } from '../auth/jwt-auth.guard'
-import { RolesGuard } from '../auth/roles.guard'
-import { Roles } from '../auth/roles.decorator'
+import { Controller, Get, Query, UseGuards } from '@nestjs/common';
+import { TransactionService } from './transaction.service';
+import { JwtAuthGuard } from '../auth/jwt-auth.guard';
+import { RolesGuard } from '../auth/roles.guard';
+import { Roles } from '../auth/roles.decorator';
 
 @Controller('admin/transactions')
 @UseGuards(JwtAuthGuard, RolesGuard)
@@ -12,11 +12,11 @@ export class TransactionController {
 
   @Get('summary')
   getSummary() {
-    return this.transactionService.getSummary()
+    return this.transactionService.getSummary();
   }
 
   @Get()
   list(@Query() query: any) {
-    return this.transactionService.listTransactions(query)
+    return this.transactionService.listTransactions(query);
   }
 }

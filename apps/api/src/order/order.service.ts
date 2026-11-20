@@ -1,23 +1,23 @@
-import { Injectable, Logger } from '@nestjs/common'
-import { PrismaService } from '../prisma/prisma.service'
-import { MailService } from '../mail/mail.service'
-import { OrderStatus } from '@prisma/client'
+import { Injectable, Logger } from '@nestjs/common';
+import { PrismaService } from '../prisma/prisma.service';
+import { MailService } from '../mail/mail.service';
+import { OrderStatus } from '@prisma/client';
 
 const COMPLETED_STATUSES: OrderStatus[] = [
   OrderStatus.CONFIRMED,
   OrderStatus.PROCESSING,
   OrderStatus.SHIPPED,
   OrderStatus.DELIVERED,
-]
+];
 
 const CANCELED_STATUSES: OrderStatus[] = [
   OrderStatus.CANCELLED,
   OrderStatus.REFUNDED,
-]
+];
 
 @Injectable()
 export class OrderService {
-  private readonly logger = new Logger(OrderService.name)
+  private readonly logger = new Logger(OrderService.name);
 
   constructor(
     private prisma: PrismaService,
@@ -32,17 +32,25 @@ export class OrderService {
         orderBy: { createdAt: 'desc' },
         include: {
           user: { select: { firstName: true, lastName: true, email: true } },
-          items: { select: { productName: true, quantity: true, unitPrice: true, totalPrice: true } },
+          items: {
+            select: {
+              productName: true,
+              quantity: true,
+              unitPrice: true,
+              totalPrice: true,
+            },
+          },
           payments: { select: { status: true, amount: true, gateway: true } },
         },
       }),
       this.prisma.order.count(),
-    ])
+    ]);
 
     const mapped = orders.map((o) => {
       const customerName = o.user
-        ? `${o.user.firstName || ''} ${o.user.lastName || ''}`.trim() || o.user.email
-        : 'Customer'
+        ? `${o.user.firstName || ''} ${o.user.lastName || ''}`.trim() ||
+          o.user.email
+        : 'Customer';
 
       return {
         id: o.id,
@@ -61,38 +69,43 @@ export class OrderService {
         paymentStatus: o.payments[0]?.status || 'PENDING',
         payment: o.payments[0] ? { status: o.payments[0].status } : null,
         createdAt: o.createdAt,
-      }
-    })
+      };
+    });
 
-    return { orders: mapped, total }
+    return { orders: mapped, total };
   }
 
   async getOrderCounts() {
-    const since = new Date()
-    since.setDate(since.getDate() - 7)
+    const since = new Date();
+    since.setDate(since.getDate() - 7);
 
     const [newOrders, completed, canceled] = await Promise.all([
       this.prisma.order.count({ where: { createdAt: { gte: since } } }),
-      this.prisma.order.count({ where: { status: { in: COMPLETED_STATUSES } } }),
+      this.prisma.order.count({
+        where: { status: { in: COMPLETED_STATUSES } },
+      }),
       this.prisma.order.count({ where: { status: { in: CANCELED_STATUSES } } }),
-    ])
+    ]);
 
-    return { newOrders, completed, canceled }
+    return { newOrders, completed, canceled };
   }
 
   async updateStatus(orderId: string, status: OrderStatus | string) {
     const updated = await this.prisma.order.update({
       where: { id: orderId },
       data: { status: status as OrderStatus },
-    })
+    });
 
     if (status === OrderStatus.CONFIRMED || status === 'CONFIRMED') {
       this.processOrderFulfillment(orderId).catch((err) => {
-        this.logger.error(`Error processing vendor fulfillment for order ${orderId}: ${err.message}`, err.stack)
-      })
+        this.logger.error(
+          `Error processing vendor fulfillment for order ${orderId}: ${err.message}`,
+          err.stack,
+        );
+      });
     }
 
-    return updated
+    return updated;
   }
 
   /**
@@ -107,35 +120,35 @@ export class OrderService {
         user: true,
         shipments: true,
       },
-    })
-    if (!order) return
+    });
+    if (!order) return;
 
     // Idempotency: skip if shipments have already been partitioned
     if (order.shipments && order.shipments.length > 0) {
-      return
+      return;
     }
 
     // Resolve products and their assigned vendors
-    const productIds = order.items.map((i) => i.productId)
+    const productIds = order.items.map((i) => i.productId);
     const products = await this.prisma.product.findMany({
       where: {
         OR: [{ id: { in: productIds } }, { productId: { in: productIds } }],
       },
       include: { vendor: true },
-    })
+    });
 
-    const productVendorMap = new Map<string, any>()
+    const productVendorMap = new Map<string, any>();
     for (const p of products) {
-      productVendorMap.set(p.id, p)
-      productVendorMap.set(p.productId, p)
+      productVendorMap.set(p.id, p);
+      productVendorMap.set(p.productId, p);
     }
 
-    const vendorItemsMap = new Map<string, any[]>()
+    const vendorItemsMap = new Map<string, any[]>();
     for (const item of order.items) {
-      const prod = productVendorMap.get(item.productId)
-      const vendorId = prod?.vendorId || 'obpark-internal'
+      const prod = productVendorMap.get(item.productId);
+      const vendorId = prod?.vendorId || 'obpark-internal';
       if (!vendorItemsMap.has(vendorId)) {
-        vendorItemsMap.set(vendorId, [])
+        vendorItemsMap.set(vendorId, []);
       }
       vendorItemsMap.get(vendorId)!.push({
         productId: item.productId,
@@ -144,32 +157,42 @@ export class OrderService {
         quantity: item.quantity,
         unitPrice: Number(item.unitPrice),
         totalPrice: Number(item.totalPrice),
-      })
+      });
     }
 
     // Parse shipping address
-    const rawAddress: any = order.shippingAddress || {}
+    const rawAddress: any = order.shippingAddress || {};
     const customer = {
-      name: `${order.user?.firstName || ''} ${order.user?.lastName || ''}`.trim() || order.user?.email || 'Valued Customer',
-      phone: rawAddress.phone || rawAddress.phoneNumber || order.user?.phoneNumber || '—',
-      streetAddress: rawAddress.streetAddress || rawAddress.address || 'Address on file',
+      name:
+        `${order.user?.firstName || ''} ${order.user?.lastName || ''}`.trim() ||
+        order.user?.email ||
+        'Valued Customer',
+      phone:
+        rawAddress.phone ||
+        rawAddress.phoneNumber ||
+        order.user?.phoneNumber ||
+        '—',
+      streetAddress:
+        rawAddress.streetAddress || rawAddress.address || 'Address on file',
       city: rawAddress.city || '—',
       state: rawAddress.state || '—',
       postalCode: rawAddress.zipCode || rawAddress.postalCode || '—',
-    }
+    };
 
     // Partition and create shipments per vendor
     for (const [vendorId, items] of vendorItemsMap.entries()) {
       if (vendorId === 'obpark-internal') {
         // Internal product handled directly by central operations
-        continue
+        continue;
       }
 
-      const vendor = await this.prisma.vendor.findUnique({ where: { id: vendorId } })
-      if (!vendor || !vendor.isActive) continue
+      const vendor = await this.prisma.vendor.findUnique({
+        where: { id: vendorId },
+      });
+      if (!vendor || !vendor.isActive) continue;
 
-      const subtotal = items.reduce((sum, it) => sum + it.totalPrice, 0)
-      let shipment
+      const subtotal = items.reduce((sum, it) => sum + it.totalPrice, 0);
+      let shipment;
       try {
         shipment = await this.prisma.vendorShipment.create({
           data: {
@@ -179,30 +202,38 @@ export class OrderService {
             subtotal: subtotal,
             status: 'PENDING',
           },
-        })
+        });
       } catch (err: any) {
         if (err.code === 'P2002') {
-          this.logger.warn(`Shipment already created concurrently for Order ${order.id} and Vendor ${vendor.id}, skipping duplicate.`)
-          continue
+          this.logger.warn(
+            `Shipment already created concurrently for Order ${order.id} and Vendor ${vendor.id}, skipping duplicate.`,
+          );
+          continue;
         }
-        throw err
+        throw err;
       }
 
-      this.logger.log(`Created VendorShipment ${shipment.id} for Vendor ${vendor.businessName} on Order ${order.orderNumber}`)
+      this.logger.log(
+        `Created VendorShipment ${shipment.id} for Vendor ${vendor.businessName} on Order ${order.orderNumber}`,
+      );
 
       // Fire outbound HTML packing slip email via Hostinger SMTP
-      await this.mailService.sendVendorDispatchAlert({
-        vendorEmail: vendor.email,
-        vendorName: vendor.businessName,
-        orderNumber: order.orderNumber,
-        shipmentId: shipment.id,
-        dispatchToken: shipment.dispatchToken,
-        subtotal: subtotal,
-        items: items,
-        customer,
-      }).catch((err) => {
-        this.logger.error(`Failed to send dispatch email to ${vendor.email}: ${err.message}`)
-      })
+      await this.mailService
+        .sendVendorDispatchAlert({
+          vendorEmail: vendor.email,
+          vendorName: vendor.businessName,
+          orderNumber: order.orderNumber,
+          shipmentId: shipment.id,
+          dispatchToken: shipment.dispatchToken,
+          subtotal: subtotal,
+          items: items,
+          customer,
+        })
+        .catch((err) => {
+          this.logger.error(
+            `Failed to send dispatch email to ${vendor.email}: ${err.message}`,
+          );
+        });
     }
   }
 }

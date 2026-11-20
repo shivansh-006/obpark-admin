@@ -1,7 +1,7 @@
-import { Controller, Get, Patch, Body, UseGuards } from '@nestjs/common'
-import { ProfileService } from './profile.service'
-import { JwtAuthGuard } from '../auth/jwt-auth.guard'
-import { CurrentUser } from '../auth/current-user.decorator'
+import { Controller, Get, Patch, Body, UseGuards } from '@nestjs/common';
+import { ProfileService } from './profile.service';
+import { JwtAuthGuard } from '../auth/jwt-auth.guard';
+import { CurrentUser } from '../auth/current-user.decorator';
 
 @Controller()
 @UseGuards(JwtAuthGuard)
@@ -10,7 +10,7 @@ export class ProfileController {
 
   @Get('me')
   getProfile(@CurrentUser() user: { userId: string }) {
-    return this.profileService.getProfile(user.userId)
+    return this.profileService.getProfile(user.userId);
   }
 
   @Patch('profile')
@@ -18,16 +18,16 @@ export class ProfileController {
     @CurrentUser() user: { userId: string },
     @Body()
     dto: {
-      firstName?: string
-      lastName?: string
-      phone?: string
-      email?: string
-      dob?: string
-      location?: string
-      avatarUrl?: string
-      bio?: string
+      firstName?: string;
+      lastName?: string;
+      phone?: string;
+      email?: string;
+      dob?: string;
+      location?: string;
+      avatarUrl?: string;
+      bio?: string;
     },
   ) {
-    return this.profileService.updateProfile(user.userId, dto)
+    return this.profileService.updateProfile(user.userId, dto);
   }
 }

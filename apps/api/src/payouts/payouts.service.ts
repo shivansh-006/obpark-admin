@@ -3,26 +3,26 @@ import {
   NotFoundException,
   BadRequestException,
   Logger,
-} from '@nestjs/common'
-import { PrismaService } from '../prisma/prisma.service'
+} from '@nestjs/common';
+import { PrismaService } from '../prisma/prisma.service';
 
 export interface SettleShipmentDto {
-  settlementRef: string
-  notes?: string
+  settlementRef: string;
+  notes?: string;
 }
 
 @Injectable()
 export class PayoutsService {
-  private readonly logger = new Logger(PayoutsService.name)
+  private readonly logger = new Logger(PayoutsService.name);
 
   constructor(private prisma: PrismaService) {}
 
   async getPayoutSummary(filters?: { startDate?: string; endDate?: string }) {
-    const where: any = {}
+    const where: any = {};
     if (filters?.startDate || filters?.endDate) {
-      where.createdAt = {}
-      if (filters.startDate) where.createdAt.gte = new Date(filters.startDate)
-      if (filters.endDate) where.createdAt.lte = new Date(filters.endDate)
+      where.createdAt = {};
+      if (filters.startDate) where.createdAt.gte = new Date(filters.startDate);
+      if (filters.endDate) where.createdAt.lte = new Date(filters.endDate);
     }
 
     const [vendors, shipmentAggs, fulfilledAggs] = await Promise.all([
@@ -58,10 +58,10 @@ export class PayoutsService {
         },
         _count: { id: true },
       }),
-    ])
+    ]);
 
     // Initialize vendor summary map
-    const vendorMap = new Map<string, any>()
+    const vendorMap = new Map<string, any>();
     for (const v of vendors) {
       vendorMap.set(v.id, {
         vendorId: v.id,
@@ -83,50 +83,61 @@ export class PayoutsService {
         pendingAmount: 0,
         eligibleAmount: 0,
         settledAmount: 0,
-      })
+      });
     }
 
-    const fulfilledMap = new Map<string, number>()
+    const fulfilledMap = new Map<string, number>();
     for (const f of fulfilledAggs) {
-      fulfilledMap.set(f.vendorId, f._count.id)
+      fulfilledMap.set(f.vendorId, f._count.id);
     }
 
     for (const agg of shipmentAggs) {
-      const entry = vendorMap.get(agg.vendorId)
-      if (!entry) continue
+      const entry = vendorMap.get(agg.vendorId);
+      if (!entry) continue;
 
-      const subtotal = Number(agg._sum?.subtotal || 0)
-      const commission = Number(((subtotal * entry.commissionRate) / 100).toFixed(2))
-      const net = Number((subtotal - commission).toFixed(2))
+      const subtotal = Number(agg._sum?.subtotal || 0);
+      const commission = Number(
+        ((subtotal * entry.commissionRate) / 100).toFixed(2),
+      );
+      const net = Number((subtotal - commission).toFixed(2));
 
-      entry.totalShipments += agg._count.id
-      entry.grossSales = Number((entry.grossSales + subtotal).toFixed(2))
-      entry.platformFee = Number((entry.platformFee + commission).toFixed(2))
-      entry.netPayable = Number((entry.netPayable + net).toFixed(2))
+      entry.totalShipments += agg._count.id;
+      entry.grossSales = Number((entry.grossSales + subtotal).toFixed(2));
+      entry.platformFee = Number((entry.platformFee + commission).toFixed(2));
+      entry.netPayable = Number((entry.netPayable + net).toFixed(2));
 
       if (agg.payoutStatus === 'SETTLED') {
-        entry.settledAmount = Number((entry.settledAmount + net).toFixed(2))
+        entry.settledAmount = Number((entry.settledAmount + net).toFixed(2));
       } else if (agg.payoutStatus === 'ELIGIBLE') {
-        entry.eligibleAmount = Number((entry.eligibleAmount + net).toFixed(2))
+        entry.eligibleAmount = Number((entry.eligibleAmount + net).toFixed(2));
       } else {
-        entry.pendingAmount = Number((entry.pendingAmount + net).toFixed(2))
+        entry.pendingAmount = Number((entry.pendingAmount + net).toFixed(2));
       }
     }
 
     for (const [vendorId, count] of fulfilledMap.entries()) {
-      const entry = vendorMap.get(vendorId)
-      if (entry) entry.fulfilledShipments = count
+      const entry = vendorMap.get(vendorId);
+      if (entry) entry.fulfilledShipments = count;
     }
 
-    const ledger = Array.from(vendorMap.values())
+    const ledger = Array.from(vendorMap.values());
 
     // Overall KPI Totals
-    const totalGrossSales = ledger.reduce((acc, v) => acc + v.grossSales, 0)
-    const totalPlatformFee = ledger.reduce((acc, v) => acc + v.platformFee, 0)
-    const totalNetPayable = ledger.reduce((acc, v) => acc + v.netPayable, 0)
-    const totalSettledAmount = ledger.reduce((acc, v) => acc + v.settledAmount, 0)
-    const totalEligibleAmount = ledger.reduce((acc, v) => acc + v.eligibleAmount, 0)
-    const totalPendingAmount = ledger.reduce((acc, v) => acc + v.pendingAmount, 0)
+    const totalGrossSales = ledger.reduce((acc, v) => acc + v.grossSales, 0);
+    const totalPlatformFee = ledger.reduce((acc, v) => acc + v.platformFee, 0);
+    const totalNetPayable = ledger.reduce((acc, v) => acc + v.netPayable, 0);
+    const totalSettledAmount = ledger.reduce(
+      (acc, v) => acc + v.settledAmount,
+      0,
+    );
+    const totalEligibleAmount = ledger.reduce(
+      (acc, v) => acc + v.eligibleAmount,
+      0,
+    );
+    const totalPendingAmount = ledger.reduce(
+      (acc, v) => acc + v.pendingAmount,
+      0,
+    );
 
     return {
       kpis: {
@@ -139,15 +150,15 @@ export class PayoutsService {
         activeVendorsCount: vendors.filter((v) => v.isActive).length,
       },
       ledger,
-    }
+    };
   }
 
   async getVendorLedgerDetails(vendorId: string) {
     const vendor = await this.prisma.vendor.findUnique({
       where: { id: vendorId },
-    })
+    });
     if (!vendor) {
-      throw new NotFoundException(`Vendor with ID ${vendorId} not found`)
+      throw new NotFoundException(`Vendor with ID ${vendorId} not found`);
     }
 
     const shipments = await this.prisma.vendorShipment.findMany({
@@ -162,13 +173,13 @@ export class PayoutsService {
           },
         },
       },
-    })
+    });
 
-    const commissionRate = Number(vendor.commissionRate)
+    const commissionRate = Number(vendor.commissionRate);
     const items = shipments.map((s) => {
-      const gross = Number(s.subtotal)
-      const fee = Number(((gross * commissionRate) / 100).toFixed(2))
-      const net = Number((gross - fee).toFixed(2))
+      const gross = Number(s.subtotal);
+      const fee = Number(((gross * commissionRate) / 100).toFixed(2));
+      const net = Number((gross - fee).toFixed(2));
 
       return {
         id: s.id,
@@ -188,8 +199,8 @@ export class PayoutsService {
         dispatchedAt: s.dispatchedAt,
         deliveredAt: s.deliveredAt,
         createdAt: s.createdAt,
-      }
-    })
+      };
+    });
 
     return {
       vendor: {
@@ -197,27 +208,29 @@ export class PayoutsService {
         commissionRate,
       },
       shipments: items,
-    }
+    };
   }
 
   async settleShipment(shipmentId: string, dto: SettleShipmentDto) {
     if (!dto.settlementRef || !dto.settlementRef.trim()) {
-      throw new BadRequestException('Settlement transaction reference / UTR is required')
+      throw new BadRequestException(
+        'Settlement transaction reference / UTR is required',
+      );
     }
 
     const shipment = await this.prisma.vendorShipment.findUnique({
       where: { id: shipmentId },
       include: { vendor: true },
-    })
+    });
 
     if (!shipment) {
-      throw new NotFoundException(`Shipment with ID ${shipmentId} not found`)
+      throw new NotFoundException(`Shipment with ID ${shipmentId} not found`);
     }
 
     if (shipment.payoutStatus !== 'ELIGIBLE') {
       throw new BadRequestException(
         `Shipment ${shipmentId} is currently ${shipment.payoutStatus}. Only ELIGIBLE (delivered) shipments can be marked as settled.`,
-      )
+      );
     }
 
     const updated = await this.prisma.vendorShipment.update({
@@ -227,16 +240,16 @@ export class PayoutsService {
         settlementRef: dto.settlementRef.trim(),
         settlementDate: new Date(),
       },
-    })
+    });
 
     this.logger.log(
       `Shipment ${shipmentId} settled for Vendor ${shipment.vendor.businessName} with Ref: ${dto.settlementRef.trim()}`,
-    )
+    );
 
     return {
       success: true,
       message: `Payout successfully marked as SETTLED for shipment ${shipmentId}`,
       shipment: updated,
-    }
+    };
   }
 }

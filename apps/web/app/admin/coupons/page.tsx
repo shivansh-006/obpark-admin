@@ -634,7 +634,7 @@ export default function CouponsPage() {
 
               {createCoupon.isError && (
                 <p className="text-xs text-red-500">
-                  Something went wrong — check that the code isn't already in use.
+                  Something went wrong — check that the code isn&apos;t already in use.
                 </p>
               )}
 

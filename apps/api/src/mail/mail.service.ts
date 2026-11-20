@@ -1,60 +1,60 @@
-import { Injectable, Logger } from '@nestjs/common'
-import * as nodemailer from 'nodemailer'
-import { env } from '../config/env'
+import { Injectable, Logger } from '@nestjs/common';
+import * as nodemailer from 'nodemailer';
+import { env } from '../config/env';
 
 export interface VendorDispatchEmailPayload {
-  vendorEmail: string
-  vendorName: string
-  orderNumber: string
-  shipmentId: string
-  dispatchToken: string
-  subtotal: number
+  vendorEmail: string;
+  vendorName: string;
+  orderNumber: string;
+  shipmentId: string;
+  dispatchToken: string;
+  subtotal: number;
   items: Array<{
-    name: string
-    sku?: string
-    quantity: number
-    unitPrice: number
-    totalPrice: number
-    variant?: string
-  }>
+    name: string;
+    sku?: string;
+    quantity: number;
+    unitPrice: number;
+    totalPrice: number;
+    variant?: string;
+  }>;
   customer: {
-    name: string
-    phone: string
-    streetAddress: string
-    city: string
-    state: string
-    postalCode: string
-  }
+    name: string;
+    phone: string;
+    streetAddress: string;
+    city: string;
+    state: string;
+    postalCode: string;
+  };
 }
 
 export interface CustomerTrackingEmailPayload {
-  customerEmail: string
-  customerName: string
-  orderNumber: string
-  courierName: string
-  trackingNumber: string
-  courierWebsite?: string
+  customerEmail: string;
+  customerName: string;
+  orderNumber: string;
+  courierName: string;
+  trackingNumber: string;
+  courierWebsite?: string;
   items: Array<{
-    name: string
-    quantity: number
-  }>
+    name: string;
+    quantity: number;
+  }>;
 }
 
 @Injectable()
 export class MailService {
-  private readonly logger = new Logger(MailService.name)
-  private transporter: nodemailer.Transporter | null = null
+  private readonly logger = new Logger(MailService.name);
+  private transporter: nodemailer.Transporter | null = null;
 
   constructor() {
-    this.initTransporter()
+    this.initTransporter();
   }
 
   private initTransporter() {
     if (!env.SMTP_PASS) {
       this.logger.warn(
         '⚠️ SMTP_PASS is not configured. Outbound emails will be simulated and logged to console.',
-      )
-      return
+      );
+      return;
     }
 
     try {
@@ -69,22 +69,32 @@ export class MailService {
         tls: {
           rejectUnauthorized: env.NODE_ENV === 'production',
         },
-      })
-      this.logger.log(`SMTP Transporter initialized successfully with ${env.SMTP_HOST}:${env.SMTP_PORT}`)
+      });
+      this.logger.log(
+        `SMTP Transporter initialized successfully with ${env.SMTP_HOST}:${env.SMTP_PORT}`,
+      );
     } catch (err: any) {
-      this.logger.error(`Failed to initialize SMTP transporter: ${err.message}`)
+      this.logger.error(
+        `Failed to initialize SMTP transporter: ${err.message}`,
+      );
     }
   }
 
-  async sendVendorDispatchAlert(payload: VendorDispatchEmailPayload): Promise<boolean> {
-    const baseUrl = (env.ADMIN_FRONTEND_URL || 'https://admin.obpark.in').replace(/\/$/, '')
-    const dispatchUrl = `${baseUrl}/dispatch/${payload.dispatchToken}`
-    const html = this.buildVendorPackingSlipHtml(payload, dispatchUrl)
+  async sendVendorDispatchAlert(
+    payload: VendorDispatchEmailPayload,
+  ): Promise<boolean> {
+    const baseUrl = (
+      env.ADMIN_FRONTEND_URL || 'https://admin.obpark.in'
+    ).replace(/\/$/, '');
+    const dispatchUrl = `${baseUrl}/dispatch/${payload.dispatchToken}`;
+    const html = this.buildVendorPackingSlipHtml(payload, dispatchUrl);
 
     if (!this.transporter) {
-      this.logger.log(`[SIMULATED EMAIL] To: ${payload.vendorEmail} | Subject: [OBPark] New Order ${payload.orderNumber} - Action Required`)
-      this.logger.log(`Dispatch URL: ${dispatchUrl}`)
-      return true
+      this.logger.log(
+        `[SIMULATED EMAIL] To: ${payload.vendorEmail} | Subject: [OBPark] New Order ${payload.orderNumber} - Action Required`,
+      );
+      this.logger.log(`Dispatch URL: ${dispatchUrl}`);
+      return true;
     }
 
     try {
@@ -94,21 +104,29 @@ export class MailService {
         cc: env.SMTP_ADMIN_CC || undefined,
         subject: `[OBPark Dispatch] New Order ${payload.orderNumber} - Pack & Ship Request`,
         html,
-      })
-      this.logger.log(`Dispatch packing slip sent to vendor ${payload.vendorEmail} for order ${payload.orderNumber}`)
-      return true
+      });
+      this.logger.log(
+        `Dispatch packing slip sent to vendor ${payload.vendorEmail} for order ${payload.orderNumber}`,
+      );
+      return true;
     } catch (err: any) {
-      this.logger.error(`Failed to send dispatch email to ${payload.vendorEmail}: ${err.message}`)
-      return false
+      this.logger.error(
+        `Failed to send dispatch email to ${payload.vendorEmail}: ${err.message}`,
+      );
+      return false;
     }
   }
 
-  async sendCustomerTrackingAlert(payload: CustomerTrackingEmailPayload): Promise<boolean> {
-    const html = this.buildCustomerTrackingHtml(payload)
+  async sendCustomerTrackingAlert(
+    payload: CustomerTrackingEmailPayload,
+  ): Promise<boolean> {
+    const html = this.buildCustomerTrackingHtml(payload);
 
     if (!this.transporter) {
-      this.logger.log(`[SIMULATED EMAIL] To: ${payload.customerEmail} | Subject: Your OBPark Order ${payload.orderNumber} has been dispatched!`)
-      return true
+      this.logger.log(
+        `[SIMULATED EMAIL] To: ${payload.customerEmail} | Subject: Your OBPark Order ${payload.orderNumber} has been dispatched!`,
+      );
+      return true;
     }
 
     try {
@@ -117,16 +135,23 @@ export class MailService {
         to: payload.customerEmail,
         subject: `Your OBPark Order ${payload.orderNumber} Has Shipped! (${payload.courierName})`,
         html,
-      })
-      this.logger.log(`Tracking notification sent to customer ${payload.customerEmail} for order ${payload.orderNumber}`)
-      return true
+      });
+      this.logger.log(
+        `Tracking notification sent to customer ${payload.customerEmail} for order ${payload.orderNumber}`,
+      );
+      return true;
     } catch (err: any) {
-      this.logger.error(`Failed to send tracking email to ${payload.customerEmail}: ${err.message}`)
-      return false
+      this.logger.error(
+        `Failed to send tracking email to ${payload.customerEmail}: ${err.message}`,
+      );
+      return false;
     }
   }
 
-  private buildVendorPackingSlipHtml(payload: VendorDispatchEmailPayload, dispatchUrl: string): string {
+  private buildVendorPackingSlipHtml(
+    payload: VendorDispatchEmailPayload,
+    dispatchUrl: string,
+  ): string {
     const itemRows = payload.items
       .map(
         (it) => `
@@ -146,7 +171,7 @@ export class MailService {
           </td>
         </tr>`,
       )
-      .join('')
+      .join('');
 
     return `
 <!DOCTYPE html>
@@ -274,13 +299,18 @@ export class MailService {
     </tr>
   </table>
 </body>
-</html>`
+</html>`;
   }
 
-  private buildCustomerTrackingHtml(payload: CustomerTrackingEmailPayload): string {
+  private buildCustomerTrackingHtml(
+    payload: CustomerTrackingEmailPayload,
+  ): string {
     const itemsList = payload.items
-      .map((it) => `<li><strong>${this.escapeHtml(it.name)}</strong> (Qty: ${it.quantity})</li>`)
-      .join('')
+      .map(
+        (it) =>
+          `<li><strong>${this.escapeHtml(it.name)}</strong> (Qty: ${it.quantity})</li>`,
+      )
+      .join('');
 
     return `
 <!DOCTYPE html>
@@ -309,16 +339,16 @@ export class MailService {
     </p>
   </div>
 </body>
-</html>`
+</html>`;
   }
 
   private escapeHtml(str: string): string {
-    if (!str) return ''
+    if (!str) return '';
     return str
       .replace(/&/g, '&amp;')
       .replace(/</g, '&lt;')
       .replace(/>/g, '&gt;')
       .replace(/"/g, '&quot;')
-      .replace(/'/g, '&#039;')
+      .replace(/'/g, '&#039;');
   }
 }

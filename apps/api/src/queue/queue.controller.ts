@@ -6,12 +6,12 @@ import {
   Param,
   Query,
   UseGuards,
-} from '@nestjs/common'
-import { QueueService } from './queue.service'
-import { JwtAuthGuard } from '../auth/jwt-auth.guard'
-import { RolesGuard } from '../auth/roles.guard'
-import { Roles } from '../auth/roles.decorator'
-import { OutboxStatus } from '@prisma/client'
+} from '@nestjs/common';
+import { QueueService } from './queue.service';
+import { JwtAuthGuard } from '../auth/jwt-auth.guard';
+import { RolesGuard } from '../auth/roles.guard';
+import { Roles } from '../auth/roles.decorator';
+import { OutboxStatus } from '@prisma/client';
 
 @Controller('admin/queues')
 @UseGuards(JwtAuthGuard, RolesGuard)
@@ -21,7 +21,7 @@ export class QueueController {
 
   @Get('stats')
   getStats() {
-    return this.queueService.getQueueStats()
+    return this.queueService.getQueueStats();
   }
 
   @Get('jobs')
@@ -36,21 +36,21 @@ export class QueueController {
       eventType,
       page: page ? Number(page) : 1,
       limit: limit ? Number(limit) : 20,
-    })
+    });
   }
 
   @Post('retry/:id')
   retryJob(@Param('id') id: string) {
-    return this.queueService.retryJob(id)
+    return this.queueService.retryJob(id);
   }
 
   @Post('retry-all')
   retryAllFailed() {
-    return this.queueService.retryAllFailed()
+    return this.queueService.retryAllFailed();
   }
 
   @Delete(':id')
   purgeJob(@Param('id') id: string) {
-    return this.queueService.purgeJob(id)
+    return this.queueService.purgeJob(id);
   }
 }

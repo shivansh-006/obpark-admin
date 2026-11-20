@@ -1,5 +1,5 @@
-import { Injectable, CanActivate, ExecutionContext } from '@nestjs/common'
-import { Reflector } from '@nestjs/core'
+import { Injectable, CanActivate, ExecutionContext } from '@nestjs/common';
+import { Reflector } from '@nestjs/core';
 
 @Injectable()
 export class RolesGuard implements CanActivate {
@@ -9,12 +9,12 @@ export class RolesGuard implements CanActivate {
     const requiredRoles = this.reflector.getAllAndOverride<string[]>('roles', [
       context.getHandler(),
       context.getClass(),
-    ])
-    if (!requiredRoles || requiredRoles.length === 0) return true
+    ]);
+    if (!requiredRoles || requiredRoles.length === 0) return true;
 
-    const request = context.switchToHttp().getRequest()
-    const user = request.user
-    if (!user?.role) return false
+    const request = context.switchToHttp().getRequest();
+    const user = request.user;
+    if (!user?.role) return false;
 
     const adminRoles = [
       'ADMIN',
@@ -22,11 +22,11 @@ export class RolesGuard implements CanActivate {
       'SUPER_ADMIN_OBPARK',
       'ADMIN_OBCREW',
       'SUPER_ADMIN_OBCREW',
-    ]
+    ];
     if (requiredRoles.includes('ADMIN') && adminRoles.includes(user.role)) {
-      return true
+      return true;
     }
 
-    return requiredRoles.includes(user.role)
+    return requiredRoles.includes(user.role);
   }
 }

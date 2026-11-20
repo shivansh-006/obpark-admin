@@ -1,5 +1,5 @@
-import { Controller, Get, Post, Param, Body } from '@nestjs/common'
-import { DispatchService, ConfirmDispatchDto } from './dispatch.service'
+import { Controller, Get, Post, Param, Body } from '@nestjs/common';
+import { DispatchService, ConfirmDispatchDto } from './dispatch.service';
 
 @Controller('dispatch')
 export class DispatchController {
@@ -7,14 +7,11 @@ export class DispatchController {
 
   @Get(':token')
   getShipment(@Param('token') token: string) {
-    return this.dispatchService.getShipmentByToken(token)
+    return this.dispatchService.getShipmentByToken(token);
   }
 
   @Post(':token/confirm')
-  confirm(
-    @Param('token') token: string,
-    @Body() dto: ConfirmDispatchDto,
-  ) {
-    return this.dispatchService.confirmDispatch(token, dto)
+  confirm(@Param('token') token: string, @Body() dto: ConfirmDispatchDto) {
+    return this.dispatchService.confirmDispatch(token, dto);
   }
 }

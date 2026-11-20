@@ -8,11 +8,15 @@ import {
   Body,
   Param,
   UseGuards,
-} from '@nestjs/common'
-import { AdminService, CreateProductDto, UpdateProductDto } from './admin.service'
-import { JwtAuthGuard } from '../auth/jwt-auth.guard'
-import { RolesGuard } from '../auth/roles.guard'
-import { Roles } from '../auth/roles.decorator'
+} from '@nestjs/common';
+import {
+  AdminService,
+  CreateProductDto,
+  UpdateProductDto,
+} from './admin.service';
+import { JwtAuthGuard } from '../auth/jwt-auth.guard';
+import { RolesGuard } from '../auth/roles.guard';
+import { Roles } from '../auth/roles.decorator';
 
 @Controller('admin')
 @UseGuards(JwtAuthGuard, RolesGuard)
@@ -22,15 +26,12 @@ export class AdminController {
 
   @Get('dashboard')
   getDashboard() {
-    return this.adminService.getDashboardStats()
+    return this.adminService.getDashboardStats();
   }
 
   @Get('taxes')
-  getTaxes(
-    @Query('search') search?: string,
-    @Query('code') code?: string,
-  ) {
-    return this.adminService.getTaxes(search, code)
+  getTaxes(@Query('search') search?: string, @Query('code') code?: string) {
+    return this.adminService.getTaxes(search, code);
   }
 
   @Get('products')
@@ -43,26 +44,26 @@ export class AdminController {
       search,
       limit ? Number(limit) : undefined,
       page ? Number(page) : undefined,
-    )
+    );
   }
 
   @Get('products/:id')
   getProduct(@Param('id') id: string) {
-    return this.adminService.getProductById(id)
+    return this.adminService.getProductById(id);
   }
 
   @Post('products')
   createProduct(@Body() dto: CreateProductDto) {
-    return this.adminService.createProduct(dto)
+    return this.adminService.createProduct(dto);
   }
 
   @Patch('products/:id')
   updateProduct(@Param('id') id: string, @Body() dto: UpdateProductDto) {
-    return this.adminService.updateProduct(id, dto)
+    return this.adminService.updateProduct(id, dto);
   }
 
   @Delete('products/:id')
   deleteProduct(@Param('id') id: string) {
-    return this.adminService.deleteProduct(id)
+    return this.adminService.deleteProduct(id);
   }
 }

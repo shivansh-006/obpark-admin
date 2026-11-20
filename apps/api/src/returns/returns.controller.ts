@@ -7,7 +7,7 @@ import {
   Body,
   Query,
   UseGuards,
-} from '@nestjs/common'
+} from '@nestjs/common';
 import {
   ReturnsService,
   CreateReturnDto,
@@ -16,11 +16,11 @@ import {
   ProcessRefundDto,
   CreateWarrantyClaimDto,
   ResolveWarrantyClaimDto,
-} from './returns.service'
-import { JwtAuthGuard } from '../auth/jwt-auth.guard'
-import { RolesGuard } from '../auth/roles.guard'
-import { Roles } from '../auth/roles.decorator'
-import { ReturnStatus, WarrantyStatus } from '@prisma/client'
+} from './returns.service';
+import { JwtAuthGuard } from '../auth/jwt-auth.guard';
+import { RolesGuard } from '../auth/roles.guard';
+import { Roles } from '../auth/roles.decorator';
+import { ReturnStatus, WarrantyStatus } from '@prisma/client';
 
 @Controller('admin/returns')
 @UseGuards(JwtAuthGuard, RolesGuard)
@@ -30,7 +30,7 @@ export class ReturnsController {
 
   @Get('stats')
   getStats() {
-    return this.returnsService.getReturnStats()
+    return this.returnsService.getReturnStats();
   }
 
   @Get()
@@ -47,32 +47,32 @@ export class ReturnsController {
       search,
       page: page ? Number(page) : 1,
       limit: limit ? Number(limit) : 20,
-    })
+    });
   }
 
   @Post()
   createReturn(@Body() dto: CreateReturnDto) {
-    return this.returnsService.createReturnRequest(dto)
+    return this.returnsService.createReturnRequest(dto);
   }
 
   @Get(':id')
   getReturn(@Param('id') id: string) {
-    return this.returnsService.getReturnById(id)
+    return this.returnsService.getReturnById(id);
   }
 
   @Patch(':id/status')
   updateStatus(@Param('id') id: string, @Body() dto: UpdateReturnStatusDto) {
-    return this.returnsService.updateReturnStatus(id, dto)
+    return this.returnsService.updateReturnStatus(id, dto);
   }
 
   @Patch(':id/inspect')
   inspectItem(@Param('id') id: string, @Body() dto: InspectReturnDto) {
-    return this.returnsService.inspectItem(id, dto)
+    return this.returnsService.inspectItem(id, dto);
   }
 
   @Post(':id/refund')
   processRefund(@Param('id') id: string, @Body() dto: ProcessRefundDto) {
-    return this.returnsService.processRefund(id, dto)
+    return this.returnsService.processRefund(id, dto);
   }
 
   // Warranty Claims Endpoints
@@ -88,12 +88,12 @@ export class ReturnsController {
       search,
       page: page ? Number(page) : 1,
       limit: limit ? Number(limit) : 20,
-    })
+    });
   }
 
   @Post('warranty/claims')
   createWarrantyClaim(@Body() dto: CreateWarrantyClaimDto) {
-    return this.returnsService.createWarrantyClaim(dto)
+    return this.returnsService.createWarrantyClaim(dto);
   }
 
   @Patch('warranty/claims/:id')
@@ -101,6 +101,6 @@ export class ReturnsController {
     @Param('id') id: string,
     @Body() dto: ResolveWarrantyClaimDto,
   ) {
-    return this.returnsService.resolveWarrantyClaim(id, dto)
+    return this.returnsService.resolveWarrantyClaim(id, dto);
   }
 }

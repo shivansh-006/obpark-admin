@@ -7,11 +7,11 @@ import {
   Body,
   Query,
   UseGuards,
-} from '@nestjs/common'
-import { ShipmentsService } from './shipments.service'
-import { JwtAuthGuard } from '../auth/jwt-auth.guard'
-import { RolesGuard } from '../auth/roles.guard'
-import { Roles } from '../auth/roles.decorator'
+} from '@nestjs/common';
+import { ShipmentsService } from './shipments.service';
+import { JwtAuthGuard } from '../auth/jwt-auth.guard';
+import { RolesGuard } from '../auth/roles.guard';
+import { Roles } from '../auth/roles.decorator';
 
 @Controller('admin/shipments')
 @UseGuards(JwtAuthGuard, RolesGuard)
@@ -33,24 +33,29 @@ export class ShipmentsController {
       payoutStatus,
       page: page ? Number(page) : undefined,
       limit: limit ? Number(limit) : undefined,
-    })
+    });
   }
 
   @Patch(':id/override')
   override(
     @Param('id') id: string,
-    @Body() dto: { courierName: string; trackingNumber: string; courierWebsite?: string },
+    @Body()
+    dto: {
+      courierName: string;
+      trackingNumber: string;
+      courierWebsite?: string;
+    },
   ) {
-    return this.shipmentsService.overrideDispatch(id, dto)
+    return this.shipmentsService.overrideDispatch(id, dto);
   }
 
   @Patch(':id/deliver')
   markDelivered(@Param('id') id: string) {
-    return this.shipmentsService.markDelivered(id)
+    return this.shipmentsService.markDelivered(id);
   }
 
   @Post(':id/resend-email')
   resendEmail(@Param('id') id: string) {
-    return this.shipmentsService.resendDispatchEmail(id)
+    return this.shipmentsService.resendDispatchEmail(id);
   }
 }

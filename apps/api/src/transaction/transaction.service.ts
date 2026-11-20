@@ -1,14 +1,18 @@
-import { Injectable } from '@nestjs/common'
-import { PrismaService } from '../prisma/prisma.service'
-import { PaymentStatus } from '@prisma/client'
+import { Injectable } from '@nestjs/common';
+import { PrismaService } from '../prisma/prisma.service';
+import { PaymentStatus } from '@prisma/client';
 
 @Injectable()
 export class TransactionService {
   constructor(private prisma: PrismaService) {}
 
-  async listTransactions(filters: { status?: PaymentStatus; limit?: number; offset?: number }) {
-    const { status, limit = 20, offset = 0 } = filters
-    const where: any = status ? { status } : {}
+  async listTransactions(filters: {
+    status?: PaymentStatus;
+    limit?: number;
+    offset?: number;
+  }) {
+    const { status, limit = 20, offset = 0 } = filters;
+    const where: any = status ? { status } : {};
 
     const [payments, total] = await Promise.all([
       this.prisma.payment.findMany({
@@ -22,13 +26,14 @@ export class TransactionService {
         skip: Number(offset),
       }),
       this.prisma.payment.count({ where }),
-    ])
+    ]);
 
     return {
       transactions: payments.map((p) => {
         const customerName = p.user
-          ? `${p.user.firstName || ''} ${p.user.lastName || ''}`.trim() || p.user.email
-          : 'Customer'
+          ? `${p.user.firstName || ''} ${p.user.lastName || ''}`.trim() ||
+            p.user.email
+          : 'Customer';
 
         return {
           id: p.id,
@@ -43,12 +48,12 @@ export class TransactionService {
             p.status === PaymentStatus.SUCCESS
               ? 'Complete'
               : p.status === PaymentStatus.FAILED
-              ? 'Failed'
-              : 'Pending',
-        }
+                ? 'Failed'
+                : 'Pending',
+        };
       }),
       total,
-    }
+    };
   }
 
   async getSummary() {
@@ -60,13 +65,13 @@ export class TransactionService {
       this.prisma.payment.count({ where: { status: PaymentStatus.SUCCESS } }),
       this.prisma.payment.count({ where: { status: PaymentStatus.PENDING } }),
       this.prisma.payment.count({ where: { status: PaymentStatus.FAILED } }),
-    ])
+    ]);
 
     return {
       totalRevenue: Number(totalRevenue._sum?.amount ?? 0),
       completed,
       pending,
       failed,
-    }
+    };
   }
 }
