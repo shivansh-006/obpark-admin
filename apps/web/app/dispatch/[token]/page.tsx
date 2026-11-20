@@ -162,7 +162,7 @@ export default function DispatchPortalPage() {
           </div>
           <h2 className={`text-xl font-bold text-[#074139] mb-2 ${microgrammaBold.className}`}>Dispatch Link Unavailable</h2>
           <p className="text-gray-600 text-sm mb-6">{error || 'This link may have expired or is invalid.'}</p>
-          <p className="text-xs text-gray-400">If you believe this is an error, please contact Obrive support.</p>
+          <p className="text-xs text-gray-400">If you believe this is an error, please contact OBPark support.</p>
         </div>
       </div>
     )
@@ -176,8 +176,8 @@ export default function DispatchPortalPage() {
           <div className="flex items-center gap-4">
             <div className="h-10 w-28 relative">
               <Image
-                src="/obrive-white-logo.svg"
-                alt="Obrive Logo"
+                src="/obpark-white-logo.svg"
+                alt="OBPARK Logo"
                 fill
                 className="object-contain"
                 priority
@@ -374,7 +374,7 @@ export default function DispatchPortalPage() {
 
         {/* Brand Footer */}
         <div className="text-center mt-6 text-xs text-gray-400 font-michroma">
-          Obrive Central &bull; Automated Merchant Operations
+          OBPARK Central &bull; Automated Merchant Operations
         </div>
       </div>
     </div>

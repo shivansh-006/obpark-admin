@@ -74,8 +74,8 @@ export default function Header({ categoryName }: HeaderProps) {
           >
             
                         <Image
-                            src="/obrive-main-logo.svg"
-                            alt="Obrive Logo"
+                            src="/obpark-logo.svg"
+                            alt="OBPARK Logo"
                             width={130}
                             height={40}
                             className="h-8 w-auto object-contain"

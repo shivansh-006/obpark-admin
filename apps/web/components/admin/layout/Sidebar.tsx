@@ -80,8 +80,8 @@ export function Sidebar({ onNavigate }: { onNavigate?: () => void }) {
         >
           <div className="flex items-center justify-start transition-transform duration-200 group-hover:scale-[1.02]">
             <Image
-              src="/obrive-main-logo.svg"
-              alt="Obrive Logo"
+              src="/obpark-logo.svg"
+              alt="OBPARK Logo"
               width={160}
               height={36}
               className="h-8 w-auto object-contain"

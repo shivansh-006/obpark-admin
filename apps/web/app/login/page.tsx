@@ -41,8 +41,8 @@ function LoginForm() {
       {/* Mobile-only brand mark */}
       <div className="lg:hidden mb-8 flex flex-col items-center">
         <Image
-          src="/obrive-logo.svg"
-          alt="Obrive"
+          src="/obpark-icon.svg"
+          alt="OBPARK"
           width={64}
           height={44}
           className="h-12 w-auto object-contain mb-3"
@@ -54,7 +54,7 @@ function LoginForm() {
           className={`${microgrammaBold.className} text-xl font-bold`}
           style={{ color: '#074139' }}
         >
-          OBRIVE CENTRAL
+          OBPARK CENTRAL
         </h1>
 
         <p className="text-xs text-gray-500 mt-1">
@@ -146,7 +146,7 @@ function LoginForm() {
       </form>
 
       <p className="text-[0.6875rem] text-gray-400 text-center mt-10">
-        OBRIVE Central · Restricted Access
+        OBPARK Central · Restricted Access
       </p>
     </div>
   )
@@ -188,8 +188,8 @@ export default function LoginPage() {
       >
         <div className="flex items-center gap-3">
           <Image
-            src="/obrive-main-logo.svg"
-            alt="Obrive Logo"
+            src="/obpark-logo.svg"
+            alt="OBPARK Logo"
             width={180}
             height={42}
             className="h-10 w-auto object-contain"

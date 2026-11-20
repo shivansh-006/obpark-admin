@@ -312,7 +312,7 @@ export function ProfileUpdateForm({ profile, isEditing, setIsEditing }: ProfileU
             value={form.email}
             onChange={(e) => setForm({ ...form, email: e.target.value })}
             disabled={!editing}
-            placeholder="admin@obrive.com"
+            placeholder="admin@obpark.in"
             className="w-full px-3 py-2 rounded-lg border text-sm outline-none focus:border-[#074139] focus:ring-1 focus:ring-[#074139] disabled:bg-gray-50 disabled:text-gray-500 transition-colors"
           />
         </div>

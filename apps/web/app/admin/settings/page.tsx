@@ -21,7 +21,7 @@ export default function SettingsPage() {
             System & Operations Settings
           </h2>
           <p className="text-xs text-gray-500 max-w-md mx-auto leading-relaxed">
-            Centralized workspace configurations, tax policies, courier integrations, and administrative preferences are configured through the Obrive operations pipeline.
+            Centralized workspace configurations, tax policies, courier integrations, and administrative preferences are configured through the OBPark operations pipeline.
           </p>
         </div>
       </div>

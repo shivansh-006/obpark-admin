@@ -88,26 +88,33 @@ label:not(.cursor-pointer):not([class*="badge"]),
   line-height: 1.35;
 }
 
-/* Obrive Design System Components & Helpers */
+/* OBPark Design System Components & Helpers */
+.bg-obpark-primary,
 .bg-obrive-primary {
   background-color: #074139 !important;
 }
+.text-obpark-primary,
 .text-obrive-primary {
   color: #074139 !important;
 }
+.border-obpark-primary,
 .border-obrive-primary {
   border-color: #074139 !important;
 }
+.bg-obpark-mint,
 .bg-obrive-mint {
   background-color: #E6F5F2 !important;
 }
+.border-obpark-mint,
 .border-obrive-mint {
   border-color: #CAEDE6 !important;
 }
+.text-obpark-mint,
 .text-obrive-mint {
   color: #074139 !important;
 }
 
+.obpark-btn-primary,
 .obrive-btn-primary {
   background-color: #074139;
   color: #ffffff;
@@ -116,10 +123,12 @@ label:not(.cursor-pointer):not([class*="badge"]),
   transition: all 0.2s ease;
   box-shadow: 0 1px 2px 0 rgba(7, 65, 57, 0.15);
 }
+.obpark-btn-primary:hover,
 .obrive-btn-primary:hover {
   background-color: #0a4a42;
 }
 
+.obpark-btn-secondary,
 .obrive-btn-secondary {
   background-color: #E6F5F2;
   color: #074139;
@@ -128,10 +137,12 @@ label:not(.cursor-pointer):not([class*="badge"]),
   border: 1px solid rgba(7, 65, 57, 0.15);
   transition: all 0.2s ease;
 }
+.obpark-btn-secondary:hover,
 .obrive-btn-secondary:hover {
   background-color: #caede5;
 }
 
+.obpark-card,
 .obrive-card {
   background-color: #ffffff;
   border: 1px solid rgba(226, 237, 232, 0.9);

@@ -293,7 +293,7 @@ export default function TransactionsPage() {
               <p className="text-xs opacity-80 mb-4">Razorpay / UPI Gateway</p>
               <p className="text-lg tracking-widest mb-3 font-mono">•••• •••• •••• 2345</p>
               <div className="flex justify-between text-xs">
-                <span className="font-michroma">Obrive Merchant</span>
+                <span className="font-michroma">OBPark Merchant</span>
                 <span className="bg-[#E6F5F2] text-[#074139] px-2 py-0.5 rounded text-[10px] font-bold">Active</span>
               </div>
             </div>
