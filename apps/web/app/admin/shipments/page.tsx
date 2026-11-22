@@ -4,6 +4,7 @@ import { useState } from 'react'
 import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query'
 import { api } from '@/lib/api'
 import { microgrammaBold } from '@/lib/fonts'
+import { Header } from '@/components/admin/layout/Header'
 import {
   Truck,
   Search,
@@ -218,47 +219,70 @@ export default function ShipmentsPage() {
   const deliveredCount = shipments.filter((s) => s.status === 'DELIVERED').length
 
   return (
-    <div className="p-6 max-w-7xl mx-auto space-y-6 bg-[#F0FAF5] min-h-screen">
-      {/* Header */}
-      <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4 bg-white p-6 rounded-2xl border border-[#CAEDE6]/60 shadow-xs">
-        <div>
-          <h1 className={`${microgrammaBold.className} text-2xl font-bold text-[#074139] tracking-tight flex items-center gap-2`}>
-            <Truck className="w-7 h-7 text-[#074139]" />
-            Vendor Shipments & Dispatch
-          </h1>
-          <p className="text-xs text-gray-500 mt-1">
-            Track multi-vendor order fulfillment, monitor magic-link dispatch confirmations, and manage courier tracking.
-          </p>
-        </div>
-      </div>
+    <div className="min-h-screen bg-[#F0FAF5]">
+      <Header title="Shipments" />
 
-      {/* KPI Cards */}
-      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
-        <div className="bg-white p-5 rounded-2xl border border-[#CAEDE6]/60 shadow-xs hover:border-[#074139]/20 transition-all">
-          <span className="text-[11px] font-bold text-[#074139]/70 uppercase tracking-wider block font-michroma">
-            Total Shipments
-          </span>
-          <span className={`${microgrammaBold.className} text-2xl font-bold text-[#074139] mt-1 block`}>{totalCount}</span>
+      <div className="p-4 sm:p-6 space-y-6">
+        {/* Header */}
+        <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4 bg-white p-6 rounded-2xl border border-[#CAEDE6]/60 shadow-xs">
+          <div>
+            <h1 className={`${microgrammaBold.className} text-2xl font-bold text-[#074139] tracking-tight flex items-center gap-2`}>
+              <Truck className="w-7 h-7 text-[#074139]" />
+              Vendor Shipments & Dispatch
+            </h1>
+            <p className="text-xs text-gray-500 mt-1">
+              Track multi-vendor order fulfillment, monitor magic-link dispatch confirmations, and manage courier tracking.
+            </p>
+          </div>
         </div>
-        <div className="bg-white p-5 rounded-2xl border border-amber-200 bg-amber-50/20 shadow-xs hover:border-amber-300 transition-all">
-          <span className="text-[11px] font-bold text-amber-700 uppercase tracking-wider block font-michroma">
-            Awaiting Dispatch
-          </span>
-          <span className={`${microgrammaBold.className} text-2xl font-bold text-amber-800 mt-1 block`}>{pendingCount}</span>
+
+        {/* KPI Cards — fluid stretching with CSS Grid auto-fit */}
+        <div className="grid grid-cols-[repeat(auto-fit,minmax(220px,1fr))] gap-4">
+          <div className="bg-white p-5 rounded-2xl border border-[#CAEDE6]/60 shadow-xs hover:border-[#074139]/20 transition-all flex items-center justify-between">
+            <div>
+              <span className="text-[11px] font-bold text-[#074139]/70 uppercase tracking-wider block font-michroma">
+                Total Shipments
+              </span>
+              <span className={`${microgrammaBold.className} text-2xl font-bold text-[#074139] mt-1 block`}>{totalCount}</span>
+            </div>
+            <div className="p-3 bg-[#E6F5F2] text-[#074139] rounded-xl border border-[#CAEDE6]/50">
+              <Truck className="w-5 h-5" />
+            </div>
+          </div>
+          <div className="bg-white p-5 rounded-2xl border border-amber-200 bg-amber-50/20 shadow-xs hover:border-amber-300 transition-all flex items-center justify-between">
+            <div>
+              <span className="text-[11px] font-bold text-amber-700 uppercase tracking-wider block font-michroma">
+                Awaiting Dispatch
+              </span>
+              <span className={`${microgrammaBold.className} text-2xl font-bold text-amber-800 mt-1 block`}>{pendingCount}</span>
+            </div>
+            <div className="p-3 bg-amber-100/80 text-amber-800 rounded-xl border border-amber-200/50">
+              <Clock className="w-5 h-5" />
+            </div>
+          </div>
+          <div className="bg-white p-5 rounded-2xl border border-[#CAEDE6] bg-[#E6F5F2]/40 shadow-xs hover:border-[#074139]/30 transition-all flex items-center justify-between">
+            <div>
+              <span className="text-[11px] font-bold text-[#074139] uppercase tracking-wider block font-michroma">
+                In Transit
+              </span>
+              <span className={`${microgrammaBold.className} text-2xl font-bold text-[#074139] mt-1 block`}>{dispatchedCount}</span>
+            </div>
+            <div className="p-3 bg-[#E6F5F2] text-[#074139] rounded-xl border border-[#CAEDE6]">
+              <Package className="w-5 h-5" />
+            </div>
+          </div>
+          <div className="bg-white p-5 rounded-2xl border border-emerald-200 bg-emerald-50/20 shadow-xs hover:border-emerald-300 transition-all flex items-center justify-between">
+            <div>
+              <span className="text-[11px] font-bold text-emerald-700 uppercase tracking-wider block font-michroma">
+                Delivered
+              </span>
+              <span className={`${microgrammaBold.className} text-2xl font-bold text-emerald-800 mt-1 block`}>{deliveredCount}</span>
+            </div>
+            <div className="p-3 bg-emerald-100/80 text-emerald-800 rounded-xl border border-emerald-200/50">
+              <CheckCircle className="w-5 h-5" />
+            </div>
+          </div>
         </div>
-        <div className="bg-white p-5 rounded-2xl border border-[#CAEDE6] bg-[#E6F5F2]/40 shadow-xs hover:border-[#074139]/30 transition-all">
-          <span className="text-[11px] font-bold text-[#074139] uppercase tracking-wider block font-michroma">
-            In Transit
-          </span>
-          <span className={`${microgrammaBold.className} text-2xl font-bold text-[#074139] mt-1 block`}>{dispatchedCount}</span>
-        </div>
-        <div className="bg-white p-5 rounded-2xl border border-emerald-200 bg-emerald-50/20 shadow-xs hover:border-emerald-300 transition-all">
-          <span className="text-[11px] font-bold text-emerald-700 uppercase tracking-wider block font-michroma">
-            Delivered
-          </span>
-          <span className={`${microgrammaBold.className} text-2xl font-bold text-emerald-800 mt-1 block`}>{deliveredCount}</span>
-        </div>
-      </div>
 
       {/* Filter and Search Bar */}
       <div className="bg-white p-4 rounded-2xl border border-[#CAEDE6]/60 shadow-xs flex flex-col md:flex-row gap-4 justify-between items-center">
@@ -595,6 +619,7 @@ export default function ShipmentsPage() {
           </div>
         </div>
       )}
+      </div>
     </div>
   )
 }

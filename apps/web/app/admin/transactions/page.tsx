@@ -269,9 +269,9 @@ export default function TransactionsPage() {
       <Header title="Transactions" onMenuClick={() => setDrawerOpen(true)} />
 
       <div className="p-6 space-y-6">
-        {/* KPI cards + Payment method */}
+        {/* KPI cards + Payment method — fluid stretching with CSS Grid auto-fit */}
         <div className="grid grid-cols-1 lg:grid-cols-3 gap-4">
-          <div className="lg:col-span-2 grid grid-cols-2 gap-4">
+          <div className="lg:col-span-2 grid grid-cols-[repeat(auto-fit,minmax(200px,1fr))] gap-4">
             {kpis.map((k) => (
               <div key={k.label} className="bg-white border border-[#CAEDE6]/60 rounded-2xl p-5 shadow-xs hover:border-[#074139]/20 transition-all">
                 <div className="flex items-start justify-between">

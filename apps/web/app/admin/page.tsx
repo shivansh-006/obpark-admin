@@ -281,8 +281,8 @@ export default function DashboardPage() {
 
       <div className="p-6 space-y-6">
 
-        {/* KPI Cards Row */}
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-4 ">
+        {/* KPI Cards Row — fluid stretching with CSS Grid auto-fit */}
+        <div className="grid grid-cols-[repeat(auto-fit,minmax(260px,1fr))] gap-4">
 
           <div className="bg-white border border-gray-200/80 rounded-2xl p-5 shadow-sm">
             <div className="flex items-start justify-between">

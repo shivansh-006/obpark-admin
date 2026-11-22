@@ -788,7 +788,7 @@ export default function CategoriesPage() {
           </div>
 
           {/* AG Grid Table Container */}
-          <div className="ag-grid-categories w-full rounded-xl overflow-hidden border border-gray-200/80 bg-white" style={{ height: '560px' }}>
+          <div className="ag-grid-categories w-full min-w-0 rounded-xl overflow-hidden border border-gray-200/80 bg-white" style={{ height: '560px' }}>
             <style jsx global>{`
               .ag-grid-categories .ag-cell {
                 display: flex !important;
@@ -823,6 +823,8 @@ export default function CategoriesPage() {
               rowData={filtered}
               columnDefs={colDefs}
               defaultColDef={defaultColDef}
+              autoSizeStrategy={{ type: 'fitGridWidth', defaultMinWidth: 80 }}
+              onGridReady={(params) => params.api.sizeColumnsToFit()}
               quickFilterText={search}
               pagination={true}
               paginationPageSize={10}

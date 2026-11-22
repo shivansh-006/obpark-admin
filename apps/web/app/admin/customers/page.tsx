@@ -87,8 +87,8 @@ export default function CustomersPage() {
         {/* TAB 1: Customer Overview & Monthly Calendar Analytics */}
         {activeTab === 'overview' && (
           <div className="space-y-6 animate-in fade-in duration-200">
-            {/* Global Quick KPI Cards */}
-            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
+            {/* Global Quick KPI Cards — fluid stretching with CSS Grid auto-fit */}
+            <div className="grid grid-cols-[repeat(auto-fit,minmax(220px,1fr))] gap-4">
               <div className="bg-white border border-[#CAEDE6]/60 rounded-2xl p-4 sm:p-5 shadow-xs hover:border-[#074139]/20 transition-all">
                 <div className="flex items-start justify-between">
                   <p className="text-[11px] font-bold text-[#074139]/70 uppercase tracking-wider font-michroma">Total Registered</p>

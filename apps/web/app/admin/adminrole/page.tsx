@@ -21,7 +21,7 @@ export default function AdminRolePage() {
         onMenuClick={() => setDrawerOpen(true)}
       />
 
-      <div className="p-6 space-y-6 max-w-7xl mx-auto">
+      <div className="p-4 sm:p-6 space-y-6 w-full">
         <div>
           <h2 className={`font-bold text-xl text-[#074139] tracking-tight ${microgrammaBold.className}`}>
             Account Profile & Settings

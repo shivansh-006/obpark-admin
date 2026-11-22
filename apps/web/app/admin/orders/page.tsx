@@ -544,8 +544,8 @@ export default function OrdersPage() {
         {/* TAB 2: Orders Table */}
         {mainTab === 'table' && (
           <div className="space-y-6 animate-in fade-in duration-200">
-            {/* KPI cards */}
-            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
+            {/* KPI cards — fluid stretching with CSS Grid auto-fit */}
+            <div className="grid grid-cols-[repeat(auto-fit,minmax(220px,1fr))] gap-4">
               {kpis.map((k) => (
                 <div key={k.label} className="bg-white border rounded-xl p-5 shadow-sm">
                   <div className="flex items-start justify-between">
@@ -649,7 +649,7 @@ export default function OrdersPage() {
 
               {/* AG Grid */}
               <div
-                className="ag-grid-orders w-full rounded-xl overflow-hidden border border-gray-200"
+                className="ag-grid-orders w-full min-w-0 rounded-xl overflow-hidden border border-gray-200"
                 style={{ height: '540px' }}
               >
                 <style jsx global>{`
@@ -669,6 +669,8 @@ export default function OrdersPage() {
                   rowData={filteredOrders}
                   columnDefs={colDefs}
                   defaultColDef={defaultColDef}
+                  autoSizeStrategy={{ type: 'fitGridWidth', defaultMinWidth: 75 }}
+                  onGridReady={(params) => params.api.sizeColumnsToFit()}
                   quickFilterText={searchQuery}
                   pagination={true}
                   paginationPageSize={10}

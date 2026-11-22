@@ -414,8 +414,8 @@ export default function CouponsPage() {
           </button>
         </div>
 
-        {/* KPI cards — all real, computed from actual coupon list */}
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
+        {/* KPI cards — fluid stretching with CSS Grid auto-fit */}
+        <div className="grid grid-cols-[repeat(auto-fit,minmax(220px,1fr))] gap-4">
           {[
             { label: 'Total Coupons', value: total },
             { label: 'Active Coupons', value: activeCount },

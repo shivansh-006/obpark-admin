@@ -4,6 +4,7 @@ import { useState } from 'react'
 import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query'
 import { api } from '@/lib/api'
 import { microgrammaBold } from '@/lib/fonts'
+import { Header } from '@/components/admin/layout/Header'
 import {
   RotateCcw,
   Search,
@@ -175,22 +176,25 @@ export default function ReturnsPage() {
   }
 
   return (
-    <div className="p-6 max-w-7xl mx-auto space-y-6 bg-[#F0FAF5] min-h-screen">
-      {/* Header */}
-      <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4 bg-white p-6 rounded-2xl border border-[#CAEDE6]/60 shadow-xs">
-        <div>
-          <h1 className={`${microgrammaBold.className} text-2xl font-bold text-[#074139] tracking-tight flex items-center gap-2`}>
-            <RotateCcw className="w-7 h-7 text-[#074139]" />
-            Returns, Refunds & Inspections
-          </h1>
-          <p className="text-xs text-gray-500 mt-1">
-            Section 4.7: Manage return authorizations, reverse courier pickups, warehouse inspections, and customer refunds.
-          </p>
-        </div>
-      </div>
+    <div className="min-h-screen bg-[#F0FAF5]">
+      <Header title="Returns & Claims" />
 
-      {/* KPI Cards */}
-      <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 xl:grid-cols-5 gap-3.5">
+      <div className="p-4 sm:p-6 space-y-6">
+        {/* Header */}
+        <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4 bg-white p-6 rounded-2xl border border-[#CAEDE6]/60 shadow-xs">
+          <div>
+            <h1 className={`${microgrammaBold.className} text-2xl font-bold text-[#074139] tracking-tight flex items-center gap-2`}>
+              <RotateCcw className="w-7 h-7 text-[#074139]" />
+              Returns, Refunds & Inspections
+            </h1>
+            <p className="text-xs text-gray-500 mt-1">
+              Section 4.7: Manage return authorizations, reverse courier pickups, warehouse inspections, and customer refunds.
+            </p>
+          </div>
+        </div>
+
+        {/* KPI Cards — fluid stretching with CSS Grid auto-fit */}
+        <div className="grid grid-cols-[repeat(auto-fit,minmax(200px,1fr))] gap-4">
         <div className="bg-white p-4 rounded-2xl border border-[#CAEDE6]/60 shadow-xs hover:border-[#074139]/20 transition-all">
           <span className="text-[11px] font-bold text-[#074139]/70 uppercase tracking-wider block font-michroma">
             Total Returns
@@ -622,6 +626,7 @@ export default function ReturnsPage() {
           </div>
         </div>
       )}
+      </div>
     </div>
   )
 }

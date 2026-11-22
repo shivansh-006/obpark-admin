@@ -4,6 +4,7 @@ import { useState } from 'react'
 import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query'
 import { api } from '@/lib/api'
 import { microgrammaBold } from '@/lib/fonts'
+import { Header } from '@/components/admin/layout/Header'
 import {
   Layers,
   RefreshCw,
@@ -139,63 +140,66 @@ export default function QueuesPage() {
   const jobs = jobsData?.jobs || []
 
   return (
-    <div className="space-y-6 p-6 max-w-[1600px] mx-auto min-h-screen bg-[#F0FAF5]">
-      {/* Header */}
-      <div className="flex flex-col md:flex-row justify-between items-start md:items-center gap-4 bg-white p-6 rounded-2xl border border-[#CAEDE6]/60 shadow-xs">
-        <div>
-          <h1 className={`${microgrammaBold.className} text-2xl font-bold text-[#074139] tracking-tight flex items-center gap-3`}>
-            <Layers className="w-7 h-7 text-[#074139]" />
-            Transactional Outbox & Event Queues
-          </h1>
-          <p className="text-xs text-gray-500 mt-1">
-            Section 9.1: Background outbox publisher, exponential backoff retries, and dead-letter queue (DLQ) controls.
-          </p>
+    <div className="min-h-screen bg-[#F0FAF5]">
+      <Header title="Event Queues" />
+
+      <div className="p-4 sm:p-6 space-y-6">
+        {/* Header */}
+        <div className="flex flex-col md:flex-row justify-between items-start md:items-center gap-4 bg-white p-6 rounded-2xl border border-[#CAEDE6]/60 shadow-xs">
+          <div>
+            <h1 className={`${microgrammaBold.className} text-2xl font-bold text-[#074139] tracking-tight flex items-center gap-3`}>
+              <Layers className="w-7 h-7 text-[#074139]" />
+              Transactional Outbox & Event Queues
+            </h1>
+            <p className="text-xs text-gray-500 mt-1">
+              Section 9.1: Background outbox publisher, exponential backoff retries, and dead-letter queue (DLQ) controls.
+            </p>
+          </div>
+
+          <div className="flex items-center gap-3">
+            <button
+              onClick={() => {
+                refetchStats()
+                refetchJobs()
+              }}
+              className="flex items-center gap-2 px-3.5 py-2 text-xs font-semibold text-[#074139] bg-[#E6F5F2] border border-[#CAEDE6] rounded-xl hover:bg-[#d6f0ea] shadow-xs transition-colors"
+            >
+              <RefreshCw className="w-3.5 h-3.5" />
+              Refresh
+            </button>
+
+            <button
+              onClick={() => {
+                if (confirm('Retry all failed dead-letter jobs now?')) {
+                  retryAllMutation.mutate()
+                }
+              }}
+              disabled={retryAllMutation.isPending || !stats?.failed}
+              className="flex items-center gap-2 px-4 py-2 text-xs font-semibold text-white bg-rose-700 rounded-xl hover:bg-rose-800 shadow-xs transition-all disabled:opacity-50"
+            >
+              <RotateCcw className="w-3.5 h-3.5" />
+              Retry All Dead-Letter ({stats?.failed ?? 0})
+            </button>
+          </div>
         </div>
 
-        <div className="flex items-center gap-3">
-          <button
-            onClick={() => {
-              refetchStats()
-              refetchJobs()
-            }}
-            className="flex items-center gap-2 px-3.5 py-2 text-xs font-semibold text-[#074139] bg-[#E6F5F2] border border-[#CAEDE6] rounded-xl hover:bg-[#d6f0ea] shadow-xs transition-colors"
+        {feedbackMsg && (
+          <div
+            className={`p-4 rounded-xl border flex items-center justify-between ${
+              feedbackMsg.type === 'success'
+                ? 'bg-[#E6F5F2] border-[#CAEDE6] text-[#074139]'
+                : 'bg-rose-50 border-rose-200 text-rose-800'
+            }`}
           >
-            <RefreshCw className="w-3.5 h-3.5" />
-            Refresh
-          </button>
+            <span>{feedbackMsg.text}</span>
+            <button onClick={() => setFeedbackMsg(null)} className="text-xs hover:underline">
+              Dismiss
+            </button>
+          </div>
+        )}
 
-          <button
-            onClick={() => {
-              if (confirm('Retry all failed dead-letter jobs now?')) {
-                retryAllMutation.mutate()
-              }
-            }}
-            disabled={retryAllMutation.isPending || !stats?.failed}
-            className="flex items-center gap-2 px-4 py-2 text-xs font-semibold text-white bg-rose-700 rounded-xl hover:bg-rose-800 shadow-xs transition-all disabled:opacity-50"
-          >
-            <RotateCcw className="w-3.5 h-3.5" />
-            Retry All Dead-Letter ({stats?.failed ?? 0})
-          </button>
-        </div>
-      </div>
-
-      {feedbackMsg && (
-        <div
-          className={`p-4 rounded-xl border flex items-center justify-between ${
-            feedbackMsg.type === 'success'
-              ? 'bg-[#E6F5F2] border-[#CAEDE6] text-[#074139]'
-              : 'bg-rose-50 border-rose-200 text-rose-800'
-          }`}
-        >
-          <span>{feedbackMsg.text}</span>
-          <button onClick={() => setFeedbackMsg(null)} className="text-xs hover:underline">
-            Dismiss
-          </button>
-        </div>
-      )}
-
-      {/* KPI Stats Cards */}
-      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
+        {/* KPI Stats Cards — fluid stretching with CSS Grid auto-fit */}
+        <div className="grid grid-cols-[repeat(auto-fit,minmax(220px,1fr))] gap-4">
         <div className="bg-white p-5 rounded-2xl border border-[#CAEDE6]/60 shadow-xs hover:border-[#074139]/20 transition-all flex items-center gap-4">
           <div className="p-3 bg-amber-50 text-amber-700 rounded-xl border border-amber-200/50">
             <Clock className="w-5 h-5" />
@@ -463,6 +467,7 @@ export default function QueuesPage() {
           </div>
         </div>
       )}
+      </div>
     </div>
   )
 }

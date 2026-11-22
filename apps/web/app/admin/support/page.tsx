@@ -4,6 +4,7 @@ import { useState } from 'react'
 import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query'
 import { api } from '@/lib/api'
 import { microgrammaBold } from '@/lib/fonts'
+import { Header } from '@/components/admin/layout/Header'
 import {
   LifeBuoy,
   Search,
@@ -232,34 +233,37 @@ export default function SupportDeskPage() {
   }
 
   return (
-    <div className="space-y-6 p-6 max-w-[1600px] mx-auto min-h-screen">
-      {/* Header */}
-      <div className="flex flex-col md:flex-row justify-between items-start md:items-center gap-4 bg-white p-6 rounded-2xl border border-gray-200/80 shadow-sm">
-        <div>
-          <h1 className={`${microgrammaBold.className} text-2xl font-bold text-[#074139] tracking-tight flex items-center gap-3`}>
-            <LifeBuoy className="w-7 h-7 text-[#074139]" />
-            Support Desk & Customer Ticketing
-          </h1>
-          <p className="text-sm text-gray-500 mt-1">
-            Resolve customer inquiries, order disputes, vendor fitment questions, and team notes.
-          </p>
-        </div>
-      </div>
+    <div className="min-h-screen bg-[#F0FAF5]">
+      <Header title="Support Desk" />
 
-      {feedbackMsg && (
-        <div
-          className={`p-4 rounded-xl border ${
-            feedbackMsg.type === 'success'
-              ? 'bg-emerald-50 border-emerald-200 text-emerald-800'
-              : 'bg-red-50 border-red-200 text-red-800'
-          }`}
-        >
-          {feedbackMsg.text}
+      <div className="p-4 sm:p-6 space-y-6">
+        {/* Header */}
+        <div className="flex flex-col md:flex-row justify-between items-start md:items-center gap-4 bg-white p-6 rounded-2xl border border-gray-200/80 shadow-sm">
+          <div>
+            <h1 className={`${microgrammaBold.className} text-2xl font-bold text-[#074139] tracking-tight flex items-center gap-3`}>
+              <LifeBuoy className="w-7 h-7 text-[#074139]" />
+              Support Desk & Customer Ticketing
+            </h1>
+            <p className="text-sm text-gray-500 mt-1">
+              Resolve customer inquiries, order disputes, vendor fitment questions, and team notes.
+            </p>
+          </div>
         </div>
-      )}
 
-      {/* KPI Cards */}
-      <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 xl:grid-cols-5 gap-3.5">
+        {feedbackMsg && (
+          <div
+            className={`p-4 rounded-xl border ${
+              feedbackMsg.type === 'success'
+                ? 'bg-emerald-50 border-emerald-200 text-emerald-800'
+                : 'bg-red-50 border-red-200 text-red-800'
+            }`}
+          >
+            {feedbackMsg.text}
+          </div>
+        )}
+
+        {/* KPI Cards — fluid stretching with CSS Grid auto-fit */}
+        <div className="grid grid-cols-[repeat(auto-fit,minmax(200px,1fr))] gap-4">
         <div className="bg-white p-5 rounded-2xl border border-gray-200/80 shadow-sm flex items-center gap-4">
           <div className="p-3 bg-red-50 text-red-600 rounded-xl">
             <Inbox className="w-5 h-5" />
@@ -640,5 +644,6 @@ export default function SupportDeskPage() {
         </div>
       </div>
     </div>
-  )
+  </div>
+)
 }

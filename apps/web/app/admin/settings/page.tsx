@@ -12,7 +12,7 @@ export default function SettingsPage() {
   return (
     <div className="min-h-screen bg-[#F0FAF5]">
       <Header title="Settings" onMenuClick={() => setDrawerOpen(true)} />
-      <div className="p-6 max-w-5xl mx-auto space-y-6">
+      <div className="p-4 sm:p-6 w-full space-y-6">
         <div className="bg-white border border-[#CAEDE6]/60 rounded-2xl p-12 text-center shadow-xs">
           <div className="w-14 h-14 rounded-2xl bg-[#E6F5F2] border border-[#CAEDE6] text-[#074139] flex items-center justify-center mx-auto mb-4">
             <Settings className="w-7 h-7" />
