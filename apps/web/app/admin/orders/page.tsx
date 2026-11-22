@@ -545,7 +545,7 @@ export default function OrdersPage() {
         {mainTab === 'table' && (
           <div className="space-y-6 animate-in fade-in duration-200">
             {/* KPI cards */}
-            <div className="grid grid-cols-2 lg:grid-cols-4 gap-4">
+            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
               {kpis.map((k) => (
                 <div key={k.label} className="bg-white border rounded-xl p-5 shadow-sm">
                   <div className="flex items-start justify-between">

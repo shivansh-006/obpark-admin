@@ -233,7 +233,7 @@ export default function ShipmentsPage() {
       </div>
 
       {/* KPI Cards */}
-      <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
+      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
         <div className="bg-white p-5 rounded-2xl border border-[#CAEDE6]/60 shadow-xs hover:border-[#074139]/20 transition-all">
           <span className="text-[11px] font-bold text-[#074139]/70 uppercase tracking-wider block font-michroma">
             Total Shipments

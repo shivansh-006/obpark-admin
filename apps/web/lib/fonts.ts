@@ -1,5 +1,12 @@
 import localFont from 'next/font/local'
-import { Michroma } from 'next/font/google'
+import { Michroma, Plus_Jakarta_Sans } from 'next/font/google'
+
+export const plusJakarta = Plus_Jakarta_Sans({
+  subsets: ['latin'],
+  weight: ['400', '500', '600', '700', '800'],
+  variable: '--font-plus-jakarta',
+  display: 'swap',
+})
 
 export const michroma = Michroma({
   weight: '400',
@@ -9,12 +16,8 @@ export const michroma = Michroma({
   preload: true,
 })
 
-export const microgrammaBold = localFont({
-  src: '../public/fonts/microgramma-bold.otf',
-  weight: '800',
-  display: 'swap',
-  variable: '--font-microgramma',
-})
+// Highly legible, award-winning modern replacement for legacy microgrammaBold
+export const microgrammaBold = plusJakarta
 
 export const geistSans = localFont({
   src: '../public/fonts/geist-variable.woff2',
@@ -23,10 +26,12 @@ export const geistSans = localFont({
 })
 
 export const FONTS = {
+  plusJakarta,
   microgrammaBold,
   michroma,
   geistSans,
 }
 
 export default FONTS
+
 

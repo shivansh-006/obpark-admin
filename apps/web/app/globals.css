@@ -19,8 +19,8 @@ html {
   --radius: 0.75rem;
   --font-geist-sans: 'Geist Sans', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
   --font-michroma: 'Michroma', sans-serif;
-  --font-microgamma: 'Microgramma Extended', sans-serif;
-  --font-microgamma-bold: 'Microgramma Extended', sans-serif;
+  --font-microgamma: var(--font-plus-jakarta), sans-serif;
+  --font-microgamma-bold: var(--font-plus-jakarta), sans-serif;
 }
 
 .dark {
@@ -50,11 +50,11 @@ body {
 }
 
 @theme {
-  --font-sans: var(--font-geist-sans), -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
-  --font-heading: var(--font-microgramma), 'Microgramma Extended', sans-serif;
+  --font-sans: var(--font-geist-sans), var(--font-plus-jakarta), -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+  --font-heading: var(--font-plus-jakarta), var(--font-geist-sans), sans-serif;
   --font-michroma: var(--font-michroma), 'Michroma', sans-serif;
-  --font-microgramma: var(--font-microgramma), 'Microgramma Extended', sans-serif;
-  --font-microgramma-bold: var(--font-microgramma-bold), 'Microgramma Extended', sans-serif;
+  --font-microgramma: var(--font-plus-jakarta), var(--font-geist-sans), sans-serif;
+  --font-microgramma-bold: var(--font-plus-jakarta), var(--font-geist-sans), sans-serif;
 
   /* Rich high-contrast grays so secondary and helper texts are never washed out or bleached */
   --color-gray-300: #94a3b8;
@@ -62,7 +62,7 @@ body {
   --color-gray-500: #475569;
 }
 
-/* Explicit Obrive Typography Classes */
+/* Explicit Obrive / OBPark Typography Classes */
 .font-michroma {
   font-family: var(--font-michroma), 'Michroma', sans-serif !important;
 }
@@ -70,7 +70,8 @@ body {
 .font-microgramma,
 .font-microgramma-bold,
 .font-heading {
-  font-family: var(--font-microgramma), 'Microgramma Extended', sans-serif !important;
+  font-family: var(--font-plus-jakarta), var(--font-geist-sans), -apple-system, BlinkMacSystemFont, sans-serif !important;
+  letter-spacing: -0.015em;
 }
 
 .font-geist,

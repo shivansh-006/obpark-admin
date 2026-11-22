@@ -86,7 +86,7 @@ export default function AnalyticsPage() {
 
       <div className="p-6 space-y-6">
         {/* Top-level KPI rollup — real data, same source as Dashboard/Coupons pages */}
-        <div className="grid grid-cols-2 lg:grid-cols-4 gap-4">
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
           {[
             { label: 'Total Revenue', value: `₹${(stats?.totalRevenue ?? 0).toLocaleString('en-IN')}`, icon: TrendingUp, bg: 'bg-[#E6F5F2]', color: 'text-[#074139]', loading: statsLoading },
             { label: 'Total Orders', value: stats?.totalOrders ?? 0, icon: ShoppingBag, bg: 'bg-[#E6F5F2]', color: 'text-[#074139]', loading: statsLoading },

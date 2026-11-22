@@ -1,6 +1,6 @@
 'use client'
 
-import { useState, useMemo, useRef, useCallback } from 'react'
+import { useState, useMemo, useRef, useCallback, useEffect } from 'react'
 import {
   Pencil,
   Trash2,
@@ -89,6 +89,14 @@ export function ProductListTable() {
     params.api.sizeColumnsToFit()
   }, [])
 
+  useEffect(() => {
+    const handleResize = () => {
+      gridRef.current?.api?.sizeColumnsToFit()
+    }
+    window.addEventListener('resize', handleResize)
+    return () => window.removeEventListener('resize', handleResize)
+  }, [])
+
   const onFilterChanged = useCallback(() => {
     if (gridRef.current?.api) {
       setFilteredCount(gridRef.current.api.getDisplayedRowCount())
@@ -109,11 +117,15 @@ export function ProductListTable() {
             <img
               src={getFullImageUrl(primaryImage)}
               alt=""
-              className="w-8 h-8 rounded-lg object-cover bg-gray-100 border border-gray-200 shrink-0"
+              width={28}
+              height={28}
+              loading="lazy"
+              decoding="async"
+              className="w-7 h-7 rounded-md object-cover bg-gray-100 border border-gray-200 shrink-0"
             />
           ) : (
-            <div className="w-8 h-8 rounded-lg bg-gray-100 border border-gray-200 flex items-center justify-center text-xs text-gray-400 shrink-0">
-              <Package className="h-4 w-4 text-gray-400" />
+            <div className="w-7 h-7 rounded-md bg-gray-100 border border-gray-200 flex items-center justify-center text-xs text-gray-400 shrink-0">
+              <Package className="h-3.5 w-3.5 text-gray-400" />
             </div>
           )}
           <div className="min-w-0 flex-1 flex flex-col justify-center leading-tight">
@@ -240,8 +252,8 @@ export function ProductListTable() {
       {
         headerName: 'Product',
         field: 'productName',
-        flex: 2.2,
-        minWidth: 260,
+        flex: 2,
+        minWidth: 190,
         cellRenderer: ProductCellRenderer,
         cellClass: 'flex items-center',
         valueGetter: (params) => params.data?.productName || params.data?.name || '',
@@ -254,8 +266,8 @@ export function ProductListTable() {
       {
         headerName: 'Product ID',
         field: 'productId',
-        flex: 1.1,
-        minWidth: 140,
+        flex: 1,
+        minWidth: 110,
         cellClass: 'flex items-center',
         valueGetter: (params) => params.data?.productId || params.data?.sku || '—',
         cellRenderer: ProductIdCellRenderer,
@@ -264,8 +276,8 @@ export function ProductListTable() {
       {
         headerName: 'Category',
         field: 'category',
-        flex: 1.2,
-        minWidth: 140,
+        flex: 1,
+        minWidth: 100,
         cellClass: 'flex items-center',
         valueGetter: (params) =>
           params.data?.category?.categoryName || params.data?.category?.name || '—',
@@ -275,8 +287,8 @@ export function ProductListTable() {
       {
         headerName: 'Fulfillment',
         field: 'vendor',
-        flex: 1.2,
-        minWidth: 140,
+        flex: 1.1,
+        minWidth: 110,
         cellClass: 'flex items-center',
         valueGetter: (params) =>
           params.data?.vendor?.businessName || params.data?.vendor?.contactPerson || 'OBPARK Direct',
@@ -301,8 +313,8 @@ export function ProductListTable() {
       {
         headerName: 'Base Cost',
         field: 'productCost',
-        flex: 1,
-        minWidth: 120,
+        flex: 0.9,
+        minWidth: 85,
         cellClass: 'flex items-center',
         valueGetter: (params) => Number(params.data?.productCost ?? params.data?.basePrice ?? 0),
         cellRenderer: BaseCostCellRenderer,
@@ -311,8 +323,8 @@ export function ProductListTable() {
       {
         headerName: 'HSN / Tax',
         headerTooltip: 'Harmonized System of Nomenclature & GST Rate',
-        flex: 1.1,
-        minWidth: 130,
+        flex: 1,
+        minWidth: 95,
         cellClass: 'flex items-center',
         valueGetter: (params) => {
           const hsn = params.data?.hsnCode || params.data?.taxCode || '—'
@@ -325,8 +337,8 @@ export function ProductListTable() {
       {
         headerName: 'Selling Price',
         field: 'price',
-        flex: 1.1,
-        minWidth: 130,
+        flex: 1,
+        minWidth: 95,
         cellClass: 'flex items-center',
         valueGetter: (params) => Number(params.data?.price ?? 0),
         cellRenderer: PriceCellRenderer,
@@ -334,7 +346,8 @@ export function ProductListTable() {
       },
       {
         headerName: 'Action',
-        width: 100,
+        width: 75,
+        minWidth: 75,
         pinned: 'right',
         sortable: false,
         filter: false,
@@ -506,7 +519,7 @@ export function ProductListTable() {
 
       {/* AG Grid Container */}
       <div
-        className="ag-grid-obpark w-full rounded-2xl overflow-hidden border border-[#CAEDE6]"
+        className="ag-grid-obpark w-full min-w-0 rounded-2xl overflow-hidden border border-[#CAEDE6]"
         style={{ height: 'calc(100vh - 168px)', minHeight: '364px' }}
       >
         <AgGridReact<AdminProduct>
@@ -515,6 +528,7 @@ export function ProductListTable() {
           rowData={products}
           columnDefs={colDefs}
           defaultColDef={defaultColDef}
+          autoSizeStrategy={{ type: 'fitGridWidth', defaultMinWidth: 75 }}
           quickFilterText={quickFilterText}
           pagination={true}
           paginationPageSize={20}

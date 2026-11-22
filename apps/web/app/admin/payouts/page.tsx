@@ -245,7 +245,7 @@ export default function PayoutsPage() {
       </div>
 
       {/* KPI Cards */}
-      <div className="grid grid-cols-2 lg:grid-cols-6 gap-3">
+      <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 xl:grid-cols-6 gap-3.5">
         <div className="bg-white p-4 rounded-2xl border border-[#CAEDE6]/60 shadow-xs hover:border-[#074139]/20 transition-all">
           <span className="text-[11px] font-bold text-[#074139]/70 uppercase tracking-wider block font-michroma">
             Total Gross Sales

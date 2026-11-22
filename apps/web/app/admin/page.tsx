@@ -434,6 +434,8 @@ export default function DashboardPage() {
                   rowData={stats?.recentOrders ?? []}
                   columnDefs={recentOrdersColDefs}
                   defaultColDef={defaultColDef}
+                  autoSizeStrategy={{ type: 'fitGridWidth', defaultMinWidth: 70 }}
+                  onGridReady={(params) => params.api.sizeColumnsToFit()}
                   rowHeight={44}
                   headerHeight={34}
                   loading={isLoading}
@@ -510,6 +512,8 @@ export default function DashboardPage() {
                   rowData={stats?.bestSelling ?? []}
                   columnDefs={bestSellingColDefs}
                   defaultColDef={defaultColDef}
+                  autoSizeStrategy={{ type: 'fitGridWidth', defaultMinWidth: 70 }}
+                  onGridReady={(params) => params.api.sizeColumnsToFit()}
                   rowHeight={44}
                   headerHeight={34}
                   loading={isLoading}

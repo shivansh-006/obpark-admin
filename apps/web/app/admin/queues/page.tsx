@@ -195,7 +195,7 @@ export default function QueuesPage() {
       )}
 
       {/* KPI Stats Cards */}
-      <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
+      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
         <div className="bg-white p-5 rounded-2xl border border-[#CAEDE6]/60 shadow-xs hover:border-[#074139]/20 transition-all flex items-center gap-4">
           <div className="p-3 bg-amber-50 text-amber-700 rounded-xl border border-amber-200/50">
             <Clock className="w-5 h-5" />
