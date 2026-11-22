@@ -1,6 +1,19 @@
 import { useAuthStore } from '@/store/auth.store'
 
-const BASE_URL = (process.env.NEXT_PUBLIC_API_URL || 'http://localhost:3055').replace(/\/$/, '')
+export function getBaseUrl(): string {
+  if (process.env.NEXT_PUBLIC_API_URL) {
+    return process.env.NEXT_PUBLIC_API_URL.replace(/\/$/, '')
+  }
+  if (typeof window !== 'undefined') {
+    if (window.location.hostname.includes('obpark.in')) {
+      return 'https://admin-api.obpark.in'
+    }
+  }
+  if (process.env.NODE_ENV === 'production') {
+    return 'https://admin-api.obpark.in'
+  }
+  return 'http://localhost:3055'
+}
 
 let refreshPromise: Promise<any> | null = null
 
@@ -30,7 +43,8 @@ async function request<T>(
   const token = useAuthStore.getState().accessToken
   const cleanEndpoint = endpoint.startsWith('/') ? endpoint : `/${endpoint}`
 
-  const res = await fetch(`${BASE_URL}${cleanEndpoint}`, {
+  const baseUrl = getBaseUrl()
+  const res = await fetch(`${baseUrl}${cleanEndpoint}`, {
     ...options,
     credentials: 'include',
     headers: {

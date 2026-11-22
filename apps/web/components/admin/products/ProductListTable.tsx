@@ -57,7 +57,7 @@ export function ProductListTable() {
   const queryClient = useQueryClient()
 
   // Fetch reasonable batch of active products with client-side pagination
-  const { data, isLoading, isFetching } = useAdminProducts(undefined, 100)
+  const { data, isLoading, isFetching, error, isError, refetch } = useAdminProducts(undefined, 100)
   const deleteProduct = useDeleteProduct()
 
   const handleDelete = useCallback(
@@ -400,6 +400,23 @@ export function ProductListTable() {
           height: 100% !important;
         }
       `}</style>
+
+      {/* Error alert banner */}
+      {isError && (
+        <div className="p-3.5 rounded-xl bg-rose-50 border border-rose-200 text-rose-800 text-xs flex items-center justify-between gap-3">
+          <div className="flex items-center gap-2">
+            <span className="font-bold">Error loading products:</span>
+            <span>{error instanceof Error ? error.message : 'Failed to fetch products from server'}</span>
+          </div>
+          <button
+            onClick={() => refetch()}
+            className="px-3 py-1 bg-rose-600 hover:bg-rose-700 text-white rounded-lg text-xs font-semibold transition-colors shrink-0"
+            type="button"
+          >
+            Retry
+          </button>
+        </div>
+      )}
 
       {/* Top Action Bar */}
       <div className="flex items-center justify-between flex-wrap gap-3">

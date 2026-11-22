@@ -267,10 +267,10 @@ export class AdminService {
 
     const mapped = products.map((p) => ({
       ...p,
-      name: p.productName,
+      name: p.productName || p.title || 'Untitled Product',
       sku: p.productId,
-      basePrice: Number(p.productCost),
-      price: Number(p.price),
+      basePrice: Number(p.productCost || 0),
+      price: Number(p.price || 0),
       gstRate:
         p.gstRate !== null && p.gstRate !== undefined
           ? Number(p.gstRate)
@@ -279,12 +279,27 @@ export class AdminService {
             : 18,
       gst: p.gst !== null && p.gst !== undefined ? Number(p.gst) : undefined,
       description: p.productDescription || p.longDescription || '',
-      category: {
-        id: p.category.id,
-        name: p.category.categoryName,
-        categoryName: p.category.categoryName,
-        slug: p.category.slug,
-      },
+      category: p.category
+        ? {
+            id: p.category.id,
+            name: p.category.categoryName,
+            categoryName: p.category.categoryName,
+            slug: p.category.slug,
+          }
+        : {
+            id: p.categoryId || '',
+            name: 'General',
+            categoryName: 'General',
+            slug: 'general',
+          },
+      vendor: p.vendor
+        ? {
+            id: p.vendor.id,
+            businessName: p.vendor.businessName,
+            email: p.vendor.email,
+            commissionRate: Number(p.vendor.commissionRate || 0),
+          }
+        : undefined,
     }));
 
     return { products: mapped, total };
